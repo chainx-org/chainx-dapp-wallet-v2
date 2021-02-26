@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "chainx-org",
-  "version": "2.1.5",
+  "version": "2.1.4",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -43,7 +43,7 @@
     "build:electronMain": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.main.config.js",
     "packElectron:test": "yarn build:release:electron && electron-builder --dir",
     "packElectron:mac": "yarn build:release:electron && electron-builder build --mac",
-    "packElectron:win": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build --win",
+    "packElectron:win": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build --win -p always",
     "packElectron:linux": "yarn build:release:electron && electron-builder build --linux",
     "packElectron": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build -mwl",
     "docs": "echo \"skipping docs\"",
@@ -60,6 +60,49 @@
     "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
+  },
+  "build": {
+    "extends": null,
+    "productName": "Chainx-dapp-wallet",
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "chainx-dapp-wallet-v2",
+      "owner": "chainx-org"
+    },
+    "directories": {
+      "app": "./",
+      "buildResources": "./resources"
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.12.8",
