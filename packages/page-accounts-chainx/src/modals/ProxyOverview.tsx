@@ -265,7 +265,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
           <Modal.Column>
             <InputAddress
               isDisabled={true}
-              label={t<string>('proxied account')}
+              label={t<string>('main account')}
               type='account'
               value={proxiedAccount}
             />
