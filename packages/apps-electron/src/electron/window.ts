@@ -22,7 +22,7 @@ export function createWindow(environment: string): Promise<unknown> {
   });
   if (environment === 'development') {
     win.webContents.openDevTools();
-
+    getRelease();
     return win.loadURL('http://127.0.0.1:3000/');
   }
 
@@ -31,9 +31,12 @@ export function createWindow(environment: string): Promise<unknown> {
   async function getRelease() {
     const {data} = await axios.get('https://api.github.com/repos/chainx-org/chainx-dapp-wallet-v2/releases/latest');
     const fileNameList: string[] = await data.assets.map((file: any) => file.name);
-    const fileNameToDownload: string | string[] = await fileNameList.filter((fileName: string) => fileName.indexOf('.exe') !== -1 && fileName.indexOf('.blockmap') === -1);
-    const fileToDownload = await data.assets.find((file: any) => file.name === fileNameToDownload[0]);
+    const fileNameToDownload: string | string[] = await fileNameList.filter((fileName: string) => (fileName.indexOf('.exe') !== -1 || fileName.indexOf('.dmg') !== -1) && fileName.indexOf('.blockmap') === -1);
+    const filesToDownload = await data.assets.filter((file: any) => file.name === fileNameToDownload[0] || file.name === fileNameToDownload[1]);
     const latestVersion = data.tag_name.slice(1)
+    const fileOfWin = filesToDownload.find((file: any) => file.name.indexOf('.exe') !== -1)
+    const fileOfMac = filesToDownload.find((file: any) => file.name.indexOf('.dmg') !== -1)
+
     if (packageJson.version !== latestVersion) {
 
       require('electron')
@@ -44,9 +47,9 @@ export function createWindow(environment: string): Promise<unknown> {
           buttons: ['mac 下载入口', 'windows 下载入口']
         }).then((index) => {
         if (index.response === 0) {
-          shell.openExternal('http://www.baidu.com');
+          shell.openExternal(fileOfWin.browser_download_url);
         } else if (index.response === 1) {
-          shell.openExternal(fileToDownload['browser_download_url']);
+          shell.openExternal(fileOfMac.browser_download_url);
         }
       });
     }
