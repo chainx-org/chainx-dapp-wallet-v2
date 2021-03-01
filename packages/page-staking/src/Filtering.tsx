@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { Input, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
-import styled from 'styled-components';
+
 import { useTranslation } from './translate';
 import Ledgend from './Ledgend';
 
@@ -58,11 +58,4 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
   );
 }
 
-export default React.memo(styled(Filtering)`
-  .staking--optionsBar {
-    @media only screen and (max-width: 540px) {
-      display: none;
-    }
-  }
-
-`);
+export default React.memo(Filtering);

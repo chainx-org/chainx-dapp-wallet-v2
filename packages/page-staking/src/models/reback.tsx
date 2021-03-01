@@ -47,9 +47,9 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Redeem the current node')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -58,7 +58,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               defaultValue={options ? options[0].value : null}
               help={t<string>('Redeem the current node')}
               hideAddress={true}
-              label={'Unfreeze'}
+              label={t<string>('Redeem the current node')}
               labelExtra={
                 <span> </span>
               }
@@ -87,9 +87,9 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Redeem the current node')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
@@ -101,9 +101,9 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               options={optionsId || []}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Unfreeze ID')} </p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 

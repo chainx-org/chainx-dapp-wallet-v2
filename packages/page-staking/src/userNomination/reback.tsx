@@ -11,7 +11,7 @@ import { TxCallback } from '@polkadot/react-components/Status/types';
 interface Props {
   account?: string;
   options?: KeyringSectionOption[];
-  redeemOptions: [];
+  redeemOptions: object[];
   value?: string | null | undefined;
   onClose: () => void;
   onSuccess?: TxCallback
@@ -23,7 +23,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
   const [amount, setAmount] = useState<string | undefined | number>();
   const [optionsId, setOptionsId] = useState<DropdownOptions>();
 
-  // const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
+  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
 
   return (
     <Modal
@@ -35,15 +35,15 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to reback account'
+              // help='The actual account you wish to reback account'
               isDisabled={!!account}
               label={t<string>('Current Accounts')}
-              // labelExtra={
-              //   <Available
-              //     label={transferrable}
-              //     params={account}
-              //   />
-              // }
+              labelExtra={
+                <Available
+                  label={transferrable}
+                  params={account}
+                />
+              }
               type='account'
             />
           </Modal.Column>
@@ -57,7 +57,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
             <InputAddress
               defaultValue={value}
               isDisabled={!!value}
-              help={t<string>('Redeem the current node')}
+              // help={t<string>('Redeem the current node')}
               hideAddress={true}
               label={t<string>('Redeem the current node')}
               labelExtra={
@@ -67,23 +67,9 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
                 const filterOptions = redeemOptions.filter((item) => item.validatorId === value);
                 const currentOptions: DropdownOptions = [];
                 filterOptions.forEach((item, index) => {
-                  const show = item.isShow
-                  const all = <div style={{
-                    display: "flex"
-                  }}>
-                    <div>金额: {item.text}</div>
-                    <div style={{
-                      display: show? "block": "none",
-                      marginLeft: "20px"
-                    }}>可解冻</div>
-                    <div style={{
-                      display: show? "none": "block",
-                      marginLeft: "20px"
-                    }}>预计时间: {item.locked}</div>
-                  </div>
                   currentOptions.push(
                     {
-                      text: all,
+                      text: item.text,
                       value: index + ''
                     }
                   );
@@ -107,7 +93,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
           <Modal.Column>
             <Dropdown
               defaultValue={optionsId?.length > 0 ? optionsId[0].value : ''}
-              help={t<string>('Unfreeze ID')}
+              // help={t<string>('Unfreeze ID')}
               label={t<string>('Unfreeze ID')}
               onChange={setAmount}
               options={optionsId || []}

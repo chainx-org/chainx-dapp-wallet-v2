@@ -34,27 +34,27 @@ function Claim({ account, onClose, options, value, onSuccess }: Props): React.Re
               help='The actual account you wish to claim'
               isDisabled={!!account}
               label={t<string>('My Account')}
-              labelExtra={
-                <Available
-                  label={transferrable}
-                  params={account}
-                />
-              }
+              // labelExtra={
+              //   <Available
+              //     label={transferrable}
+              //     params={account}
+              //   />
+              // }
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Claim Interests')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
               defaultValue={value}
-              help={t<string>('Claim Interests')}
+              help={t<string>('Current interest validator')}
               hideAddress={true}
-              label={t<string>('Claim Interests')}
+              label={t<string>('Current interest validator')}
               labelExtra={
                 <span> </span>
               }
@@ -65,9 +65,9 @@ function Claim({ account, onClose, options, value, onSuccess }: Props): React.Re
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>Current Validator</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 
