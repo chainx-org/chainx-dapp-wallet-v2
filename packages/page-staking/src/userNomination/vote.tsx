@@ -37,13 +37,13 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to Vote account'
+              // help='The actual account you wish to Vote account'
               isDisabled={!!account}
               label={t<string>('My Account')}
               labelExtra={
                 <Available
                   label={transferrable}
-                  params={account}
+                  params={accountId}
                 />
               }
               onChange={setAccount}
@@ -60,7 +60,7 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
             <InputAddress
               defaultValue={value}
               isDisabled={!!value}
-              help={t<string>('Vote for validator')}
+              // help={t<string>('Vote for validator')}
               hideAddress={true}
               label={t<string>('Vote for validator')}
               labelExtra={
@@ -82,7 +82,7 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
           <Modal.Column>
             <InputPCXBalance
               autoFocus
-              help={t<string>('Vote Amount')}
+              // help={t<string>('Vote Amount')}
               label={t<string>('Vote Amount')}
               onChange={setAmount}
             />

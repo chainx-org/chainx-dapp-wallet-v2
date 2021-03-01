@@ -19,7 +19,7 @@ interface Props {
 function Claim({ account, onClose, options, value, onSuccess }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [validatorId, setValidatorId] = useState<string | null | undefined>(value);
-  // const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
+  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
 
 
   return (
@@ -32,7 +32,7 @@ function Claim({ account, onClose, options, value, onSuccess }: Props): React.Re
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to claim'
+              // help='The actual account you wish to claim'
               isDisabled={!!account}
               label={t<string>('My Account')}
               // labelExtra={
@@ -44,9 +44,9 @@ function Claim({ account, onClose, options, value, onSuccess }: Props): React.Re
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Claim Interests')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -54,9 +54,9 @@ function Claim({ account, onClose, options, value, onSuccess }: Props): React.Re
             <InputAddress
               defaultValue={value}
               isDisabled={!!value}
-              help={t<string>('Claim Interests')}
+              // help={t<string>('Current interest validator')}
               hideAddress={true}
-              label={t<string>('Claim Interests')}
+              label={t<string>('Current interest validator')}
               labelExtra={
                 <span> </span>
               }
@@ -64,9 +64,9 @@ function Claim({ account, onClose, options, value, onSuccess }: Props): React.Re
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Current interest validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 

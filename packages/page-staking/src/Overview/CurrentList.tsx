@@ -18,13 +18,15 @@ import Address from './Address';
 import styled from 'styled-components';
 
 const TableWrapper = styled(Table)`
-  // @media only screen and (max-width: 540px) {
-  //   display: none;
-  // }
+
   thead{
     tr{
+      th:nth-child(2){
+        text-align: left;
+      }
       th:nth-child(5){
-        text-align: center;
+        text-align: right;
+        transform: translateX(-1rem);
       }
     }
   }

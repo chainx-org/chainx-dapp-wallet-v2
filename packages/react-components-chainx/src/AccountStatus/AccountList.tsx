@@ -8,7 +8,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import modalCloseIcon from './modal-close.png';
 
-import {useAccounts, useFavorites} from '@polkadot/react-hooks';
+import {useAccounts, useApi, useCall, useFavorites} from '@polkadot/react-hooks';
 import Account from './AccountListItem';
 import {Button, Modal, Table} from '@polkadot/react-components';
 import Create from '@polkadot/app-accounts-chainx/modals/Create';
@@ -17,6 +17,8 @@ import { useTranslation } from '../translate';
 import {sortAccounts} from '@polkadot/app-accounts-chainx/util';
 import {SortedAccount} from '@polkadot/app-accounts-chainx/types';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
+import {AccountId, ProxyDefinition, ProxyType} from '@polkadot/types/interfaces';
+import BN from 'bn.js';
 
 interface Props {
   setStoredValue: string | ((value: string) => void) | undefined;
@@ -30,13 +32,23 @@ const STORE_FAVS = 'accounts:favorites';
 
 function AccountList({storedValue, className = '', onClose, onStatusChange, setStoredValue}: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const {allAccounts} = useAccounts();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
+  const [sortedAddresses, setSortedAddresses] = useState<string[]>([])
   let SortedAccounts: SortedAccount[] = [];
 
+  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
+    transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
+      api.tx.proxy.addProxy.meta.args.length === 3
+        ? result as [ProxyDefinition[], BN][]
+        : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
+          [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
+        )
+  });
 
   useEffect((): void => {
     const accountsAfterSort = sortAccounts(allAccounts, []);
@@ -44,7 +56,7 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
       SortedAccounts.push(account);
     });
     setSortedAccounts(SortedAccounts);
-
+    setSortedAddresses([...allAccounts])
   }, [allAccounts, favorites]);
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
@@ -87,7 +99,7 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
           </div>
 
           <Table>
-            {sortedAccounts.map(({account, isFavorite}): React.ReactNode => (
+            {sortedAccounts.map(({account, isFavorite}, index): React.ReactNode => (
               <Account
                 account={account}
                 address={account.address}
@@ -96,6 +108,7 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
                 key={account.address}
                 setStoredValue={setStoredValue}
                 toggleFavorite={toggleFavorite}
+                proxy={proxies?.[index]}
               />
             ))}
           </Table>
