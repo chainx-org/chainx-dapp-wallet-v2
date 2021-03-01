@@ -27,7 +27,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
 
   return (
     <Modal
-      header={t<string>('Redeem')}
+      header={t<string>('Unfreeze')}
       size='large'
     >
       <Modal.Content>
@@ -37,7 +37,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               defaultValue={account}
               help='The actual account you wish to reback account'
               isDisabled={!!account}
-              label={t<string>('My Accounts')}
+              label={t<string>('Current Accounts')}
               labelExtra={
                 <Available
                   label={transferrable}
@@ -47,9 +47,9 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Redeem the current node')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -58,7 +58,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               defaultValue={options ? options[0].value : null}
               help={t<string>('Redeem the current node')}
               hideAddress={true}
-              label={'Redeem'}
+              label={t<string>('Redeem the current node')}
               labelExtra={
                 <span> </span>
               }
@@ -87,23 +87,23 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Redeem the current node')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Dropdown
               defaultValue={optionsId?.length > 0 ? optionsId[0].value : ''}
-              help={t<string>('Redeem ID')}
-              label={t<string>('Redeem ID')}
+              help={t<string>('Unfreeze ID')}
+              label={t<string>('Unfreeze ID')}
               onChange={setAmount}
               options={optionsId || []}
             />
           </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Redeem ID')} </p>
-          </Modal.Column>
+          {/* <Modal.Column>
+            <p>{t<string>('Unfreeze ID')} </p>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 
@@ -111,7 +111,7 @@ function ReBack({ account, onClose, options, redeemOptions, value, onSuccess }: 
         <TxButton
           accountId={account}
           icon='sign-in-alt'
-          label={t<string>('Redeem')}
+          label={t<string>('Unfreeze')}
           onStart={onClose}
           params={[validatorId, amount]}
           onSuccess={onSuccess}

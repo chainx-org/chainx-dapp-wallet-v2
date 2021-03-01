@@ -10,6 +10,7 @@ import { Trans } from 'react-i18next';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatBalance, isFunction } from '@polkadot/util';
+import { useTranslation } from './translate';
 
 interface Props {
   accountId?: string | null;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
   const mountedRef = useIsMountedRef();
@@ -49,7 +51,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
       className={className}
       summary={
         <Trans i18nKey='feesForSubmission'>
-          Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
+          {t<string>('Transaction fee')} <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> ( 1microPCX=0.000001PCX )
         </Trans>
       }
     />

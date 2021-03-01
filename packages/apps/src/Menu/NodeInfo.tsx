@@ -7,13 +7,13 @@ import React, {useContext} from 'react';
 import styled from 'styled-components';
 import {useAccounts, useApi, useIpfs, useToggle} from '@polkadot/react-hooks';
 import {useLocalStorage} from '@polkadot/react-hooks-chainx';
-import {NodeName, NodeVersion} from '@polkadot/react-query';
 import AccountStatus from '@polkadot/react-components-chainx/AccountStatus';
 import { StatusContext } from '@polkadot/react-components';
 import CreateModal from '@polkadot/app-accounts-chainx/modals/Create';
 import {useTranslation} from '@polkadot/app-accounts-chainx/translate';
 import Button from '@polkadot/react-components-chainx/Button';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
+import ImportModal from '@polkadot/app-accounts-chainx/modals/Import';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
@@ -22,10 +22,12 @@ function NodeInfo({className = ''}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
   const {hasAccounts} = useAccounts();
   const {isApiReady} = useApi();
-  let [storedValue, setValue] = useLocalStorage<string>('currentAccount');
+  let [, setValue] = useLocalStorage<string>('currentAccount');
   const {currentAccount} = useContext(AccountContext);
   const {queueAction} = useContext(StatusContext);
   const [isCreateOpen, toggleCreate] = useToggle();
+  const [isImportOpen, toggleImport] = useToggle();
+
   const {isIpfs} = useIpfs();
 
   return (
@@ -36,6 +38,12 @@ function NodeInfo({className = ''}: Props): React.ReactElement<Props> {
           onStatusChange={queueAction}
         />
       )}
+      {isImportOpen && (
+        <ImportModal
+          onClose={toggleImport}
+          onStatusChange={queueAction}
+        />
+      )}
 
       {isApiReady && (hasAccounts ?
           <AccountStatus
@@ -43,11 +51,18 @@ function NodeInfo({className = ''}: Props): React.ReactElement<Props> {
             onStatusChange={queueAction}
             setStoredValue={setValue}
           /> :
-          <Button
-            isDisabled={isIpfs}
-            label={t<string>('Add account')}
-            onClick={toggleCreate}
-          />
+          <>
+            <Button
+              isDisabled={isIpfs}
+              label={t<string>('Add account')}
+              onClick={toggleCreate}
+            />
+            <Button
+              isDisabled={isIpfs}
+              label={t<string>('Restore JSON')}
+              onClick={toggleImport}
+            />
+          </>
       )
       }
 
@@ -77,4 +92,12 @@ export default React.memo(styled(NodeInfo)`
       display: inline-block;
     }
   }
+
+  button:first-child{
+    margin-right: 1.8rem;
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
 `);

@@ -5,10 +5,11 @@ import BN from 'bn.js';
 import { useMemo } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ONE, extractTime } from '@polkadot/util';
+import { useTranslation } from '@polkadot/react-hooks/translate';
 
-import { useTranslation } from './translate';
+// import { useTranslation } from './translate';
 
-type Result = [number, string];
+type Result = [number, string, number];
 
 const DEFAULT_TIME = new BN(6000);
 
@@ -26,6 +27,7 @@ export function useBlockTime (blocks = BN_ONE): Result {
       );
       
       const { days, hours, minutes, seconds } = extractTime(blockTime.mul(blocks).toNumber());
+      const  timestamp = days*86400000+hours*3600000+minutes*60000+seconds*1000
 
       const timeStr = [
         days ? (days > 1) ? t<string>('{{days}} days', { replace: { days } }) : t<string>('1 day') : null,
@@ -39,7 +41,8 @@ export function useBlockTime (blocks = BN_ONE): Result {
 
       return [
         blockTime.toNumber(),
-        timeStr
+        timeStr,
+        timestamp
       ];
     },
     [api, blocks, t]

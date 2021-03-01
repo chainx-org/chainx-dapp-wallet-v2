@@ -73,7 +73,7 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
     }
 
     &.address {
-      padding-left: 3rem;
+      // padding-left: 3rem;
       text-align: left;
     }
 

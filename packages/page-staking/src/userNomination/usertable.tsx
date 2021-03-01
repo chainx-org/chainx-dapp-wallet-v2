@@ -140,6 +140,7 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
               onClose={toggleUnbound}
               onSuccess={onStausChange}
               key="unbond"
+              unamount={nomination?.nomination}
               value={nomination?.validatorId}
             />
           )
@@ -154,6 +155,7 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
               value={nomination?.validatorId}
               onSuccess={onStausChange}
               rebond={rebonds}
+              unamount={nomination?.nomination}
               hoursafter={hoursafter}
             />
           )
@@ -184,7 +186,7 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
           Number(chunkes) > 0 ? (
             <Button
               icon='paper-plane'
-              label={t<string>('Redemption')}
+              label={t<string>('Unfreeze')}
               onClick={toggleReback}
             />
           ) : null

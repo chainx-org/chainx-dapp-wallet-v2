@@ -20,8 +20,9 @@ const Wrapper = styled(Modal)`
     > div > div:nth-child(2){
       display: flex;
       > span{
-        margin-left: 3rem;
+        margin-left: 1rem;
         color: red;
+        width: 30px;
       }
     }
   }
@@ -63,7 +64,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               defaultValue={account}
               help={t('Select the account you want to withdrawal')}
               isDisabled={!!account}
-              label={t('Current Account')}
+              label={t('Withdrawal Account')}
               labelExtra={
                 <div>
                   {t('You can withdrawal')} {Number(btc) / Math.pow(10, 8)} X-BTC
@@ -73,9 +74,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t('Withdrawal Account')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -87,7 +88,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('BTC withdraw address')}</p>
+            {/* <p>{t('BTC withdraw address')}</p> */}
             <span style={{display: (disabled === true) ? "block" : "none"}}>{t('Required')}</span>
           </Modal.Column>
         </Modal.Columns>
@@ -100,9 +101,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t('The number of withdrawals')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -114,9 +115,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setMemo}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t('Remark')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
       </Modal.Content>

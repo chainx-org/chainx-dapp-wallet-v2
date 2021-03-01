@@ -37,5 +37,6 @@
   "multisig call data": "multisig call data",
   "multisig signatory": "multisig signatory",
   "proxy account": "proxy account",
+  "Transaction fee": "Transaction fee",
   "unlock for {{expiry}} min": "unlock for {{expiry}} min"
 }

@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   width: 1280px;
   display: flex;
   position: relative;
+
   @media screen and (max-width:1023px){
     display: flex;
     flex-direction: column;
@@ -24,10 +25,7 @@ const Wrapper = styled.div`
       margin: 16px 0 !important;
     }
   }
-  // @media screen and (min-width:320px) and (max-width:1024px){
-  //   display: flex;
-  //   flex-direction: column;
-  // }
+
   div.left {
     flex: 1;
     width: 70%;
