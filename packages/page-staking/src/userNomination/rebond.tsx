@@ -59,6 +59,7 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
     })
   });
 
+
   const transferrable = <div>
     <span className='label' style={{
       marginRight: "8px"
@@ -76,16 +77,16 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to register account'
+              // help='The actual account you wish to register account'
               isDisabled={!!account}
               label={t<string>('My Account')}
               labelExtra={transferrable}
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Rebond')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -94,7 +95,7 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
               defaultValue={value}
               isDisabled={!!value}
               value={value}
-              help={t<string>('From Validator')}
+              // help={t<string>('From Validator')}
               hideAddress={true}
               label={t<string>('From Validator')}
               labelExtra={
@@ -107,15 +108,15 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('From Validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              help={t<string>('To Validator')}
+              // help={t<string>('To Validator')}
               hideAddress={true}
               label={t<string>('To Validator')}
               labelExtra={
@@ -131,7 +132,7 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
             />
           </Modal.Column>
           <Modal.Column className="msg">
-            <p>{t<string>('To Validator')}</p>
+            {/* <p>{t<string>('To Validator')}</p> */}
             <div className="msgError" style={{display: (rebond === true) ? "block" : "none"}}>
               <p>{t<string>('Switch interval less than 3 days, please in')}</p>  
               <BlockToTime blocks={hoursafter} />
@@ -144,14 +145,14 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
           <Modal.Column>
             <InputPCXBalance
               autoFocus
-              help={t<string>('Rebond Amount')}
+              // help={t<string>('Rebond Amount')}
               label={t<string>('Rebond Amount')}
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Rebond Amount')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 

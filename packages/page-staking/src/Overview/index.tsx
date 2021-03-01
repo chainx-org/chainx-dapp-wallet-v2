@@ -7,7 +7,6 @@ import type { ValidatorInfo } from '../types';
 import React from 'react';
 
 import CurrentList from './CurrentList';
-// import MoCurrentList from './MoCurrentList';
 
 interface Props {
   className?: string;
@@ -32,15 +31,6 @@ function Overview({ className = '', favorites, hasQueries, isIntentions, next, s
         targets={targets}
         toggleFavorite={toggleFavorite}
       />
-       {/* <MoCurrentList
-        favorites={favorites}
-        hasQueries={hasQueries}
-        isIntentions={isIntentions}
-        next={next}
-        stakingOverview={stakingOverview}
-        targets={targets}
-        toggleFavorite={toggleFavorite}
-      /> */}
     </div>
   );
 }

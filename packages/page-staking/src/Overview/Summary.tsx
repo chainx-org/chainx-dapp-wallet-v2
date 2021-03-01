@@ -133,9 +133,21 @@ export default React.memo(styled(Summary)`
     text-align: center;
   }
 
-  @media only screen and (max-width: 540px) {
+  @media only screen and (min-width: 414px) and (max-width: 540px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     section:last-child {
-      display: none;
+      grid-column-start: 2;
+      grid-row-start: 1;
+    }
+  }
+  @media only screen and (max-width: 413px) {
+    display: grid;
+    position: relative;
+    section:last-child {
+      position: absolute;
+      top: 28px;
+      right: 0;
     }
   }
 

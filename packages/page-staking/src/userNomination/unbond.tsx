@@ -29,7 +29,7 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
       marginRight: "8px"
     }}>{t<string>('The amount of ticket revocable')}</span>
     <FormatBalance value={unamount}></FormatBalance>
-  </div> ;
+  </div>;
 
   return (
     <Modal
@@ -41,16 +41,16 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to UnBound account'
+              // help='The actual account you wish to UnBound account'
               isDisabled={!!account}
               label={t<string>('My Account')}
               labelExtra={transferrable}
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p></p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -60,9 +60,9 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
               isDisabled={!!value}
               value={value}
 
-              help={t<string>('UnBound')}
+              // help={t<string>('UnBound for validator')}
               hideAddress={true}
-              label={t<string>('UnBound')}
+              label={t<string>('UnBound for validator')}
               labelExtra={
                 <span> </span>
               }
@@ -73,23 +73,23 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('UnBound Validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
           <Modal.Column>
             <InputPCXBalance
               autoFocus
-              help={t<string>('UnBound Amount')}
+              // help={t<string>('UnBound Amount')}
               label={t<string>('UnBound Amount')}
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('UnBound Amount')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 

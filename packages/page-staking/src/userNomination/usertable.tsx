@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react';
 import { AddressMini, Button } from '@polkadot/react-components';
 import { AddressSmall } from '@polkadot/react-components-chainx';
@@ -5,7 +6,7 @@ import Vote from './vote';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { Nomination, UserInterest } from '@polkadot/react-hooks-chainx/types';
-import { BlockAuthorsContext, BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BlockAuthorsContext, FormatBalance } from '@polkadot/react-query';
 import Reback from './reback';
 import UnBound from './unbond';
 import ReBond from './rebond'
@@ -16,9 +17,6 @@ import { TxCallback } from '@polkadot/react-components/Status/types';
 import { ValidatorInfo } from '../types';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import BN from 'bn.js';
-import moment from 'moment';
-import { useBlockTime } from '@polkadot/react-hooks-chainx/useBlockTime';
-
 
 interface Props {
   accountId?: string;
@@ -36,8 +34,6 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
   const [hoursafter, sethoursafter] = useState<BN>();
   const {currentAccount} = useContext(AccountContext);
   const { lastBlockNumber } = useContext(BlockAuthorsContext);
-  const lastBlocks = lastBlockNumber?.replace(',','')
-  const block = parseInt(lastBlocks)
   const {api} = useApi();
   const [isVoteOpen, toggleVote] = useToggle();
   const [isRebackOpen, toggleReback] = useToggle();
@@ -46,7 +42,6 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
 
   const [isClaim, toggleClaim] = useToggle();
 
-
   const chunkes = nomination?.unbondedChunks ? nomination.unbondedChunks.reduce((total, record) => {
     return total + Number(record.value);
   }, 0) : 0;
@@ -54,32 +49,13 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
   const redeemOptions: object[] = [];
 
   nomination?.unbondedChunks ? nomination?.unbondedChunks.map((item, index) => {
-    const reAmount = Number(item.value)
-    const rebackAmount = <FormatBalance value={reAmount}></FormatBalance>
-    const locked = Number(item.lockedUntil) - block
-    if(locked>0) {
-      const lockedUntiled = new BN(locked)
-      const [ , ,blockTime] = useBlockTime(lockedUntiled);
-      var timestamp = new Date().getTime()
-      const allTimes = timestamp+blockTime
-      const lockedtime = moment(allTimes).format("YYYY/MM/DD HH:mm:ss")
-      redeemOptions.push({
-        validatorId: nomination.validatorId,
-        text: rebackAmount,
-        value: index + '',
-        locked: lockedtime,
-        isShow: false
-      });
-    }else {
-      redeemOptions.push({
-        validatorId: nomination.validatorId,
-        text: rebackAmount,
-        value: index + '',
-        isShow: true
-      });
-    }
+    redeemOptions.push({
+      validatorId: nomination.validatorId,
+      text: 'locked until:' + item.lockedUntil,
+      value: index + ''
+    });
   }) : {};
-
+  
   useEffect((): void => {
     async function getNowHeighted() {
       const lastHeight = await api.query.xStaking.lastRebondOf(currentAccount)
@@ -87,9 +63,10 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
       const hisHeight = await api.query.xStaking.bondingDuration()
       const hisHeights = JSON.parse(JSON.stringify(hisHeight))
       const finalHeight = Number(lastHeights)+Number(hisHeights)
-      if(finalHeight>block){
+      const lastBlocks = lastBlockNumber?.replace(',','')
+      if(finalHeight>parseInt(lastBlocks)){
         setReBonds(true)
-        const lasthour = finalHeight - block
+        const lasthour = finalHeight - parseInt(lastBlocks)
         const hourafter = lasthour
         const hoursafters = new BN(hourafter)
         sethoursafter(hoursafters)
@@ -118,6 +95,7 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
       <td>
         <FormatBalance value={chunkes}></FormatBalance>
       </td>
+
       <td className='button' key="claim">
         {
           isClaim && (
@@ -147,6 +125,7 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
             <Reback
               account={accountId}
               onClose={toggleReback}
+
               redeemOptions={redeemOptions}
               key="reback"
               onSuccess={onStausChange}
@@ -176,8 +155,8 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
               value={nomination?.validatorId}
               onSuccess={onStausChange}
               rebond={rebonds}
-              hoursafter={hoursafter}
               unamount={nomination?.nomination}
+              hoursafter={hoursafter}
             />
           )
         }
