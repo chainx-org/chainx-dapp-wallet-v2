@@ -25,7 +25,7 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
   const [amount, setAmount] = useState<BN | undefined>();
   const [accountId, setAccount] = useState<string | null | undefined>();
 
-  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
+  const transferrable = <span className='label'>{t<string>('voteable')}</span>;
 
   return (
     <Modal
@@ -37,7 +37,7 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to Vote account'
+              // help='The actual account you wish to Vote account'
               isDisabled={!!account}
               label={t<string>('My Account')}
               labelExtra={
@@ -50,9 +50,9 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Vote for the node')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -60,7 +60,7 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
             <InputAddress
               defaultValue={value}
               isDisabled={!!value}
-              help={t<string>('Vote for validator')}
+              // help={t<string>('Vote for validator')}
               hideAddress={true}
               label={t<string>('Vote for validator')}
               labelExtra={
@@ -73,23 +73,23 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Current vote validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
           <Modal.Column>
             <InputPCXBalance
               autoFocus
-              help={t<string>('Vote Amount')}
+              // help={t<string>('Vote Amount')}
               label={t<string>('Vote Amount')}
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Vote Amount')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 

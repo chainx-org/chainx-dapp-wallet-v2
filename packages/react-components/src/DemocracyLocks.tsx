@@ -87,7 +87,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
   const [trigger] = useState(`${Date.now()}-democracy-locks-${++id}`);
   const [{ maxBalance, sorted }, setState] = useState<State>({ maxBalance: BN_ZERO, sorted: [] });
-
+  
   useEffect((): void => {
     bestNumber && setState((state): State => {
       const newState = groupLocks(t, bestNumber, value);

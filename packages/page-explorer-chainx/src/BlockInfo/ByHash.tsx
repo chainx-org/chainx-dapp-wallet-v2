@@ -15,6 +15,14 @@ import { useTranslation } from '../translate';
 import Events from '../Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
+import styled from 'styled-components';
+import TableMobile from '@polkadot/app-explorer-chainx/BlockInfo/TableMobile';
+
+const TablePc = styled(Table)`
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
+`
 
 interface Props {
   className?: string;
@@ -62,7 +70,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
 
   return (
     <div className={className}>
-      <Table
+      <TablePc
         header={
           getHeader
             ? [
@@ -103,7 +111,17 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             </tr>
           )
         }
-      </Table>
+      </TablePc>
+
+      <TableMobile
+        getHeader = {getHeader}
+        blockNumber = {blockNumber}
+        myError = {myError}
+        getBlock = {getBlock}
+        hasParent = {hasParent}
+        parentHash = {parentHash}
+      />
+
       {getBlock && getHeader && (
         <>
           <Extrinsics

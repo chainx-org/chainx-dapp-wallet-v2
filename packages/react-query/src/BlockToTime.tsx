@@ -16,7 +16,6 @@ interface Props {
 
 function BlockToTime ({ blocks, children, className = '', isInline, label }: Props): React.ReactElement<Props> | null {
   const [, text] = useBlockTime(blocks);
-
   if (blocks?.ltn(0)) {
     return null;
   }

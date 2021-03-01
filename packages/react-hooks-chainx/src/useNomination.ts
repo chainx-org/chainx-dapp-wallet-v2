@@ -16,7 +16,6 @@ export async function getNominationAndDividedExternal(account, api) {
     account
   );
 
-  console.log('account:' + account)
   let currentNomination: any = {};
   // 该用户的所有投票
   const userNominations = JSON.parse(res);

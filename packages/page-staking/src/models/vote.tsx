@@ -59,9 +59,9 @@ function VoteNode({ onClose, validatorId, onSuccess, remainingVotesData }: Props
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Vote for validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -75,9 +75,9 @@ function VoteNode({ onClose, validatorId, onSuccess, remainingVotesData }: Props
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Current vote validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -89,9 +89,9 @@ function VoteNode({ onClose, validatorId, onSuccess, remainingVotesData }: Props
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('Vote Amount')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 

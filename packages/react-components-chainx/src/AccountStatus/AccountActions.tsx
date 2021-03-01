@@ -64,7 +64,6 @@ const transformRecovery = {
 function AccountActions({account: {address, meta}, isContract, delegation, proxy}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
   const api = useApi();
-  const {isApiReady} = useApi();
   const {flags: {isDevelopment, isExternal, isHardware, isInjected, isMultisig}, identity, genesisHash, name: accName, onSetGenesisHash, tags} = useAccountInfo(address ? address.toString() : null, isContract);
   const {theme} = useContext<ThemeDef>(ThemeContext);
   const [isSettingsOpen, toggleSettings] = useToggle();
@@ -187,7 +186,6 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
       }
     );
   }, [address, api, bestNumber, democracyLocks]);
-
   return (
     <>
       {isBackupOpen && (
@@ -388,7 +386,7 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
             // )
           ])}
           {createMenuGroup([
-            //通过链上账户派生路径
+//通过链上账户派生路径
             !(isExternal || isHardware || isInjected || isMultisig) && (
               <Menu.Item
                 key='deriveAccount'
@@ -397,6 +395,7 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
                 {t('Derive account via derivation path')}
               </Menu.Item>
             ),
+
             // isHardware && (
             //   //在硬件设备上显示地址
             //   <Menu.Item
@@ -464,6 +463,17 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
                 {t('Clear expired democracy locks')}
               </Menu.Item>
             )),
+            // (api.api.query.proxy?.proxies && (
+            //   <Menu.Item
+            //     key='proxy-overview'
+            //     onClick={toggleProxyOverview}
+            //   >
+            //     {proxy?.[0].length
+            //       ? t('Manage proxies')
+            //       : t('Add proxy')
+            //     }
+            //   </Menu.Item>
+            // ))
           ])}
 
           {/*{api.api.tx.recovery?.createRecovery && createMenuGroup([*/}
@@ -500,17 +510,7 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
           {/*    {t('Undelegate')}*/}
           {/*  </Menu.Item>*/}
           {/*])}*/}
-          {/*{api.api.query.proxy?.proxies && createMenuGroup([*/}
-          {/*  <Menu.Item*/}
-          {/*    key='proxy-overview'*/}
-          {/*    onClick={toggleProxyOverview}*/}
-          {/*  >*/}
-          {/*    {proxy?.[0].length*/}
-          {/*      ? t('Manage proxies')*/}
-          {/*      : t('Add proxy')*/}
-          {/*    }*/}
-          {/*  </Menu.Item>*/}
-          {/*])}*/}
+
           {/*<ChainLock*/}
           {/*  className='accounts--network-toggle'*/}
           {/*  genesisHash={genesisHash}*/}

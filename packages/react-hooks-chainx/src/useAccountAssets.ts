@@ -6,8 +6,6 @@ import { useIsMountedRef } from '@polkadot/react-hooks/useIsMountedRef';
 
 export default function useAccountAssets(accounts: string[]) {
   const mountedRef = useIsMountedRef();
-  console.log('use account init ')
-  console.log(JSON.stringify(accounts))
   const [state, setState] = useState<AssetsList>({
     allAssets: [],
     isFinished: false
@@ -19,7 +17,6 @@ export default function useAccountAssets(accounts: string[]) {
   useEffect((): void => {
     async function getAssets(accounts: string[]) {
 
-      console.log('get asests' + (accounts.length > 0 ? accounts[0] : '33'))
 
       accounts.map(async (account, index) => {
         const res = await api.rpc.xassets.getAssetsByAccount(account);
@@ -58,7 +55,6 @@ export default function useAccountAssets(accounts: string[]) {
           XbtcInterests: currentDividend
         });
         allAssets.push(current);
-        console.log(JSON.stringify(allAssets))
       })
       setState({ allAssets: allAssets, isFinished: false });
     }

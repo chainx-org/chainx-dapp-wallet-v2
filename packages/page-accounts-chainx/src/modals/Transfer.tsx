@@ -30,6 +30,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [hasAvailable] = useState(true);
   const [isProtected, setIsProtected] = useState(true);
+  const [isAmounts, setIsAmounts] = useState(false);
   const [isAll, setIsAll] = useState(false);
   const [maxTransfer, setMaxTransfer] = useState<BN | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
@@ -64,6 +65,15 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
   }, [api, balances, recipientId, senderId]);
 
   const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && (!accountInfo || !accountInfo.refcount || accountInfo.refcount.isZero());
+ 
+  useEffect(()=>{
+    if(Number(amount) == 0) {
+      setIsAmounts(true)
+    } else {
+      setIsAmounts(false)
+    }
+  },[amount])
+ 
 
   return (
     <Modal
@@ -184,7 +194,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
         <TxButton
           accountId={senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !recipientId || !amount}
+          isDisabled={!hasAvailable || !recipientId || !amount || isAmounts }
           label={t<string>('Transfer')}
           onStart={onClose}
           onSuccess={() => {

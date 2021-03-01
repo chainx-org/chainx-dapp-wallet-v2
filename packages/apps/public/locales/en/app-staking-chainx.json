@@ -10,7 +10,7 @@
   "Drop this node": "Drop this node",
   "Freeze": "Freeze",
   "My Account": "My Account",
-  "My Accounts": "My Accounts",
+  "Current Accounts": "Current Accounts",
   "My Stake": "My Stake",
   "My Staking": "My Staking",
   "Node Drop": "Node Drop",
@@ -28,11 +28,10 @@
   "ReBound": "ReBound",
   "Rebond": "Rebond",
   "Rebond Amount": "Rebond Amount",
-  "Redeem": "Redeem",
-  "To Redeem": "To Redeem",
-  "Redeem ID": "Redeem ID",
+  "To Unfreeze": "To Unfreeze",
+  "Unfreeze ID": "Unfreeze ID",
   "Redeem the current node": "Redeem the current node",
-  "Redemption": "Redemption",
+  "Unfreeze": "Unfreeze",
   "Register": "Register",
   "Register Account": "Register Account",
   "Register Node": "Register Node",
@@ -54,5 +53,8 @@
   "Vote Amount": "Vote Amount",
   "Vote for the node": "Vote for the node",
   "Vote for validator": "Vote for validator",
-  "transferrable": "transferrable"
+  "transferrable": "transferrable",
+  "Switchable Amount": "Switchable Amount",
+  "Vote Amounts": "Vote Amounts",
+  "The amount of ticket revocable": "The amount of ticket revocable"
 }

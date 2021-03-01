@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { Available } from '@polkadot/react-query';
+import { Available, FormatBalance } from '@polkadot/react-query';
 import { TxCallback } from '@polkadot/react-components/Status/types';
 import InputPCXBalance from '@polkadot/react-components-chainx/InputPCXBalance';
 
@@ -15,15 +15,21 @@ interface Props {
   options?: KeyringSectionOption[];
   value?: string | null | undefined;
   onClose: () => void;
-  onSuccess?: TxCallback
+  onSuccess?: TxCallback;
+  unamount?:  string | null | undefined;
 }
 
-function UnBond({ account, onClose, options, value, onSuccess }: Props): React.ReactElement<Props> {
+function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [validatorId, setValidatorId] = useState<string | null | undefined>();
   const [amount, setAmount] = useState<BN | undefined>();
 
-  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
+  const transferrable = <div>
+    <span className='label' style={{
+      marginRight: "8px"
+    }}>{t<string>('The amount of ticket revocable')}</span>
+    <FormatBalance value={unamount}></FormatBalance>
+  </div>;
 
   return (
     <Modal
@@ -35,21 +41,16 @@ function UnBond({ account, onClose, options, value, onSuccess }: Props): React.R
           <Modal.Column>
             <InputAddress
               defaultValue={account}
-              help='The actual account you wish to UnBound account'
+              // help='The actual account you wish to UnBound account'
               isDisabled={!!account}
               label={t<string>('My Account')}
-              labelExtra={
-                <Available
-                  label={transferrable}
-                  params={account}
-                />
-              }
+              labelExtra={transferrable}
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p></p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -59,9 +60,9 @@ function UnBond({ account, onClose, options, value, onSuccess }: Props): React.R
               isDisabled={!!value}
               value={value}
 
-              help={t<string>('UnBound')}
+              // help={t<string>('UnBound for validator')}
               hideAddress={true}
-              label={t<string>('UnBound')}
+              label={t<string>('UnBound for validator')}
               labelExtra={
                 <span> </span>
               }
@@ -72,23 +73,23 @@ function UnBond({ account, onClose, options, value, onSuccess }: Props): React.R
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('UnBound Validator')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
           <Modal.Column>
             <InputPCXBalance
               autoFocus
-              help={t<string>('UnBound Amount')}
+              // help={t<string>('UnBound Amount')}
               label={t<string>('UnBound Amount')}
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          {/* <Modal.Column>
             <p>{t<string>('UnBound Amount')}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
 
