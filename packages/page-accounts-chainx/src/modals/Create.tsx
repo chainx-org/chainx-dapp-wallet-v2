@@ -10,7 +10,7 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal } from '@polkadot/react-components';
+import {AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal, TextArea} from '@polkadot/react-components';
 import { CopyButton } from '@polkadot/react-components-chainx'
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { useLocalStorage } from '@polkadot/react-hooks-chainx';
@@ -313,7 +313,7 @@ function Create({ className = '', onClose, onStatusChange, seed: propsSeed, type
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
-                <Input
+                <TextArea
                   help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
                   isAction
                   isError={!isSeedValid}
@@ -327,7 +327,8 @@ function Create({ className = '', onClose, onStatusChange, seed: propsSeed, type
                   }
                   onChange={_onChangeSeed}
                   onEnter={_onCommit}
-                  value={seed}
+                  seed={seed}
+                  withLabel
                 >
                   <Dropdown
                     defaultValue={seedType}
@@ -340,7 +341,7 @@ function Create({ className = '', onClose, onStatusChange, seed: propsSeed, type
                     type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
                     value={seed}
                   />
-                </Input>
+                </TextArea>
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
@@ -443,10 +444,22 @@ export default React.memo(styled(Create)`
     overflow: visible;
   }
 
+  .TextAreaWithDropdown{
+    textarea{
+      padding-right: 4.2rem;
+    }
+  }
+
+  .ui.button.selection.dropdown{
+    .text{
+      white-space: nowrap;
+    }
+  }
+
   .copyMoved {
     position: absolute;
     z-index: 99;
-    right: 6.5rem !important;
-    top: 0.75rem !important;
+    right: 8rem !important;
+    top: 1.35rem !important;
   }
 `);
