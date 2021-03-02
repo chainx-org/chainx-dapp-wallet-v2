@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "chainx-org",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
