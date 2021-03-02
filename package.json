@@ -44,7 +44,7 @@
     "packElectron:test": "yarn build:release:electron && electron-builder --dir",
     "packElectron:mac": "yarn build:release:electron && electron-builder build --mac",
     "packElectron:win": "yarn build:release:electron && electron-builder build --win",
-    "releaseElectron:win": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build --win -p always",
+    "releaseElectron:win": "yarn build:electron && yarn clean:electronRelease && electron-builder build --win -p always",
     "packElectron:linux": "yarn build:release:electron && electron-builder build --linux",
     "packElectron": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build -mwl",
     "docs": "echo \"skipping docs\"",
