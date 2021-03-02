@@ -463,17 +463,17 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
                 {t('Clear expired democracy locks')}
               </Menu.Item>
             )),
-            (api.api.query.proxy?.proxies && (
-              <Menu.Item
-                key='proxy-overview'
-                onClick={toggleProxyOverview}
-              >
-                {proxy?.[0].length
-                  ? t('Manage proxies')
-                  : t('Add proxy')
-                }
-              </Menu.Item>
-            ))
+            // (api.api.query.proxy?.proxies && (
+            //   <Menu.Item
+            //     key='proxy-overview'
+            //     onClick={toggleProxyOverview}
+            //   >
+            //     {proxy?.[0].length
+            //       ? t('Manage proxies')
+            //       : t('Add proxy')
+            //     }
+            //   </Menu.Item>
+            // ))
           ])}
 
           {/*{api.api.tx.recovery?.createRecovery && createMenuGroup([*/}
