@@ -46,7 +46,7 @@
     "packElectron:win": "yarn build:release:electron && electron-builder build --win",
     "releaseElectron:win": "yarn build:electron && yarn clean:electronRelease && electron-builder build --win -p always",
     "packElectron:linux": "yarn build:release:electron && electron-builder build --linux",
-    "packElectron": "yarn build:electron && yarn clean:electronRelease && electron-builder build -mwl",
+    "packElectron": "yarn build:electron && yarn clean:electronRelease && electron-builder build -mwl -p always",
     "docs": "echo \"skipping docs\"",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
