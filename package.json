@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "chainx-org",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -64,7 +64,7 @@
   },
   "build": {
     "extends": null,
-    "productName": "Chainx-dapp-wallet",
+    "productName": "Chainx Wallet 2.0",
     "dmg": {
       "contents": [
         {
@@ -80,6 +80,7 @@
       ]
     },
     "win": {
+      "icon": "packages/apps-electron/build/icon.png",
       "target": [
         {
           "target": "nsis",
@@ -90,7 +91,11 @@
         }
       ]
     },
+    "mac": {
+      "icon": "packages/apps-electron/build/icon.png"
+    },
     "linux": {
+      "icon": "packages/apps-electron/build/icon.png",
       "target": [
         "AppImage"
       ]
