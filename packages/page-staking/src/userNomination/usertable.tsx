@@ -154,9 +154,9 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
               validatorInfoList={validatorInfoList}
               value={nomination?.validatorId}
               onSuccess={onStausChange}
-<!--               rebond={rebonds} -->
+              // rebond={rebonds}
               unamount={nomination?.nomination}
-<!--               hoursafter={hoursafter} -->
+              // hoursafter={hoursafter}
             />
           )
         }
