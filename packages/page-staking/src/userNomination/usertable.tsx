@@ -30,8 +30,8 @@ interface Props {
 
 function UserTable({ accountId, nomination, userInterest, onStausChange, validatorInfoList }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [rebonds, setReBonds] = useState(true);
-  const [hoursafter, sethoursafter] = useState<BN>();
+//   const [rebonds, setReBonds] = useState(true);
+//   const [hoursafter, sethoursafter] = useState<BN>();
   const {currentAccount} = useContext(AccountContext);
   const { lastBlockNumber } = useContext(BlockAuthorsContext);
   const {api} = useApi();
@@ -56,26 +56,26 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
     });
   }) : {};
   
-  useEffect((): void => {
-    async function getNowHeighted() {
-      const lastHeight = await api.query.xStaking.lastRebondOf(currentAccount)
-      const lastHeights = JSON.parse(JSON.stringify(lastHeight))
-      const hisHeight = await api.query.xStaking.bondingDuration()
-      const hisHeights = JSON.parse(JSON.stringify(hisHeight))
-      const finalHeight = Number(lastHeights)+Number(hisHeights)
-      const lastBlocks = lastBlockNumber?.replace(',','')
-      if(finalHeight>parseInt(lastBlocks)){
-        setReBonds(true)
-        const lasthour = finalHeight - parseInt(lastBlocks)
-        const hourafter = lasthour
-        const hoursafters = new BN(hourafter)
-        sethoursafter(hoursafters)
-      }else {
-        setReBonds(false)
-      }
-    }
-    getNowHeighted()
-  }, [currentAccount,lastBlockNumber]);
+//   useEffect((): void => {
+//     async function getNowHeighted() {
+//       const lastHeight = await api.query.xStaking.lastRebondOf(currentAccount)
+//       const lastHeights = JSON.parse(JSON.stringify(lastHeight))
+//       const hisHeight = await api.query.xStaking.bondingDuration()
+//       const hisHeights = JSON.parse(JSON.stringify(hisHeight))
+//       const finalHeight = Number(lastHeights)+Number(hisHeights)
+//       const lastBlocks = lastBlockNumber?.replace(',','')
+//       if(finalHeight>parseInt(lastBlocks)){
+//         setReBonds(true)
+//         const lasthour = finalHeight - parseInt(lastBlocks)
+//         const hourafter = lasthour
+//         const hoursafters = new BN(hourafter)
+//         sethoursafter(hoursafters)
+//       }else {
+//         setReBonds(false)
+//       }
+//     }
+//     getNowHeighted()
+//   }, [currentAccount,lastBlockNumber]);
 
   return (
     <tr>
@@ -154,9 +154,9 @@ function UserTable({ accountId, nomination, userInterest, onStausChange, validat
               validatorInfoList={validatorInfoList}
               value={nomination?.validatorId}
               onSuccess={onStausChange}
-              rebond={rebonds}
+<!--               rebond={rebonds} -->
               unamount={nomination?.nomination}
-              hoursafter={hoursafter}
+<!--               hoursafter={hoursafter} -->
             />
           )
         }
