@@ -131,14 +131,14 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
               type='allPlus'
             />
           </Modal.Column>
-<!--           <Modal.Column className="msg">
+      {/* <Modal.Column className="msg">
             <p>{t<string>('To Validator')}</p>
             <div className="msgError" style={{display: (rebond === true) ? "block" : "none"}}>
               <p>{t<string>('Switch interval less than 3 days, please in')}</p>  
               <BlockToTime blocks={hoursafter} />
               <p>{t<string>('Retry after')}</p>
             </div>
-          </Modal.Column> -->
+          </Modal.Column> */}
         </Modal.Columns>
 
         <Modal.Columns>
@@ -158,7 +158,7 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
 
       <Modal.Actions onCancel={onClose}>
         <TxButton
-<!--           isDisabled={rebond} -->
+         // isDisabled={rebond}
           accountId={account}
           icon='sign-in-alt'
           label={t<string>('Rebond')}
