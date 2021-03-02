@@ -19,8 +19,8 @@ interface Props {
   onClose: () => void;
   onSuccess?: TxCallback;
   validatorInfoList: ValidatorInfo[];
-  rebond: boolean;
-  hoursafter: BN | undefined;
+//   rebond: boolean;
+//   hoursafter: BN | undefined;
   unamount?:  string | null | undefined;
 }
 
@@ -43,7 +43,7 @@ const Wrapper = styled(Modal)`
   }
 `;
 
-function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList, rebond, hoursafter, unamount }: Props): React.ReactElement<Props> {
+function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList, unamount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [validatorTo, setValidatorTo] = useState<string | null | undefined>();
@@ -131,14 +131,14 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
               type='allPlus'
             />
           </Modal.Column>
-          <Modal.Column className="msg">
-            {/* <p>{t<string>('To Validator')}</p> */}
+<!--           <Modal.Column className="msg">
+            <p>{t<string>('To Validator')}</p>
             <div className="msgError" style={{display: (rebond === true) ? "block" : "none"}}>
               <p>{t<string>('Switch interval less than 3 days, please in')}</p>  
               <BlockToTime blocks={hoursafter} />
               <p>{t<string>('Retry after')}</p>
             </div>
-          </Modal.Column>
+          </Modal.Column> -->
         </Modal.Columns>
 
         <Modal.Columns>
@@ -158,7 +158,7 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
 
       <Modal.Actions onCancel={onClose}>
         <TxButton
-          isDisabled={rebond}
+<!--           isDisabled={rebond} -->
           accountId={account}
           icon='sign-in-alt'
           label={t<string>('Rebond')}
