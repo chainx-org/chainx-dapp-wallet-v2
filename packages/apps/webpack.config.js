@@ -12,8 +12,6 @@ const ENV = process.env.NODE_ENV || 'development';
 const context = __dirname;
 const hasPublic = fs.existsSync(path.join(context, 'public'));
 
-
-
 module.exports = merge(
   baseConfig(ENV, context),
   {
