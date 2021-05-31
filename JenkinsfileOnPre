@@ -9,7 +9,7 @@ pipeline {
     KUBECONFIG_CREDENTIAL_ID = 'admin'
     REGISTRY = 'docker.io'
     DOCKERHUB_NAMESPACE = 'chainxorg'
-    APP_NAME = 'demo'
+    APP_NAME = 'dapp-wallet'
   }
   parameters {
     string(name: 'BRANCH_NAME', defaultValue: 'pre', description: '')
@@ -45,7 +45,7 @@ pipeline {
           script {
             withCredentials([
               kubeconfigFile(
-                credentialsId: 'devops-deploy',
+                credentialsId: 'admin',
                 variable: 'KUBECONFIG')
               ])
               {
