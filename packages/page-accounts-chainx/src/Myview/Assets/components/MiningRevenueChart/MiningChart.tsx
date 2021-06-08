@@ -89,33 +89,33 @@ export default function (): React.ReactElement {
     {
       color: 'yellow',
       type: 'PCX',
-      data: '57.6%'
+      data: '77.6%'
     },
     {
       color: 'orange',
       type: 'X-BTC',
-      data: '0.9%'
+      data: '0.5%'
     },
     {
       color: 'blue',
       type: 'TR',
-      data: '21.5%'
+      data: '21.9%'
     },
-    {
-      color: 'grey',
-      type: 'PolkaX',
-      data: '20%'
-    }
+    // {
+    //   color: 'grey',
+    //   type: 'PolkaX',
+    //   data: '20%'
+    // }
   ];
   const canvasRef = useRef(null);
   const colors = [
     '#F6C94A',
-    '#C2C2C2',
+    // '#C2C2C2',
     '#46AEE2',
     '#F7931B'
   ];
 
-  const power = [{ power: 57.6 }, { power: 20.0 }, { power: 21.5 }, { power: 0.9 }];
+  const power = [{ power: 77.6 }, { power: 21.9 }, { power: 0.5 }];
 
   useEffect(() => {
     if (power) {
