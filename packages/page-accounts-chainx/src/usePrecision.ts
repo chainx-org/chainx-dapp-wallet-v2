@@ -13,7 +13,7 @@ export default function usePrecision(): Pair {
 
   useEffect((): void => {
     async function fetchPairs() {
-      const res = await axios.get('https://api-v2.chainx.org/dex/pairs');
+      const res = await axios.get('https://api-v2.chainx.cc/dex/pairs');
 
       setState({
         precision: res.data[0].tickDecimals,

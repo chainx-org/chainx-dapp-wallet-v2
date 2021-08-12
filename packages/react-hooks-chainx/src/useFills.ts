@@ -13,7 +13,7 @@ export default function useFills(isLoading: boolean): Fill[] {
     if (testOrMainNum.ss58Format === 42) {
       res = await axios.get('https://testnet-api.chainx.org/dex/fills/0?page=0&page_size=20');
     } else {
-      res = await axios.get('https://api-v2.chainx.org/dex/fills/0');
+      res = await axios.get('https://api-v2.chainx.cc/dex/fills/0');
     }
     setState([
       ...res.data.items
