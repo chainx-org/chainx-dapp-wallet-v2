@@ -164,7 +164,6 @@ function createAccount(suri: string, pairType: KeypairType, { genesisHash, name,
 
   try {
     const result = keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
-
     const { address } = result.pair;
 
     changeAccount(address)

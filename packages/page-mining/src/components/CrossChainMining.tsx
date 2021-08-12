@@ -127,7 +127,7 @@ export default function (): React.ReactElement {
   });
 
   useEffect(() => {
-    axios.get('https://api-v2.chainx.org/crossblocks/deposit_mine')
+    axios.get('https://api-v2.chainx.cc/crossblocks/deposit_mine')
       .then(function (response) {
         setMiningDetail({
           balance: response.data.items[0].balance.Usable / 100000000,

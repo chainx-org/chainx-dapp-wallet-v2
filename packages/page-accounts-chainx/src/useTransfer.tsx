@@ -23,8 +23,8 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
     if (testOrMainNum.ss58Format === 42) {
       res = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/transfers?page=0&page_size=20`);
     } else {
-      res = await axios.get(`https://api-v2.chainx.org/accounts/${currentAccount}/transfers?page=0&page_size=20`);
-      // let res = await axios.get(`https://api-v2.chainx.org/accounts/5Escb2u24DLhTSJBkStrfQjQcdDe9XaP4wsa3EA9BGAhk8mu/transfers?page=0&page_size=10`);
+      res = await axios.get(`https://api-v2.chainx.cc/accounts/${currentAccount}/transfers?page=0&page_size=20`);
+      // let res = await axios.get(`https://api-v2.chainx.cc/accounts/5Escb2u24DLhTSJBkStrfQjQcdDe9XaP4wsa3EA9BGAhk8mu/transfers?page=0&page_size=10`);
     }
     setState(res.data.items);
   }
