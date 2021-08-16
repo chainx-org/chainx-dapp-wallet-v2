@@ -1615,6 +1615,7 @@
   "Overseas Node": "海外节点",
   "Patract Node": "Patract 节点",
   "Test Node": "测试节点",
+  "No account is currently selected, please open the account selection panel to select an account": "当前没有选择账号，请打开账户选择面板选择账号",
   "{{balance}} voted": "{{balance}} 投票",
   "{{blocks}} blocks": "{{blocks}} 区块",
   "{{count}} key/value pairs encoded for submission": "{{count}}为提交而编码的密钥/值对",
