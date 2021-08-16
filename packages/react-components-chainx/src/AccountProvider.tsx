@@ -12,8 +12,6 @@ interface AccountAssetInfo {
 export interface AccountContextData {
   currentAccount: string,
   changeAccount: (account: string) => void;
-  currentAccountAsset: AccountAssetInfo;
-  changeAccountAsset: (accountAsset: string) => void
 }
 
 export const AccountContext = createContext<AccountContextData>({} as AccountContextData);

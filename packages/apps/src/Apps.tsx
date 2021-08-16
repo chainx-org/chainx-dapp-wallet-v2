@@ -2,42 +2,50 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts-chainx/Sidebar';
 import { getSystemChainColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components-chainx/styles';
-import { useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
 import Content from './Content';
-import Menu from './Menu';
 import WarmUp from './WarmUp';
 import NavBar from './NavBar/index';
+import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
+import AccountAlert from '@polkadot/react-components-chainx/AccountAlert';
 
 export const PORTAL_ID = 'portals';
 
 function Apps({className = ''}: Props): React.ReactElement<Props> {
   const {theme} = useContext<ThemeDef>(ThemeContext);
-  const {systemChain, systemName} = useApi();
-
+  const {systemChain, systemName, isApiReady} = useApi();
+  const {allAccounts} = useAccounts()
+  const [hasCurrentName, setHasCurrentName] = useState<boolean>(false)
+  const {currentAccount} = useContext(AccountContext)
   const uiHighlight = useMemo(
     () => getSystemChainColor(systemChain, systemName),
     [systemChain, systemName]
   );
 
+  useEffect(() => {
+    setHasCurrentName(!!allAccounts.find(account => account === currentAccount))
+  }, [allAccounts, isApiReady, currentAccount])
+
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight}/>
       <div className={`apps--Wrapper theme--${theme} ${className}`}>
-        {/*<Menu />*/}
+        {/*<AccountAlert/>*/}
         <NavBar/>
         <AccountSidebar>
           <Signer>
             <Content/>
           </Signer>
           <ConnectingOverlay/>
+          {isApiReady && !hasCurrentName && <AccountAlert/>}
           <div id={PORTAL_ID}/>
         </AccountSidebar>
       </div>
