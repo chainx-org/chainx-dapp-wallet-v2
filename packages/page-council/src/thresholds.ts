@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
-import { POLKADOT_GENESIS, KULUPU_GENESIS, KUSAMA_GENESIS } from '@polkadot/apps-config';
+import { POLKADOT_GENESIS, KULUPU_GENESIS, KUSAMA_GENESIS, CHAINX_GENESIS } from '@polkadot/apps-config';
 
 const PROPOSE_THRESHOLDS: Record<string, number> = {
   [KULUPU_GENESIS]: 1,
   [KUSAMA_GENESIS]: 0.5,
   [POLKADOT_GENESIS]: 0.6,
+  [CHAINX_GENESIS]: 0.75,
   default: 0.5
 };
 
