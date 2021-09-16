@@ -69,7 +69,7 @@ function createLiveNetworks(t: TFunction): LinkOption[] {
       info: 'ChainX',
       text: t('Patract Node'),
       textBy: t('rpc.hosted.by', 'hosted by Patract Elara', { ns: 'apps-config', replace: { host: 'ChainX' } }),
-      value: 'wss://chainx.elara.patract.io'
+      value: 'wss://pub.elara.patract.io/chainx'
     }
   ];
 }
