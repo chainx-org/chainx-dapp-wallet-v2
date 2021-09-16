@@ -18,7 +18,7 @@ function SettingNode(): React.ReactElement {
   useEffect(() => {
     if(apiUrl === 'wss://mainnet.spiderx.pro/ws'){
       setNetInfo(t('Chinese Node'))
-    }else if(apiUrl === 'wss://chainx.elara.patract.io'){
+    }else if(apiUrl === 'wss://pub.elara.patract.io/chainx'){
       setNetInfo(t('Patract Node'))
     }else{
       setNetInfo(t('Test Node'))
