@@ -60,16 +60,16 @@ function createLiveNetworks(t: TFunction): LinkOption[] {
     {
       dnslink: 'ChainX',
       info: 'ChainX',
-      text: t('Chinese Node'),
-      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
-      value: 'wss://mainnet.spiderx.pro/ws'
+      text: t('Patract Node'),
+      textBy: t('rpc.hosted.by', 'hosted by Patract Elara', { ns: 'apps-config', replace: { host: 'ChainX' } }),
+      value: 'wss://pub.elara.patract.io/chainx'
     },
     {
       dnslink: 'ChainX',
       info: 'ChainX',
-      text: t('Patract Node'),
-      textBy: t('rpc.hosted.by', 'hosted by Patract Elara', { ns: 'apps-config', replace: { host: 'ChainX' } }),
-      value: 'wss://pub.elara.patract.io/chainx'
+      text: t('Chinese Node'),
+      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
+      value: 'wss://mainnet.spiderx.pro/ws'
     }
   ];
 }
