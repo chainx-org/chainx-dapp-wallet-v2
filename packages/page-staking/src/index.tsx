@@ -7,14 +7,11 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { HelpOverlay } from '@polkadot/react-components';
 import { Tabs } from '@polkadot/react-components-chainx';
 import { useAccounts, useApi, useFavorites, useCall } from '@polkadot/react-hooks';
 import { ValidatorInfo } from './types'
 import { isJSON } from './utils'
-import AccountSelect from '@polkadot/react-components-chainx/AccountSelect';
 
-import basicMd from './md/basic.md';
 import Overview from './Overview';
 import UserNomination from './userNomination'
 import Query from './Query';
@@ -23,24 +20,28 @@ import Summary from './Overview/Summary';
 import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
+import BigNumber from 'bignumber.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
+const sortTotalNomination = (a: string, b: string): number => {
+  const aTotalNomination = new BigNumber(a)
+  const bTotalNomination = new BigNumber(b)
+  return bTotalNomination.minus(aTotalNomination).toNumber()
+}
 
 function getSortList(validatorInfoList: ValidatorInfo[]) {
-
   let validating = validatorInfoList.filter(item => JSON.stringify(item.isValidating) === 'true')
   validating = validating.sort((a, b) => {
-    return Number(BigInt(b.totalNomination) - BigInt(a.totalNomination))
-
+    return sortTotalNomination(a.totalNomination, b.totalNomination)
   })
   let candidate = validatorInfoList.filter(item => JSON.stringify(item.isValidating) === 'false' && JSON.stringify(item.isChilled) === 'false')
   candidate = candidate.sort((a, b) => {
-    return Number(BigInt(b.totalNomination) - BigInt(a.totalNomination))
+    return sortTotalNomination(a.totalNomination, b.totalNomination)
   })
   let chill = validatorInfoList.filter(item => JSON.stringify(item.isValidating) === 'false' && JSON.stringify(item.isChilled) === 'true')
   chill = chill.sort((a, b) => {
-    return Number(BigInt(b.totalNomination) - BigInt(a.totalNomination))
+    return sortTotalNomination(a.totalNomination, b.totalNomination)
   })
   const sortList = []
   sortList.push(...validating)
@@ -181,6 +182,6 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
       display: none;
     }
   }
-  
-  
+
+
 `));
