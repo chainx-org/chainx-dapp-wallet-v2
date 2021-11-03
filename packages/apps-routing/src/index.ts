@@ -27,7 +27,7 @@ import sudo from './sudo';
 import techcomm from './techcomm';
 import transfer from './transfer';
 import treasury from './treasury';
-// import trade from './trade';
+import trade from './trade';
 import allAccounts from './allAccounts';
 import mining from './mining';
 import addAccount from '@polkadot/apps-routing/addAccount';
@@ -64,7 +64,7 @@ export default function create(t: TFunction): Routes {
     signing(t),
     sudo(t),
     // js(t),
-    // trade(t),
+    trade(t),
     settings(t),
     chainBrowser(t)
 

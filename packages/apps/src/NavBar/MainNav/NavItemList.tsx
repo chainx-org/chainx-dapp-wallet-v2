@@ -94,9 +94,9 @@ function NavItemList(): React.ReactElement {
           <Selector nodeList={governanceList} onMouseLeave={() => setToggleGovernance(false)}
           />}
         </li>
-        {/*<li className='dex media--1100'>*/}
-        {/*  <Link to='/DEX'>{t('DEX')}</Link>*/}
-        {/*</li>*/}
+        <li className='dex media--1100'>
+          <Link to='/DEX'>{t('DEX')}</Link>
+        </li>
         <li className='linkOutBrowser media--900'>
           <a href={url} target='_blank'>
             {t('ChainScan')}
