@@ -117,7 +117,6 @@ const Wrapper = styled.div`
       }
     }
   }
-
 `
 
 function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.ReactElement<Props> {
@@ -130,12 +129,16 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   const [netInfo, setNetInfo] = useState<string>('')
   const stored = store.get('settings') as Record<string, unknown> || {};
 
+  const nodeMap: {[key: string]: string} = {
+    'wss://mainnet.chainx.org/ws': 'ChainX node A',
+    'wss://mainnet.spiderx.pro/ws': 'ChainX node B',
+    'wss://testnet.chainx.org': t('Test Node'),
+  }
+
   useEffect(() => {
-    if(apiUrl === 'wss://mainnet.spiderx.pro/ws'){
-      setNetInfo(t('Chinese Node'))
-    }else if(apiUrl === 'wss://pub.elara.patract.io/chainx'){
-      setNetInfo(t('Patract Node'))
-    }else{
+    if (Object.keys(nodeMap).includes(apiUrl)) {
+      setNetInfo(nodeMap[apiUrl])
+    } else {
       setNetInfo(t('Test Node'))
     }
   }, [apiUrl, stored])
