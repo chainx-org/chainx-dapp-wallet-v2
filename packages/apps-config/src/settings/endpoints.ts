@@ -54,7 +54,7 @@ function createDev(t: TFunction): LinkOption[] {
 
 function createLiveNetworks(t: TFunction): LinkOption[] {
 
-  const endsArray = ['wss://mainnet.spiderx.pro/ws', 'wss://mainnet.chainx.org/ws']
+  const endsArray = ['wss://mainnet.chainx.org/ws']
   return [
     // polkadot test relays
     {
@@ -63,13 +63,6 @@ function createLiveNetworks(t: TFunction): LinkOption[] {
       text: 'ChainX node A',
       textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
       value: 'wss://mainnet.chainx.org/ws'
-    },
-    {
-      dnslink: 'ChainX',
-      info: 'ChainX',
-      text: 'ChainX node B',
-      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
-      value: 'wss://mainnet.spiderx.pro/ws'
     }
   ];
 }
