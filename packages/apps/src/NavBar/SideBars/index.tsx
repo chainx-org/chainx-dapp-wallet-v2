@@ -131,7 +131,6 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
 
   const nodeMap: {[key: string]: string} = {
     'wss://mainnet.chainx.org/ws': 'ChainX node A',
-    'wss://mainnet.spiderx.pro/ws': 'ChainX node B',
     'wss://testnet.chainx.org': t('Test Node'),
   }
 
