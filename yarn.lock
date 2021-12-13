@@ -2869,12 +2869,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ts@npm:^0.3.55":
-  version: 0.3.91
-  resolution: "@polkadot/ts@npm:0.3.91"
+"@polkadot/ts@npm:^0.4.18":
+  version: 0.4.19
+  resolution: "@polkadot/ts@npm:0.4.19"
   dependencies:
-    "@types/chrome": ^0.0.145
-  checksum: bb87a241eb653b3785306f37e4e5e13ab55ef62b6f506328bd00335276134d0a022d0aff87708e3d800eec937ddf62eddad8eb7cfb8bedbfa85a5dd0eaf6de34
+    "@types/chrome": ^0.0.170
+  checksum: 6c81da4d340099ae8eaa4e45086c79e5492c9043350bc245237e155fb98d5be5f41aba135761fbd2be69dfbc7d93c9ca69fa91a5b7fe353a6974260a1a3048bc
   languageName: node
   linkType: hard
 
@@ -2966,6 +2966,7 @@ __metadata:
     "@polkadot/x-noble-hashes": 8.1.2
     "@polkadot/x-noble-secp256k1": 8.1.2
     "@polkadot/x-randomvalues": 8.1.2
+    blakejs: ^1.1.0
     ed2curve: ^0.3.0
     micro-base: ^0.9.0
     tweetnacl: ^1.0.3
@@ -3424,13 +3425,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.145":
-  version: 0.0.145
-  resolution: "@types/chrome@npm:0.0.145"
+"@types/chrome@npm:^0.0.170":
+  version: 0.0.170
+  resolution: "@types/chrome@npm:0.0.170"
   dependencies:
     "@types/filesystem": "*"
     "@types/har-format": "*"
-  checksum: f826d0a071ac7ea68aa97b2f8e34a944c470fbd036fdd6a413987fea03062d354fb14708cc0b59693b4a78ec88f9c5b1fce0c622a8e29e3e4b0917509eaf2a1a
+  checksum: e7f2ab0bf5450f0eef952aeb285906baac4b5e359df9e24b2e6ec2b6b63ac074fbd5135c79b5aff2ac576dbb6db69530cd21bfdef9f9e99959ee66f2c7b3a660
   languageName: node
   linkType: hard
 
@@ -5396,6 +5397,13 @@ __metadata:
     inherits: ^2.0.4
     readable-stream: ^3.4.0
   checksum: 1f33c5a3da08a87260a7f11acadf088ef331ebb4b86db1160ec332be9326afdf9f73dca1fd5cc431dba7cc9d5574b508192f9fd7c37a9a11c9e4a50025917690
+  languageName: node
+  linkType: hard
+
+"blakejs@npm:^1.1.0, blakejs@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "blakejs@npm:1.1.1"
+  checksum: 77a0875af41fe0a6b15feacc69a4a730063df697b2932adbde15aa2c9c58a592870cd511a494ceee59cc8143ae64964dfa1bf301dab275b330debcd12c2b3db9
   languageName: node
   linkType: hard
 
@@ -15146,7 +15154,7 @@ fsevents@^1.2.7:
     "@babel/runtime": ^7.12.5
     "@pinata/sdk": ^1.1.11
     "@polkadot/dev": ^0.60.5
-    "@polkadot/ts": ^0.3.55
+    "@polkadot/ts": ^0.4.18
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.28
     "@types/file-saver": ^2.0.1
