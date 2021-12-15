@@ -37,9 +37,15 @@ interface CallState {
 }
 
 function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
-  return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
-    name: arg.name.toString(),
-    type: getTypeDef(arg.type.toString())
+  return meta.args.map(({ name, type, typeName }): { name: string; type: TypeDef } => ({
+    name: name.toString(),
+    type: {
+      ...getTypeDef(type.toString()),
+      ...(typeName.isSome
+        ? { typeName: typeName.unwrap().toString() }
+        : {}
+      )
+    }
   }));
 }
 
@@ -65,7 +71,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
       try {
         method = extrinsic.fn(...values.map(({ value }): any => value));
       } catch (error) {
-        onError && onError(error);
+        onError && onError(error as Error);
       }
     } else {
       onError && onError(null);
@@ -85,7 +91,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
-        help={meta?.documentation.join(' ')}
+        help={meta?.docs.join(' ')}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}

@@ -7,6 +7,7 @@ import type { ThemeProps } from '@polkadot/react-components/types';
 import React from 'react';
 import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { encodeTypeDef } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
@@ -30,6 +31,7 @@ function truncate (param: string): string {
 
 function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   return (
     <div className={className}>
@@ -42,7 +44,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
             <span className='ui--MessageSignature-type'>
               {params && params[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
-                : encodeTypeDef(type)
+                : encodeTypeDef(api.registry, type)
               }
             </span>
             {index < (args.length) - 1 && ', '}
@@ -54,7 +56,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {encodeTypeDef(returnType)}
+            {encodeTypeDef(api.registry, returnType)}
           </span>
         </>
       )}
