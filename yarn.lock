@@ -2346,6 +2346,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@phala/typedefs@npm:0.2.29":
+  version: 0.2.29
+  resolution: "@phala/typedefs@npm:0.2.29"
+  dependencies:
+    "@polkadot/types": ^5.7.1
+  checksum: 4c07dc50b26da698db7d94d7a260812591912f2640b1c80b38b7ba57da26cbeac695a43afd2b51449b481b8d57743bf418a4849fa4d15be597f7cce065012cd1
+  languageName: node
+  linkType: hard
+
 "@pinata/sdk@npm:^1.1.23":
   version: 1.1.23
   resolution: "@pinata/sdk@npm:1.1.23"
@@ -2730,6 +2739,7 @@ __metadata:
     "@babel/runtime": ^7.16.3
     "@edgeware/node-types": ^3.6.2-wako
     "@laminar/type-definitions": ^0.3.1
+    "@phala/typedefs": 0.2.29
     "@polkadot/networks": ^8.1.2
     "@sora-substrate/type-definitions": ^1.6.30
     "@subsocial/types": ^0.6.5-dev.6

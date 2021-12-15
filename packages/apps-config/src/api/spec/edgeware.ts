@@ -4,10 +4,10 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import { Beresheet } from '@edgeware/node-types';
+import { spec } from '@edgeware/node-types';
 
 export default {
-  ...Beresheet.types,
+  ...spec.typesBundle,
   // chain-specific overrides
   RefCount: 'u32'
 };
