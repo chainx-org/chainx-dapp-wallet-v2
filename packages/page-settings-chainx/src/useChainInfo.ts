@@ -9,26 +9,30 @@ import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config';
 import { getSpecTypes } from '@polkadot/types-known';
 import { DEFAULT_DECIMALS, DEFAULT_SS58, registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
-import { isNumber } from '@polkadot/util';
+import { formatBalance, isNumber } from '@polkadot/util';
+import { base64Encode } from '@polkadot/util-crypto';
 
 export default function useChainInfo (): ChainInfo | null {
-  const { api, isApiReady, systemChain, systemName } = useApi();
+  const { api, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
 
   return useMemo(
     () => isApiReady
       ? {
         chain: systemChain,
-        color: getSystemChainColor(systemChain, systemName),
+        chainType: isEthereum
+          ? 'ethereum'
+          : 'substrate',
+        color: getSystemChainColor(systemChain, systemName, specName),
         genesisHash: api.genesisHash.toHex(),
-        icon: getSystemIcon(systemName),
-        metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
+        icon: getSystemIcon(systemName, specName),
+        metaCalls: base64Encode(api.runtimeMetadata.asCallsOnly.toU8a()),
         specVersion: api.runtimeVersion.specVersion.toNumber(),
         ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
-        tokenDecimals: isNumber(api.registry.chainDecimals) ? api.registry.chainDecimals : DEFAULT_DECIMALS.toNumber(),
-        tokenSymbol: api.registry.chainToken || 'Unit',
-        types: getSpecTypes(registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
+        tokenDecimals: (api.registry.chainDecimals || [DEFAULT_DECIMALS.toNumber()])[0],
+        tokenSymbol: (api.registry.chainTokens || formatBalance.getDefaults().unit)[0],
+        types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
       }
       : null,
-    [api, isApiReady, systemChain, systemName]
-  );
+      [api, isApiReady, specName, systemChain, systemName, isEthereum]
+      );
 }

@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { sanitize } from "./util";
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
@@ -40,6 +42,12 @@ const nodeKilt = '#eb5b2a';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
+
+// based on the spec name
+const specShell = '#2e86ab'; // '#0596FC';
+const specStatemine = '#113911';
+const specStatemint = '#86e62a';
+const specWestmint = '#77bb77';
 
 export { emptyColor };
 
@@ -93,4 +101,16 @@ export const nodeColors: Record<string, any> = [
 ].reduce((colors, [node, color]): Record<string, any> => ({
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
+}), {});
+
+// Alphabetical overrides based on the actual software node type
+// NOTE: This is as retrieved via the system.name RPC
+export const specColors = Object.entries({
+  shell: specShell,
+  statemine: specStatemine,
+  statemint: specStatemint,
+  westmint: specWestmint
+}).reduce<Record<string, string>>((colors, [spec, color]) => ({
+  ...colors,
+  [sanitize(spec)]: color
 }), {});

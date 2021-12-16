@@ -18,3 +18,17 @@ export const identityNodes: Record<string, string> = [
   ...icons,
   [spec.toLowerCase().replace(/-/g, ' ')]: icon
 }), {});
+
+
+export const identitySpec: Record<string, string> = [
+  ['kusama', 'polkadot'],
+  ['polkadot', 'polkadot'],
+  ['rococo', 'polkadot'],
+  ['statemine', 'polkadot'],
+  ['statemint', 'polkadot'],
+  ['westend', 'polkadot'],
+  ['westmint', 'polkadot']
+].reduce((icons, [spec, icon]): Record<string, string> => ({
+  ...icons,
+  [spec.toLowerCase().replace(/-/g, ' ')]: icon
+}), {});

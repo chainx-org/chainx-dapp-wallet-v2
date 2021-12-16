@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainInfo } from '../types';
+import type { ChainInfo, ChainType } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
-import { NetworkSpecsStruct } from '@polkadot/ui-settings';
+import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
 
 import ChainColorIndicator from './ChainColorIndicator';
 import { useTranslation } from '../translate';
@@ -15,6 +15,10 @@ import { useTranslation } from '../translate';
 interface Props {
   chainInfo: ChainInfo | null;
   className?: string;
+}
+
+interface NetworkSpecsStructWithType extends NetworkSpecsStruct{
+  chainType: ChainType
 }
 
 function getRandomColor (): string {
@@ -29,6 +33,7 @@ function getRandomColor (): string {
 }
 
 const initialState = {
+  chainType: 'substrate' as ChainType,
   color: '#FFFFFF',
   decimals: 0,
   genesisHash: '',
@@ -40,10 +45,10 @@ const initialState = {
 function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isApiReady, systemChain } = useApi();
-  const [qrData, setQrData] = useState<NetworkSpecsStruct>(initialState);
+  const [qrData, setQrData] = useState<NetworkSpecsStructWithType>(initialState);
   const debouncedQrData = useDebounce(qrData, 500);
 
-  const reducer = (state: NetworkSpecsStruct, delta: Partial<NetworkSpecsStruct>): NetworkSpecsStruct => {
+  const reducer = (state: NetworkSpecsStructWithType, delta: Partial<NetworkSpecsStructWithType>): NetworkSpecsStructWithType => {
     const newState = {
       ...state,
       ...delta
@@ -58,6 +63,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
   useEffect((): void => {
     chainInfo && setNetworkSpecs({
+      chainType: chainInfo.chainType,
       color: chainInfo.color || getRandomColor(),
       decimals: chainInfo.tokenDecimals,
       genesisHash: chainInfo.genesisHash,

@@ -21,7 +21,8 @@ export interface ApiState {
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;
-  isSubstrateV2: boolean;
+  specName: string;
+  specVersion: string;
   systemChain: string;
   systemName: string;
   systemVersion: string;
@@ -30,11 +31,14 @@ export interface ApiState {
 export interface ApiProps extends ApiState {
   api: ApiPromise;
   apiError: string | null;
+  apiUrl?: string;
   extensions?: InjectedExtension[];
   isApiConnected: boolean;
   isApiInitialized: boolean;
+  isElectron: boolean;
   isWaitingInjected: boolean;
 }
+
 
 export interface OnChangeCbObs {
   next: (value?: any) => any;

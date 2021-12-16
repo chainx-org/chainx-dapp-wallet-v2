@@ -52,8 +52,8 @@ function saveProperties (api: ApiPromise, { name, version }: InjectedExtension):
   allProperties[name] = {
     extensionVersion: version,
     ss58Format: registry.chainSS58,
-    tokenDecimals: registry.chainDecimals,
-    tokenSymbol: registry.chainToken
+    tokenDecimals: registry.chainDecimals[0],
+    tokenSymbol: registry.chainTokens[0]
   };
 
   store.set(storeKey, allProperties);
@@ -73,8 +73,8 @@ function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): 
   const { ss58Format, tokenDecimals, tokenSymbol } = allProperties[extension.name];
 
   return ss58Format === registry.chainSS58 &&
-    tokenDecimals === registry.chainDecimals &&
-    tokenSymbol === registry.chainToken;
+    tokenDecimals === registry.chainDecimals[0] &&
+    tokenSymbol === registry.chainTokens[0];
 }
 
 // filter extensions based on the properties we have available
