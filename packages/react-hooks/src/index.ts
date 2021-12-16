@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export { createNamedHook } from './createNamedHook';
 export { useAccountId } from './useAccountId';
 export { useAccountInfo } from './useAccountInfo';
 export { useAccounts } from './useAccounts';
@@ -18,6 +19,7 @@ export { useIncrement } from './useIncrement';
 export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
+export { useLedger } from './useLedger';
 export { useLoadingDelay } from './useLoadingDelay';
 export { useMembers } from './useMembers';
 export { useModal } from './useModal';

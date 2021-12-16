@@ -27,7 +27,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   }, [isStarted, onStart]);
 
   const _onFailed = useCallback(
-    (result: SubmittableResult | null): void => {
+    (result: Error | SubmittableResult | null): void => {
       mountedRef.current && setIsSending(false);
 
       onFailed && onFailed(result);

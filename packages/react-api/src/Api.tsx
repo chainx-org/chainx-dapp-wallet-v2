@@ -23,7 +23,7 @@ import { formatBalance, isTestChain, objectSpread } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 import { options } from '@chainx-v2/api';
-
+import { decodeUrlTypes } from './urlTypes';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 
@@ -67,8 +67,8 @@ function isKeyringLoaded() {
   }
 }
 
-function getDevTypes(): Record<string, Record<string, string>> {
-  const types = store.get('types', {}) as Record<string, Record<string, string>>;
+function getDevTypes (): Record<string, Record<string, string>> {
+  const types = decodeUrlTypes() || store.get('types', {}) as Record<string, Record<string, string>>;
   const names = Object.keys(types);
 
   names.length && console.log('Injected types:', names.join(', '));

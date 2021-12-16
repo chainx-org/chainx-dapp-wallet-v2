@@ -6,6 +6,7 @@ import React from 'react';
 export interface ColumnProps {
   children: React.ReactNode;
   className?: string;
+  hint?: React.ReactNode;
 }
 
 export interface ModalProps {
@@ -21,5 +22,5 @@ export interface ActionsProps {
   cancelLabel?: string;
   children?: React.ReactNode;
   withOr?: boolean;
-  onCancel: () => void;
+  onCancel?: () => void;
 }

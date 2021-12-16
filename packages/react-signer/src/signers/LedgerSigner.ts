@@ -2,19 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
-import type { SignerPayloadJSON } from '@polkadot/types/types';
+import type { Ledger } from '@polkadot/hw-ledger';
+import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 import { getLedger, registry } from '@polkadot/react-api';
 
 let id = 0;
 
 export default class LedgerSigner implements Signer {
-  #accountOffset: number;
-  #addressOffset: number;
+  readonly #accountOffset: number;
+  readonly #addressOffset: number;
+  readonly #getLedger: () => Ledger;
+  readonly #registry: Registry;
 
-  constructor (accountOffset: number, addressOffset: number) {
+  constructor (registry: Registry, getLedger: () => Ledger, accountOffset: number, addressOffset: number) {
     this.#accountOffset = accountOffset;
     this.#addressOffset = addressOffset;
+    this.#getLedger = getLedger;
+    this.#registry = registry;
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
