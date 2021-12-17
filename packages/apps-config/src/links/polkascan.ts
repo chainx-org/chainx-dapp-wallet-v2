@@ -9,10 +9,11 @@ export default {
   chains: {
     // 'Centrifuge Mainnet': 'centrifuge',
     // Edgeware: 'edgeware',
-    Kulupu: 'kulupu',
+    // Kulupu: 'kulupu',
     Kusama: 'kusama',
     Polkadot: 'polkadot',
-    'Polkadot CC1': 'polkadot-cc1'
+    Rococo: 'rococo'
+    // 'Polkadot CC1': 'polkadot-cc1'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://polkascan.io/${chain}/${path}/${data.toString()}`,

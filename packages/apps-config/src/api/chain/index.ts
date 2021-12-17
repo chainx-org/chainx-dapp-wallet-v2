@@ -4,9 +4,11 @@
 import { typesChain } from '@phala/typedefs';
 // import Beresheet from './beresheet';
 import Phala from './phala';
+import CrustMaxwell from './crust-maxwell';
 
 // alphabetical, based on the actual displayed name
 export default {
   ...typesChain,
-  'Phala PoC-2': Phala
+  'Crust Maxwell': CrustMaxwell
+  // 'Phala PoC-2': Phala
 };
