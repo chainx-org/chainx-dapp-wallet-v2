@@ -7,16 +7,17 @@ import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { AddressFlags, AddressProxy } from './types';
-
+import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import Password from './Password';
 import { extractExternal } from './util';
+import BN from 'bn.js';
 
 interface Props {
   className?: string;
@@ -42,7 +43,7 @@ interface PasswordState {
 interface ProxyState {
   address: string;
   isProxied: boolean;
-  proxies: [string, ProxyType][];
+  proxies: [string, BN, NodeRuntimeProxyType][];
   proxiesFilter: string[];
 }
 
@@ -56,7 +57,7 @@ function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string
   }
 }
 
-function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
+function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'promise'>, proxies: [string, BN, NodeRuntimeProxyType][]): string[] {
   // check an array of calls to all have proxies as the address
   const checkCalls = (address: string, txs: Call[]): boolean =>
     !txs.some((tx) => !filterProxies(allAccounts, tx, proxies).includes(address));
@@ -65,8 +66,8 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
   const { method, section } = findCall(tx);
 
   return proxies
-    .filter(([address, proxy]): boolean => {
-      if (!allAccounts.includes(address)) {
+    .filter(([address, delay, proxy]): boolean => {
+      if (!allAccounts.includes(address) || !delay.isZero()) {
         return false;
       }
 
@@ -126,10 +127,10 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
 async function queryForProxy (api: ApiPromise, allAccounts: string[], address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
-    const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address);
+    const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, NodeRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address);
     const proxies = api.tx.proxy.addProxy.meta.args.length === 3
-      ? (_proxies as ProxyDefinition[]).map(({ delegate, proxyType }): [string, ProxyType] => [delegate.toString(), proxyType])
-      : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]): [string, ProxyType] => [delegate.toString(), proxyType]);
+      ? (_proxies as PalletProxyProxyDefinition[]).map(({ delay, delegate, proxyType }): [string, BN, NodeRuntimeProxyType] => [delegate.toString(), delay, proxyType])
+      : (_proxies as [AccountId, NodeRuntimeProxyType][]).map(([delegate, proxyType]): [string, BN, NodeRuntimeProxyType] => [delegate.toString(), BN_ZERO, proxyType]);
     const proxiesFilter = filterProxies(allAccounts, tx, proxies);
 
     if (proxiesFilter.length) {

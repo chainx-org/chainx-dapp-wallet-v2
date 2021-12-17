@@ -232,16 +232,16 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [qrResolve]
   );
 
-  // const _onCancel = useCallback(
-  //   (): void => {
-  //     const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
+  const _onCancel = useCallback(
+    (): void => {
+      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
 
-  //     queueSetTxStatus(id, 'cancelled');
-  //     signerCb(id, null);
-  //     txFailedCb(null);
-  //   },
-  //   [currentItem, queueSetTxStatus]
-  // );
+      queueSetTxStatus(id, 'cancelled');
+      signerCb(id, null);
+      txFailedCb(null);
+    },
+    [currentItem, queueSetTxStatus]
+  );
 
   const _unlock = useCallback(
     async (): Promise<boolean> => {
@@ -417,7 +417,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           }
         </ErrorBoundary>
       </Modal.Content>
-      <Modal.Actions>
+      <Modal.Actions onCancel={_onCancel}>
         <Button
           icon={
             flags.isQr

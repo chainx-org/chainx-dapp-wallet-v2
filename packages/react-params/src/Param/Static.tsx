@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Static } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import { toHumanJson } from '../valueToText';
 import Bare from './Bare';
 
 interface Props {
@@ -22,17 +23,15 @@ interface Props {
 
 function StaticParam ({ asHex, children, className = '', defaultValue, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const value = defaultValue && defaultValue.value && (
+  const value = defaultValue && (defaultValue.value as string) && (
     asHex
       ? (defaultValue.value as Codec).toHex()
-      : JSON.stringify(
+      : toHumanJson(
         (defaultValue.value as { toHuman?: () => unknown }).toHuman
           ? (defaultValue.value as Codec).toHuman()
-          : defaultValue.value,
-        null, 2
-      ).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
+          : defaultValue.value
+      )
   );
-
   return (
     <Bare className={className}>
       <Static

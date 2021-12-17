@@ -3,12 +3,12 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { Expander } from '@polkadot/react-components';
-import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatBalance, isFunction } from '@polkadot/util';
 import { useTranslation } from './translate';
 
@@ -42,7 +42,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
       }, 0);
   }, [api, accountId, extrinsic, mountedRef]);
 
-  if (!dispatchInfo) {
+  if (!dispatchInfo || !extrinsic) {
     return null;
   }
 

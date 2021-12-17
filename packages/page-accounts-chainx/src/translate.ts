@@ -3,6 +3,6 @@
 
 import { useTranslation as useTranslationBase, UseTranslationResponse } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse {
+export function useTranslation (): UseTranslationResponse<'app-accounts', undefined> {
   return useTranslationBase('app-accounts');
 }

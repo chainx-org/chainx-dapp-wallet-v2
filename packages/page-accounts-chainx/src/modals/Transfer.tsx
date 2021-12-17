@@ -4,14 +4,15 @@
 
 import type {DeriveBalancesAll} from '@polkadot/api-derive/types';
 import type {AccountInfo} from '@polkadot/types/interfaces';
-
+import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
+import { checkAddress } from '@polkadot/phishing';
 import React, {Dispatch, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Input, InputAddress, Modal, Toggle, TxButton} from '@polkadot/react-components';
 import {useApi, useCall} from '@polkadot/react-hooks';
 import {Available} from '@polkadot/react-query';
-import {BN_ZERO, isFunction} from '@polkadot/util';
+import {BN_HUNDRED, BN_ZERO, isFunction} from '@polkadot/util';
 
 import {useTranslation} from '../translate';
 import InputPCXBalance from '@polkadot/react-components-chainx/InputPCXBalance';
@@ -22,6 +23,23 @@ interface Props {
   recipientId?: string;
   senderId?: string;
   setN?: Dispatch<number>
+}
+
+function isRefcount (accountInfo: AccountInfoWithProviders | AccountInfoWithRefCount): accountInfo is AccountInfoWithRefCount {
+  return !!(accountInfo as AccountInfoWithRefCount).refcount;
+}
+
+async function checkPhishing (_senderId: string | null, recipientId: string | null): Promise<[string | null, string | null]> {
+  return [
+    // not being checked atm
+    // senderId
+    //   ? await checkAddress(senderId)
+    //   : null,
+    null,
+    recipientId
+      ? await checkAddress(recipientId)
+      : null
+  ];
 }
 
 function Transfer({className = '', onClose, recipientId: propRecipientId, senderId: propSenderId, setN}: Props): React.ReactElement<Props> {
@@ -35,8 +53,9 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
   const [maxTransfer, setMaxTransfer] = useState<BN | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
-  const accountInfo = useCall<AccountInfo>(api.query.system.account, [senderId]);
+  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
+  const accountInfo = useCall<AccountInfo>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
     if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
@@ -46,8 +65,9 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
             .transfer(recipientId, balances.availableBalance)
             .paymentInfo(senderId)
             .then(({partialFee}: any): void => {
-              const maxTransfer = balances.availableBalance.sub(partialFee);
-
+              // const maxTransfer = balances.availableBalance.sub(partialFee);
+              const adjFee = partialFee.muln(110).div(BN_HUNDRED);
+              const maxTransfer = balances.availableBalance.sub(adjFee);
               setMaxTransfer(
                 maxTransfer.gt(api.consts.balances.existentialDeposit)
                   ? maxTransfer
@@ -62,9 +82,21 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
     } else {
       setMaxTransfer(null);
     }
-  }, [api, balances, recipientId, senderId]);
+  }, [api, balances, propRecipientId, propSenderId, recipientId, senderId]);
 
-  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && (!accountInfo || !accountInfo.refcount || accountInfo.refcount.isZero());
+  
+  useEffect((): void => {
+    checkPhishing(propSenderId || senderId, propRecipientId || recipientId)
+      .then(setPhishing)
+      .catch(console.error);
+  }, [propRecipientId, propSenderId, recipientId, senderId]);
+
+  const noReference = accountInfo
+    ? isRefcount(accountInfo)
+      ? accountInfo.refcount.isZero()
+      : accountInfo.consumers.isZero()
+    : true;
+  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && noReference;
  
   useEffect(()=>{
     if(Number(amount) == 0) {
@@ -162,7 +194,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
                   </>
                 )
               }
-              {api.tx.balances.transferKeepAlive && (
+              {isFunction(api.tx.balances.transferKeepAlive) && (
                 <Toggle
                   className='typeToggle'
                   label={
