@@ -6,9 +6,14 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { isLedgerCapable } from '@polkadot/react-api';
+import { allNetworks } from '@polkadot/networks';
+
 import { Button, Dropdown } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 import type { SettingsStruct } from '@polkadot/ui-settings/types';
+import { useApi, useLedger } from '@polkadot/react-hooks';
+import { isUndefined } from '@polkadot/util';
+
 import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
 
@@ -16,10 +21,12 @@ interface Props {
   className?: string;
 }
 
-const ledgerConnOptions = uiSettings.availableLedgerConn;
+const _ledgerConnOptions = uiSettings.availableLedgerConn;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api, isApiReady, isElectron } = useApi();
+  const { isLedgerCapable } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState((): SettingsStruct => {
@@ -28,6 +35,10 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     return { ...settings, uiTheme: settings.uiTheme === 'dark' ? 'dark' : 'light' };
   });
 
+  const ledgerConnOptions = useMemo(
+    () => _ledgerConnOptions.filter(({ value }) => !isElectron || value !== 'webusb'),
+    [isElectron]
+  );
   const iconOptions = useMemo(
     () => uiSettings.availableIcons
       .map((o): Option => createIdenticon(o, ['default']))
@@ -36,14 +47,34 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const prefixOptions = useMemo(
-    () => createSs58(t).map((o): Option | React.ReactNode => createOption(o, ['default'])),
-    [t]
+    (): (Option | React.ReactNode)[] => {
+      let ss58Format = api.registry.chainSS58;
+
+      if (isUndefined(ss58Format)) {
+        ss58Format = 42;
+      }
+
+      const network = allNetworks.find(({ prefix }) => prefix === ss58Format);
+
+      return createSs58(t).map((o) =>
+        createOption(o, ['default'], 'empty', (
+          o.value === -1
+            ? isApiReady
+              ? network
+                ? ` (${network.displayName}, ${ss58Format || 0})`
+                : ` (${ss58Format || 0})`
+              : undefined
+            : ` (${o.value})`
+        ))
+      );
+    },
+    [api, isApiReady, t]
   );
 
   const themeOptions = useMemo(
     () => [
-      { text: t('Light theme (default)'), value: 'light' }
-      // { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
+      { text: t('Light theme (default)'), value: 'light' },
+      { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
     ],
     [t]
   );
@@ -92,7 +123,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
         <Dropdown
           defaultValue={prefix}
           help={t<string>('Override the default ss58 prefix for address generation')}
-          label={t<string>('Address Prefix')}
+          label={t<string>('address prefix')}
           onChange={_handleChange('prefix')}
           options={prefixOptions}
         />
@@ -101,17 +132,17 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
         <Dropdown
           defaultValue={icon}
           help={t<string>('Override the default identity icon display with a specific theme')}
-          label={t<string>('Default icon theme')}
+          label={t<string>('default icon theme')}
           onChange={_handleChange('icon')}
           options={iconOptions}
         />
       </div>
-      {isLedgerCapable() && (
+      {isLedgerCapable && (
         <div className='ui--row'>
           <Dropdown
             defaultValue={ledgerConn}
             help={t<string>('Manage your connection to Ledger S')}
-            label={t<string>('Manage Hardware Connections')}
+            label={t<string>('manage hardware connections')}
             onChange={_handleChange('ledgerConn')}
             options={ledgerConnOptions}
           />
@@ -120,7 +151,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={uiTheme}
-          label={t<string>('Default interface theme')}
+          label={t<string>('default interface theme')}
           onChange={_handleChange('uiTheme')}
           options={themeOptions}
         />
@@ -128,7 +159,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={i18nLang}
-          label={t<string>('Default interface language')}
+          label={t<string>('default interface language')}
           onChange={_handleChange('i18nLang')}
           options={translateLanguages}
         />
