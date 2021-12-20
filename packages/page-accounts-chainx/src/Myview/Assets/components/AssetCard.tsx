@@ -40,9 +40,9 @@ const HeadWrapper = styled.div`
     margin-right: 8px;
   }
   .primaryBtn {
-    background-color: #F6C94A;
+    background-color: #FFA1DB;
     &:hover {
-      background-color: #E7BD45 !important;
+      background-color: #ED2B89 !important;
       color: rgba(0, 0, 0, 0.7) !important;
       box-shadow: none;
     }

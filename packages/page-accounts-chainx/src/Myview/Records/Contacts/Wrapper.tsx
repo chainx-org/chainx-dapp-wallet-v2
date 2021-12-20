@@ -30,7 +30,7 @@ export const Wrapper = styled.div`
 
   .addAccountBtn{
     width: 100%;
-    background: rgba(246, 201, 74);
+    background: #ED2B89;
     border: none;
     height: 1.7em;
     cursor: pointer;

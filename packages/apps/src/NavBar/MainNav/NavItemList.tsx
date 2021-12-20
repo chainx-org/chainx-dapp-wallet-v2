@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import chainxLogo from '@polkadot/apps/NavBar/icons/ChainX_logo.svg';
+import shaperxLogo from '@polkadot/apps/NavBar/icons/SherpaX_logo.svg';
 import {Link} from 'react-router-dom';
 import {Icon} from '@polkadot/react-components';
 import linkOut from '@polkadot/apps/NavBar/icons/Link out.svg';
@@ -65,7 +66,7 @@ function NavItemList(): React.ReactElement {
 
   return (
     <div className="left">
-      <img src={chainxLogo} alt=""/>
+      <img src={shaperxLogo} alt=""/>
       <ul>
         <li className='assets media--500'>
           <Link to={'/accounts'}>{t('Assets')}</Link>

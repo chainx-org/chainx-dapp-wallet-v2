@@ -81,7 +81,7 @@ export default React.memo(styled(Tab)(({theme}: ThemeProps) => `
   }
   &.tabLinkActive {
     color: rgba(0, 0, 0, 0.8) !important;
-    border-bottom-color: #F6C94A !important;
+    border-bottom-color: #ED2B89 !important;
   }
 
   &:hover {

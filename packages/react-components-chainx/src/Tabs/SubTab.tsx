@@ -25,7 +25,7 @@ const Wrapper = styled.div`
       @media only screen and (max-width: 768px) {
         &.tabLinkActive {
           color: rgba(0, 0, 0, 0.8) !important;
-          border-bottom-color: #F6C94A !important;
+          border-bottom-color: #ED2B89 !important;
           border-bottom:2px solid #F6C94A !important;
         }
       }

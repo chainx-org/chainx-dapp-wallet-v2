@@ -6,6 +6,7 @@ import AssetView from './AssetView';
 import Logo from './Logo';
 import AccountInfo from './AccountInfo';
 import backgroundImg from './background.svg';
+import triangle from './triangle.svg'
 import {useAccounts, useApi, useToggle} from '@polkadot/react-hooks';
 import Transfer from '@polkadot/app-accounts-chainx/modals/Transfer';
 import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
@@ -18,8 +19,8 @@ import useStaking from '@polkadot/react-hooks-chainx/useStaking';
 
 const InnerWrapper = styled.div`
   position: relative;
-  opacity: 0.8;
-  background-image: linear-gradient(90deg, #ffe981 0%, #f6ca4a 100%);
+  // opacity: 0.8;
+  background-image: linear-gradient(135deg, #E8F2FF 0%, #FFA1DB 100%);
   border-radius: 10px;
   padding: 16px;
   min-height: 222px;
@@ -101,10 +102,9 @@ const CornerBackground = styled.div`
   position: absolute;
   right: 0;
   bottom: 0;
-  background-image: url(${backgroundImg});
-  width: 179px;
-  height: 147px;
-  opacity: 0.2;
+  background-image: url(${triangle});
+  width: 147px;
+  height: 160px;
   @media screen and (max-width:767px) {
     display: none;
   }

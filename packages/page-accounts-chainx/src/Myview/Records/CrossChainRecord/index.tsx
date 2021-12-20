@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 
   & > header {
-    padding: 12px 16px;
+    // padding: 12px 16px;
     border-bottom: 1px solid #eee;
     margin-bottom: 0;
 
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
         cursor: pointer;
         color: rgba(0,0,0,0.4);
         font-weight: 600;
-
+        padding: 12px 0;
         &:not(:first-of-type) {
           margin-left: 24px;
         }
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
         }
 
         &.active {
-          border-bottom: 3px solid #f6c94a;
+          border-bottom: 3px solid #ED2B89;
         }
       }
     }

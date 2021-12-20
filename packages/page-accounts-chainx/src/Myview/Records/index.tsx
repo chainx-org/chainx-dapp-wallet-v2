@@ -39,7 +39,7 @@ const Wrappers = styled.div`
       }
 
       &.active {
-        border-bottom: 3px solid #f6c94a;
+        border-bottom: 3px solid #ED2B89;
       }
 
       &:not(:first-of-type) {

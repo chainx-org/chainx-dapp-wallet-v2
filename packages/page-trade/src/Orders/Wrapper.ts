@@ -39,7 +39,7 @@ export const Header = styled.header`
       list-style: none;
       cursor: pointer;
       &.active {
-        border-bottom: 3px solid #f6c94a;
+        border-bottom: 3px solid #ED2B89;
         opacity: 0.72;
       }
 

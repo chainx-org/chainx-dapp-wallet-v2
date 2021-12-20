@@ -129,14 +129,14 @@ export default createGlobalStyle<Props & ThemeProps>`
     &:not(.isDisabled):not(.isIcon):not(.isBasic),
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
-        background: #f0ca62;
+        background: #FFA1DB;
         color: ${getContrast};
       }
     }
 
     &.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) {
       &:not(.isReadOnly) {
-        box-shadow: 0 0 1px #e1b15b;
+        box-shadow: 0 0 1px #ED2B89;
       }
 
       .ui--Icon {
@@ -145,12 +145,12 @@ export default createGlobalStyle<Props & ThemeProps>`
     }
 
     &.isSelected {
-      box-shadow: 0 0 1px #e1b15b;
+      box-shadow: 0 0 1px #ED2B89;
     }
 
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
-      background: #e1b15b;
+      background: #ED2B89;
       color: ${getContrast};
       text-shadow: none;
 
@@ -183,7 +183,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   .theme--light {
     .ui--Tabs {
       .ui--Tab.tabLinkActive {
-        border-bottom-color: #87dbbc;
+        border-bottom-color: #ED2B89;
       }
     }
 

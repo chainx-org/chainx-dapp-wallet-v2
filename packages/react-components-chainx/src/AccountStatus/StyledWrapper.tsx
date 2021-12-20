@@ -98,12 +98,13 @@ export const StyledWrapper = styled.div`
       }
     }
     > button{
-      background: rgba(246, 201, 74);
+      // background: rgba(246, 201, 74);
+      background: #ED2B89;
       border-radius: 0.15rem;
       padding: 1em 0.1em 1em 0.1em;
 
       &:hover{
-        background: rgba(246, 201, 74) !important;
+        background: #ED2B89 !important;
       }
 
       > svg{

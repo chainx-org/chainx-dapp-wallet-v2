@@ -53,7 +53,7 @@ export default React.memo(styled(Button)(({ theme }: ThemeProps) => `
   &:hover{
     background: transparent;
     color: #F6C94A !important;
-    box-shadow: 0 0 1px #e1b15b;
+    box-shadow: 0 0 1px #ED2B89;
   }
   &:not(.hasLabel) {
     padding: 0.7em;
@@ -95,7 +95,7 @@ export default React.memo(styled(Button)(({ theme }: ThemeProps) => `
   }
 
   &.primaryBtn.isDisabled:hover{
-    background: rgba(237, 237, 238) !important;
+    background: #ED2B89 !important;
     box-shadow: none;
     cursor: not-allowed;
   }

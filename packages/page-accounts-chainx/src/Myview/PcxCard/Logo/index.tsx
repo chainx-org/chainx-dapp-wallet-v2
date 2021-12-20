@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from './chainx.svg';
+import sherpax from './sherpax.svg';
 import infoIcon from '../Logo/info.svg';
 import Label from '@polkadot/app-trade/src/Module/MainContent/TradeForm/components/Label';
 
@@ -33,11 +34,10 @@ const Desc = styled.span`
   position: relative;
   left: -8px;
   margin: 0;
-  opacity: 0.8;
-  font-size: 14px;
+  font-size: 12px;
   color: #000000;
-
-  background: #f6c94a;
+  font-weight: 400;
+  background: rgba(50, 66, 255, 0.4);
   border-radius: 10px;
   padding: 2px 8px;
 `;
@@ -46,9 +46,9 @@ export default function () {
   return (
     <Wrapper>
       <img alt='chainx logo'
-        src={logo} />
+        src={sherpax} />
       <section className='info'>
-        <Title>PCX</Title>
+        <Title>KSX</Title>
         <Desc>Polkadot ChainX</Desc>
       </section>
     </Wrapper>
