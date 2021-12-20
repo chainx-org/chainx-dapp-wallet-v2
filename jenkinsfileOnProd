@@ -13,7 +13,7 @@ pipeline {
     APP_NAME = 'dapps-sherpax-prod'
   }
   parameters {
-    string(name: 'BRANCH_NAME', defaultValue: 'shaperx', description: '')
+    string(name: 'BRANCH_NAME', defaultValue: 'sherpax', description: '')
   }
 
 
@@ -21,7 +21,7 @@ pipeline {
 
     stage('拉取代码') {
       steps {
-        git(branch: 'shaperx', url: 'https://github.com/chainx-org/chainx-dapp-wallet-v2', credentialsId: 'github-id', changelog: true, poll: false)
+        git(branch: 'sherpax', url: 'https://github.com/chainx-org/chainx-dapp-wallet-v2', credentialsId: 'github-id', changelog: true, poll: false)
       }
     }
 
