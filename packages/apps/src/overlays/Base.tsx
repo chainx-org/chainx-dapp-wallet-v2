@@ -72,18 +72,18 @@ export default React.memo(styled(BaseOverlay)(({ theme }: ThemeProps) => `
 
   &.isError {
     &:before {
-      background: rgba(255, 12, 12, 0.05);
+      background: rgba(237, 43, 137, 0.05);
     }
 
-    border-color: rgba(255, 12, 12, 1);
+    border-color: #ED2B89;
   }
 
   &.isInfo {
     &:before {
-      background: rgba(255, 196, 12, 0.05);
+      background: rgba(237, 43, 137, 0.05);
     }
 
-    border-color: rgba(255, 196, 12, 1);
+    border-color: #ED2B89;
   }
 
   .content {

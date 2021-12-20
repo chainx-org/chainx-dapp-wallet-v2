@@ -127,7 +127,7 @@ export default React.memo(styled(InputDex)`
   &.ui--Labelled {
     width: 216px;
     color: rgba(0, 0, 0, 0.87);
-    border: 1px solid #DCE0E2;
+    border: 1px solid rgb(220, 224, 226);
     cursor: text;
     position: relative;
     font-size: 14px;
@@ -138,7 +138,7 @@ export default React.memo(styled(InputDex)`
     line-height: 1.1876em;
     border-radius: 6px;
     &:focus {
-      border: 1px solid #F6C94A;
+      border: 1px solid #ED2B89;
     }
     .ui--Labelled-content {
       width: 100%;

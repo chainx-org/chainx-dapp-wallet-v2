@@ -41,18 +41,18 @@ const ICON_PADDING = 0.5;
 export default React.memo(styled(Button)(({ theme }: ThemeProps) => `
   background: transparent;
   border: none;
-  color: #F6C94A;
+  color: #ED2B89;
   cursor: pointer;
   line-height: 1;
   margin: 0;
   position: relative;
   vertical-align: middle;
   text-align: center;
-  border: 1px solid #F6C94A;
+  border: 1px solid #ED2B89;
 
   &:hover{
     background: transparent;
-    color: #F6C94A !important;
+    color: #FFF !important;
     box-shadow: 0 0 1px #ED2B89;
   }
   &:not(.hasLabel) {

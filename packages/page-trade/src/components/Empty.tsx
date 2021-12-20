@@ -1,6 +1,7 @@
 
 import React from 'react';
 import noneLogo from '../Orders/svg/none.svg';
+import shap from '../Orders/svg/shap.svg'
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -39,7 +40,7 @@ export default function ({ className, style, text }: Props): React.ReactElement<
       style={style}>
       <section>
         <img alt='empty'
-          src={noneLogo} />
+          src={shap} />
       </section>
       <p>{text}</p>
     </Wrapper>

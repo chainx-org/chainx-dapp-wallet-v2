@@ -140,7 +140,7 @@ export default createGlobalStyle<Props & ThemeProps>`
       }
 
       .ui--Icon {
-        color: #e1b15b;
+        color: #ED2B89;
       }
     }
 
@@ -290,10 +290,10 @@ export default createGlobalStyle<Props & ThemeProps>`
 
     &.warning {
       &:before {
-        background: rgba(255, 196, 12, 0.05);
+        background: rgba(237, 43, 137, 0.05);
       }
 
-      border-color: rgba(255, 196, 12, 1);
+      border-color: rgba(237, 43, 137, 1);
     }
   }
 

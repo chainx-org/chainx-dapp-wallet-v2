@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import noneLogo from '../Records/Empty/none.svg';
+import shap from '../Records/Empty/shap.svg';
 import { Button } from '@polkadot/react-components';
 import { useTranslation } from '@polkadot/app-accounts-chainx/translate';
 import {useApi, useIpfs, useToggle} from '@polkadot/react-hooks';
@@ -56,7 +57,7 @@ export default function ({ onStatusChange }: Props): React.ReactElement<Props> {
     <Wrapper>
       <div className='noAccount'>
         <img alt=''
-          src={noneLogo} />
+          src={shap} />
         <p>{t('You don\'t have an account yet. A lot of features are hidden for you, hurry up and add an account to try.')}</p>
         <ButtonGroup>
           <Button
