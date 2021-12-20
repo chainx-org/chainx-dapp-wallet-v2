@@ -4,7 +4,8 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { createWsEndpoints } from '@polkadot/apps-config/settings';
+import { createWsEndpoints } from '@polkadot/apps-config';
+
 import { Dropdown, Input } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 

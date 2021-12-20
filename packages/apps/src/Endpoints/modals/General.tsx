@@ -8,10 +8,11 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { createLanguages, createSs58 } from '@polkadot/apps-config/settings';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, ButtonCancel, Dropdown, Modal } from '@polkadot/react-components';
-import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
+import uiSettings from '@polkadot/ui-settings';
+import type { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import { useTranslation } from '../../translate';
-import { createIdenticon, createOption, save, saveAndReload } from './util';
+import { createIdenticon, createOption, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
 
 interface Props {

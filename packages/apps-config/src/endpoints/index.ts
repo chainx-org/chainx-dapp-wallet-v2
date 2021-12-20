@@ -1,76 +1,130 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
 import type { LinkOption } from './types';
 
-import { createCustom, createDev, createOwn } from './development';
-import { createProduction } from './production';
-import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
-import { createTesting } from './testing';
-import { createRococoRelay, createWestendRelay } from './testingRelays';
+export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
 
-export { CUSTOM_ENDPOINT_KEY } from './development';
+interface EnvWindow {
+  // eslint-disable-next-line camelcase
+  process_env?: {
+    WS_URL: string;
+  }
+}
 
-export function createWsEndpoints (t: TFunction, firstOnly = false, withSort = true): LinkOption[] {
+// The available endpoints that will show in the dropdown. For the most part (with the exception of
+// Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
+//   info: The chain logo name as defined in ../ui/logos/index.tsx in namedLogos (this also needs to align with @polkadot/networks)
+//   text: The text to display on the dropdown
+//   value: The actual hosted secure websocket endpoint
+
+function createOwn(t: TFunction): LinkOption[] {
+  try {
+    const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
+
+    if (storedItems) {
+      const items = JSON.parse(storedItems) as string[];
+
+      return items.map((textBy) => ({
+        info: 'local',
+        text: t('rpc.custom.entry', 'Custom', { ns: 'apps-config' }),
+        textBy,
+        value: textBy
+      }));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  return [];
+}
+
+function createDev(t: TFunction): LinkOption[] {
+  return [
+    {
+      dnslink: 'local',
+      info: 'local',
+      text: t('rpc.local', 'Local Node', { ns: 'apps-config' }),
+      textBy: '127.0.0.1:8087',
+      value: 'ws://127.0.0.1:8087'
+    }
+  ];
+}
+
+function createLiveNetworks(t: TFunction): LinkOption[] {
+
+  const endsArray = ['wss://mainnet.chainx.org/ws']
+  return [
+    // polkadot test relays
+    {
+      dnslink: 'ChainX',
+      info: 'ChainX',
+      text: 'ChainX node A',
+      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
+      value: 'wss://mainnet.chainx.org/ws'
+    }
+  ];
+}
+
+function createTestNetworks(t: TFunction): LinkOption[] {
+  return [
+    // polkadot test relays
+    {
+      dnslink: 'ChainX',
+      info: 'ChainX',
+      text: 'ChainX Test Network',
+      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
+      value: 'wss://testnet.chainx.org'
+    }
+  ];
+}
+
+
+function createCustom(t: TFunction): LinkOption[] {
+  const WS_URL = (
+    (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
+    (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
+  );
+
+  return WS_URL
+    ? [
+      {
+        isHeader: true,
+        text: t('rpc.custom', 'Custom environment', { ns: 'apps-config' }),
+        textBy: '',
+        value: ''
+      },
+      {
+        info: 'WS_URL',
+        text: t('rpc.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
+        textBy: WS_URL,
+        value: WS_URL
+      }
+    ]
+    : [];
+}
+
+export function createWsEndpoints(t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {
-      isDisabled: false,
       isHeader: true,
-      isSpaced: true,
-      text: t('rpc.header.polkadot.relay', 'Polkadot & parachains', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createPolkadotRelay(t, firstOnly, withSort),
-    {
-      isDisabled: false,
-      isHeader: true,
-      text: t('rpc.header.kusama.relay', 'Kusama & parachains', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createKusamaRelay(t, firstOnly, withSort),
-    {
-      isDisabled: false,
-      isHeader: true,
-      isSpaced: true,
-      text: t('rpc.header.westend.relay', 'Test Westend & parachains', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createWestendRelay(t, firstOnly, withSort),
-    {
-      isDisabled: false,
-      isHeader: true,
-      text: t('rpc.header.rococo.relay', 'Test Rococo & parachains', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createRococoRelay(t, firstOnly, withSort),
-    {
-      isDisabled: false,
-      isHeader: true,
-      isSpaced: true,
       text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createProduction(t, firstOnly, withSort),
+    ...createLiveNetworks(t),
     {
-      isDisabled: false,
       isHeader: true,
       text: t('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createTesting(t, firstOnly, withSort),
+    ...createTestNetworks(t),
     {
       isDevelopment: true,
-      isDisabled: false,
       isHeader: true,
-      isSpaced: true,
       text: t('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       textBy: '',
       value: ''
