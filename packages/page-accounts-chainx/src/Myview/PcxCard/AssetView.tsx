@@ -96,7 +96,7 @@ const LoadingValue = styled.div`
 
 export default function ({ bold, title, value, help }: Props): React.ReactElement<Props> {
   const {isApiReady} = useApi();
-  const preciseValue: BigNumber = new BigNumber(toPrecision(value, 8))
+  const preciseValue: BigNumber = new BigNumber(toPrecision(value, 18))
   const decimalsValue = preciseValue.toNumber().toFixed(4).slice(-4)
   const intValue = preciseValue.toNumber().toFixed(8).slice(0,-8)
 
@@ -112,16 +112,23 @@ export default function ({ bold, title, value, help }: Props): React.ReactElemen
       </Title>
       <Value className={bold ? 'bold' : ''}>
         {/* {props.value} */}
-        {isApiReady ?<FormatBalance
-          className='result'
-          value={value}
-          />:
+        {isApiReady ?
+        // <FormatBalance
+        //   className='result'
+        //   value={value}
+        //   />
+          <LoadingValue>
+            <span className='ui--FormatBalance-value"'>{intValue}</span>
+            <span className='ui--FormatBalance-postfix'>{decimalsValue}</span>
+            <span className='ui--FormatBalance-unit'>{'  KSX'}</span>
+          </LoadingValue>
+          :
           <>
           {/*<div>{preciseValue.toNumber().toFixed(4)}</div>*/}
           <LoadingValue>
             <span className='ui--FormatBalance-value"'>{intValue}</span>
             <span className='ui--FormatBalance-postfix'>{decimalsValue}</span>
-            <span className='ui--FormatBalance-unit'>{'  PCX'}</span>
+            <span className='ui--FormatBalance-unit'>{'  KSX'}</span>
           </LoadingValue>
         </>
           }

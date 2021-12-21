@@ -7,14 +7,14 @@ import { selectableNetworks } from '@polkadot/networks';
 import { assert } from '@polkadot/util';
 
 const chainNetwork = {
-  decimals: [8],
+  decimals: [18],
   displayName: "chainx",
   genesisHash: ["0x6ac13efb5b368b97b4934cef6edfdd99c2af51ba5109bfb8dacc116f9c584c10"],
   icon: "chainx",
   network: "chainx",
   prefix: 2,
   standardAccount: "*25519",
-  symbols: ["PCX"],
+  symbols: ["KSX"],
   website: "https://chainx.org",
   hasLedgerSupport: true, 
   isIgnored: false, 

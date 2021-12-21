@@ -75,7 +75,7 @@ function createTestNetworks(t: TFunction): LinkOption[] {
       info: 'ChainX',
       text: 'ChainX Test Network',
       textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
-      value: 'wss://testnet.chainx.org'
+      value: 'wss://sherpax-testnet.chainx.org'
     }
   ];
 }
