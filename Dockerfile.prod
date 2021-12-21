@@ -1,4 +1,4 @@
-FROM node:14.15.0 as builder
+FROM node:16.13.0 as builder
 WORKDIR /opt/web
 
 # build 命令，具体自定义自己的应用程序build步骤

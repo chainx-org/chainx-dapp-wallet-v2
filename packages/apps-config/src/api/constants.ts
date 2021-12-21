@@ -16,6 +16,9 @@ const chainNetwork = {
   standardAccount: "*25519",
   symbols: ["PCX"],
   website: "https://chainx.org",
+  hasLedgerSupport: true, 
+  isIgnored: false, 
+  isTestnet: false,
 }
 selectableNetworks.push(chainNetwork)
 
