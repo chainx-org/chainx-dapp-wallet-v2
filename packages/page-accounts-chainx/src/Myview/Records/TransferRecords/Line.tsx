@@ -27,7 +27,7 @@ export default function ({ transfer }: any) {
       onClick={() => setOpen(!open)}
       ref={wrapper}>
       <header>
-        <span> PCX </span>
+        <span> KSX </span>
         <span>{moment(new Date(transfer.indexer.blockTime)).format('YYYY/MM/DD')}</span>
       </header>
       <main>

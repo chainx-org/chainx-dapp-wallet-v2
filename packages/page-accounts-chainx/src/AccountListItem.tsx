@@ -243,7 +243,7 @@ function Account({ address, className, filter, isAccountChecked, isFavorite, onT
           withExtended={false}
         /> */}
         <Balance className='accountBox--all'
-          label={`PCX`}
+          label={`KSX`}
           params={address} />
 
       </td>
@@ -254,7 +254,7 @@ function Account({ address, className, filter, isAccountChecked, isFavorite, onT
           withExtended
         /> */}
         <Balance className='accountBox--all'
-          label={`PCX`}
+          label={`KSX`}
           params={address} />
 
       </td>

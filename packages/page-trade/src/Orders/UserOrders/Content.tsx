@@ -19,7 +19,7 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 
 export default function (): React.ReactElement {
   const { t } = useTranslation();
-  const currencyPair = [['PCX', 'BTC']];
+  const currencyPair = [['KSX', 'BTC']];
   const { NowOrders, setLoading } = useContext(DexContext);
   const {currentAccount} = useContext(AccountContext);
   return (

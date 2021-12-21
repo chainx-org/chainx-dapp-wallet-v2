@@ -128,7 +128,7 @@ export default function ({assetsInfo, tradingPairsInfo}: Props): React.ReactElem
           autoFocus   
           isZeroable
           maxLength={13}
-          tokenName={'PCX'}
+          tokenName={'KSX'}
           value={amount}
         />
       </div>
@@ -156,7 +156,7 @@ export default function ({assetsInfo, tradingPairsInfo}: Props): React.ReactElem
           <TxButton
             accountId={currentAccount}
             isDisabled={disabled}
-            label={t('Buy PCX')}
+            label={t('Buy KSX')}
             params={[0, 'Limit', 'Buy',
               bgAmount.multipliedBy(Math.pow(10, 8)).toNumber(),
               bgPrice.multipliedBy(Math.pow(10, 9)).toNumber()]}

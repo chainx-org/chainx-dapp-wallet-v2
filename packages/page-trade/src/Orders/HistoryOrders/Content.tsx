@@ -25,7 +25,7 @@ export default function (): React.ReactElement {
 
       {/* <TableBody> */}
         {HistoryOrders.map((order, index) => {
-          const currencyPair = [['PCX', 'BTC']];
+          const currencyPair = [['KSX', 'BTC']];
           const bgAmount = new BigNumber(toPrecision(Number(order.turnover), 8));
           const amount = bgAmount.toNumber().toFixed(7)
           const bgPrice = new BigNumber(toPrecision(order.price, 9, false));

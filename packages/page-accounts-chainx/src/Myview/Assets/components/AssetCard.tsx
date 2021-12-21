@@ -131,7 +131,7 @@ export default function (props: { children?: ReactNode, buttonGroup?: ReactNode,
           }}>{t('Mining Interest')}</span>
           <span style={{
             whiteSpace: "nowrap"
-          }}>  {usableInterests ? usableInterests.toFixed(8) : 0} PCX</span>
+          }}>  {usableInterests ? usableInterests.toFixed(8) : 0} KSX</span>
         </div>
         <div>
           <FooterWithdrawal allInterests={allInterests} usableInterests={usableInterests} insufficientStake={insufficientStake} setN={setN}/>
