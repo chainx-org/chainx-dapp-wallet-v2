@@ -120,7 +120,7 @@ const Wrapper = styled(Modal)`
 export default function ({address, onClose}: Props) {
     const {t} = useTranslation();
     const [channel, setChannel] = useState('');
-    const {api,} = useApi();
+    const {api} = useApi();
     const [hotAddress, setHotAddress] = useState<string>('');
     const addressHex = u8aToHex(
       new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
@@ -130,7 +130,7 @@ export default function ({address, onClose}: Props) {
       async function getHotAddress() {
         const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
         console.log('dividendRes', dividendRes.toJSON())
-        setHotAddress(dividendRes.hot_address.addr);
+        setHotAddress(dividendRes.hotAddress.addr);
       }
   
       getHotAddress();

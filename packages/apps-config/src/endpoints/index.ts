@@ -58,10 +58,10 @@ function createLiveNetworks(t: TFunction): LinkOption[] {
   return [
     // polkadot test relays
     {
-      dnslink: 'ChainX',
-      info: 'ChainX',
-      text: 'ChainX node A',
-      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
+      dnslink: 'SherpaX',
+      info: 'SherpaX',
+      text: 'SherpaX node A',
+      textBy: t('rpc.hosted.by', 'hosted by SherpaX', { ns: 'apps-config', replace: { host: 'SherpaX' } }),
       value: 'wss://mainnet.chainx.org/ws'
     }
   ];
@@ -71,10 +71,10 @@ function createTestNetworks(t: TFunction): LinkOption[] {
   return [
     // polkadot test relays
     {
-      dnslink: 'ChainX',
-      info: 'ChainX',
-      text: 'ChainX Test Network',
-      textBy: t('rpc.hosted.by', 'hosted by ChainX', { ns: 'apps-config', replace: { host: 'ChainX' } }),
+      dnslink: 'SherpaX',
+      info: 'SherpaX',
+      text: 'SherpaX Test Network',
+      textBy: t('rpc.hosted.by', 'hosted by SherpaX', { ns: 'apps-config', replace: { host: 'SherpaX' } }),
       value: 'wss://sherpax-testnet.chainx.org'
     }
   ];
