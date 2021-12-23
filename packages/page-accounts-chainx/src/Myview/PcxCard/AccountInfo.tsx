@@ -45,25 +45,25 @@ export default function (): React.ReactElement {
   const {t} = useTranslation();
   const {currentAccount} = useContext(AccountContext);
   const {name} = useAccountInfo(currentAccount);
-  const [identify, setIdentify] = useState<string>('')
+  // const [identify, setIdentify] = useState<string>('')
 
   async function getIdentity(account: string): Promise<any> {
-    const getStakingNode = await api.rpc.xstaking.getValidators();
-    const getTrustNode = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
-    const stakingNodeList = JSON.parse(getStakingNode);
-    const trusteeList = JSON.parse(getTrustNode)
-    const trustNodeList = trusteeList.trusteeList
-    const validateNode = stakingNodeList.filter((node: any) => account === node.account )
-    const trustNode = trustNodeList.filter((node: string) => account === node)
-    if(validateNode.length > 0 && trustNode.length > 0){
-      setIdentify(t('The node of validate and trust'))
-    }else if(validateNode.length > 0){
-      setIdentify(t('The node of validate'))
-    }else if(trustNode.length > 0){
-      setIdentify(t('The node of trust'))
-    } else {
-      setIdentify('')
-    }
+    // const getStakingNode = await api.rpc.xstaking.getValidators();
+    // const getTrustNode = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
+    // const stakingNodeList = JSON.parse(getStakingNode);
+    // const trusteeList = JSON.parse(getTrustNode)
+    // const trustNodeList = trusteeList.trusteeList
+    // const validateNode = stakingNodeList.filter((node: any) => account === node.account )
+    // const trustNode = trustNodeList.filter((node: string) => account === node)
+    // if(validateNode.length > 0 && trustNode.length > 0){
+    //   setIdentify(t('The node of validate and trust'))
+    // }else if(validateNode.length > 0){
+    //   setIdentify(t('The node of validate'))
+    // }else if(trustNode.length > 0){
+    //   setIdentify(t('The node of trust'))
+    // } else {
+    //   setIdentify('')
+    // }
   }
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function (): React.ReactElement {
     <Wrapper>
       <Title>{ isApiReady? name: '-'}</Title>
       <Address>{currentAccount? currentAccount : '-'}</Address>
-      <div>{identify || ''}</div>
+      {/* <div>{identify || ''}</div> */}
     </Wrapper>
   );
 }

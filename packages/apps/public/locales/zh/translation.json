@@ -307,7 +307,7 @@
   "Generate {{lng}}/translation.json": "生成 {{lng}}/translation.json",
   "Genesis Hash": "创世区块哈希",
   "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "创世区块哈希代表网络的初始状态，在网络启动后不可改变",
-  "Get the information for the 16-OP_RETURN address": "获取含有 16 进制 ChainX 地址的 OP_RETURN 信息。",
+  "Get the information for the 16-OP_RETURN address": "获取含有 16 进制 SherpaX 地址的 OP_RETURN 信息。",
   "Governance": "治理",
   "Grandpa": "Grandpa",
   "Hash": "哈希",

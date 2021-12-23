@@ -16,7 +16,7 @@ import BigNumber from 'bignumber.js';
 import BN from 'bn.js';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import Button from '@polkadot/react-components-chainx/Button';
-import useStaking from '@polkadot/react-hooks-chainx/useStaking';
+// import useStaking from '@polkadot/react-hooks-chainx/useStaking';
 
 const InnerWrapper = styled.div`
   position: relative;
@@ -123,7 +123,7 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
   const [n, setN] = useState(0);
   const {currentAccount} = useContext(AccountContext);
   const pcxFree: PcxFreeInfo = usePcxFree(currentAccount, n);
-  const redeemV = useStaking(currentAccount, n);
+  // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
   const [usableBalance, setUsableBalance] = useState<number>(0)
   const [feeFrozen, setFeeFrozen] = useState<number>(0)
@@ -141,22 +141,23 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
     miscFrozen: 0,
     feeFrozen: 0
   })
-  const [defaultredeemV, setDefaultredeemV] = useState(0)
+  // const [defaultredeemV, setDefaultredeemV] = useState(0)
 
   useEffect(() => {
     if(!window.localStorage.getItem('pcxFreeInfo')){
       window.localStorage.setItem('pcxFreeInfo',JSON.stringify(defaultValue))
-      window.localStorage.setItem('redeemV',JSON.stringify(defaultredeemV))
+      // window.localStorage.setItem('redeemV',JSON.stringify(defaultredeemV))
       const bgFree = new BigNumber(defaultValue.free )
       setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber() )
       setUsableBalance(bgFree.minus(new BigNumber(defaultValue.miscFrozen)).toNumber())
       setFeeFrozen((new BigNumber(defaultValue.feeFrozen)).toNumber())
-      const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
+      // const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
+      const miscFrozened = defaultValue.miscFrozen
       setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
       setReserved((new BigNumber(defaultValue.reserved)).toNumber())
     }else{
       setDefaultValue(JSON.parse(window.localStorage.getItem('pcxFreeInfo')))
-      setDefaultredeemV(JSON.parse(window.localStorage.getItem('redeemV')))
+      // setDefaultredeemV(JSON.parse(window.localStorage.getItem('redeemV')))
       if(pcxFree){
         window.localStorage.setItem('pcxFreeInfo', JSON.stringify({
           free: pcxFree.free,
@@ -164,7 +165,7 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
           miscFrozen: pcxFree.miscFrozen,
           feeFrozen: pcxFree.feeFrozen
         }))
-        window.localStorage.setItem('redeemV', JSON.stringify(redeemV))
+        // window.localStorage.setItem('redeemV', JSON.stringify(redeemV))
       }
     }
 
@@ -176,7 +177,8 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
       setAllBalance(bgFree.plus(new BigNumber(pcxFree.reserved)).toNumber())
       setUsableBalance(bgFree.minus(new BigNumber(pcxFree.miscFrozen)).toNumber())
       setFeeFrozen((new BigNumber(pcxFree.feeFrozen)).toNumber())
-      const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
+      // const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
+      const miscFrozened = defaultValue.miscFrozen
       setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
       setReserved((new BigNumber(defaultValue.reserved)).toNumber())
     }else{
@@ -184,7 +186,8 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
       setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber() )
       setUsableBalance(bgFree.minus(new BigNumber(defaultValue.miscFrozen)).toNumber())
       setFeeFrozen(new BigNumber(defaultValue.feeFrozen).toNumber())
-      const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
+      // const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
+      const miscFrozened = defaultValue.miscFrozen
       setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
       setReserved((new BigNumber(defaultValue.reserved)).toNumber())
     }
@@ -229,11 +232,11 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
                 value={miscFrozen}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
               />
-              <AssetView
+              {/* <AssetView
                 key={Math.random()}
                 title={t('UnBound Frozen')}
                 value={redeemV}
-              />
+              /> */}
               <AssetView
                 key={Math.random()}
                 title={t('Other Frozen')}

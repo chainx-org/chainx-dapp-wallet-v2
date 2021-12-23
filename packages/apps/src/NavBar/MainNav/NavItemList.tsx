@@ -15,17 +15,17 @@ function NavItemList(): React.ReactElement {
   const [isGovernanceOpen, , setToggleGovernance] = useToggle();
   const [isDeveloperOpen, , setToggleDeveloper] = useToggle();
   const [url, setUrl] = useState<string>('')
-  const stakingList = ([
-    {nodeName: t<string>('Stak. over.'), link: '/staking/staking'},
-    {nodeName: t<string>('My Staking'), link: '/staking/nomination'},
-  ]);
-  const governanceList = ([
-    {nodeName: t<string>('Democracy'), link: '/democracy/democracy'},
-    {nodeName: t<string>('Council'), link: '/democracy/council'},
-    {nodeName: t<string>('Treasury'), link: '/democracy/treasury'},
-    {nodeName: t<string>('Tech. comm.'), link: '/democracy/techcomm'},
-    {nodeName: t<string>('Trustee'), link: '/democracy/trustee'}
-  ]);
+  // const stakingList = ([
+  //   {nodeName: t<string>('Stak. over.'), link: '/staking/staking'},
+  //   {nodeName: t<string>('My Staking'), link: '/staking/nomination'},
+  // ]);
+  // const governanceList = ([
+  //   {nodeName: t<string>('Democracy'), link: '/democracy/democracy'},
+  //   {nodeName: t<string>('Council'), link: '/democracy/council'},
+  //   {nodeName: t<string>('Treasury'), link: '/democracy/treasury'},
+  //   {nodeName: t<string>('Tech. comm.'), link: '/democracy/techcomm'},
+  //   {nodeName: t<string>('Trustee'), link: '/democracy/trustee'}
+  // ]);
   const developerList = ([
     {nodeName: t<string>('Chain state'), link: '/chainstate/chainstate'},
     {nodeName: 'Extrinsics', link: '/chainstate/extrinsics'},
@@ -71,7 +71,7 @@ function NavItemList(): React.ReactElement {
         <li className='assets media--500'>
           <Link to={'/accounts'}>{t('Assets')}</Link>
         </li>
-        <li className='staking media--600'
+        {/* <li className='staking media--600'
             onMouseEnter={() => toggleSelector('staking')}
             onMouseLeave={() => setToggleStaking(false)}
         >
@@ -83,8 +83,8 @@ function NavItemList(): React.ReactElement {
           <Selector
             nodeList={stakingList} onMouseLeave={() => setToggleStaking(false)}
           />}
-        </li>
-        <li className='governance media--700'
+        </li> */}
+        {/* <li className='governance media--700'
             onMouseEnter={() => toggleSelector('governance')}
             onMouseLeave={() => setToggleGovernance(false)}>
           <Link to={'/democracy/democracy'}>
@@ -94,10 +94,10 @@ function NavItemList(): React.ReactElement {
           {isGovernanceOpen &&
           <Selector nodeList={governanceList} onMouseLeave={() => setToggleGovernance(false)}
           />}
-        </li>
-        <li className='dex media--1100'>
+        </li> */}
+        {/* <li className='dex media--1100'>
           <Link to='/DEX'>{t('DEX')}</Link>
-        </li>
+        </li> */}
         <li className='linkOutBrowser media--900'>
           <a href={url} target='_blank'>
             {t('ChainScan')}
