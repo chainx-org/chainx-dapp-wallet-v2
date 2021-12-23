@@ -7,7 +7,7 @@ import React, {Dispatch, useEffect, useState} from 'react';
 import { Modal } from '@polkadot/react-components';
 import {useTranslation} from '../../translate';
 import styled from 'styled-components';
-import {u8aToHex} from '@polkadot/util';
+import {u8aToHex, u8aToU8a, u8aWrapBytes} from '@polkadot/util';
 import ClipBoard from './ClipBoard';
 import infoIcon from './explan.svg';
 import {useApi} from '@polkadot/react-hooks';
@@ -120,7 +120,7 @@ const Wrapper = styled(Modal)`
 export default function ({address, onClose}: Props) {
     const {t} = useTranslation();
     const [channel, setChannel] = useState('');
-    const {api} = useApi();
+    const {api,} = useApi();
     const [hotAddress, setHotAddress] = useState<string>('');
     const addressHex = u8aToHex(
       new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
@@ -128,8 +128,9 @@ export default function ({address, onClose}: Props) {
   
     useEffect((): void => {
       async function getHotAddress() {
-        const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo();
-        setHotAddress(dividendRes.hotAddress.addr);
+        const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
+        console.log('dividendRes', dividendRes.toJSON())
+        setHotAddress(dividendRes.hot_address.addr);
       }
   
       getHotAddress();

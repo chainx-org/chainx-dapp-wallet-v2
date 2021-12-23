@@ -26,7 +26,7 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
     assetName: '0',
     XbtcInterests: '0',
   });
-  const [, setValue] = useLocalStorage('xbtcInfo');
+  // const [, setValue] = useLocalStorage('xbtcInfo');
 
   useEffect((): void => {
     async function getAssets(account: string): Promise<any> {
@@ -43,15 +43,15 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
         current = userAssets[key] as AssetsInfo;
       });
 
-      const dividendRes = await api.rpc.xminingasset.getDividendByAccount(
-        account
-      );
+      // const dividendRes = await api.rpc.xminingasset.getDividendByAccount(
+      //   account
+      // );
       let currentDividend: any = '0';
-      const userDividend = JSON.parse(dividendRes);
+      // const userDividend = JSON.parse(dividendRes);
 
-      Object.keys(userDividend).forEach((key: string) => {
-        currentDividend = userDividend[key];
-      });
+      // Object.keys(userDividend).forEach((key: string) => {
+      //   currentDividend = userDividend[key];
+      // });
 
       if (JSON.stringify(current) === '{}') {
         current = {
@@ -65,10 +65,10 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
 
       current = Object.assign(current, {
         account: account,
-        assetName: 'X-BTC',
+        assetName: 'sBTC',
         XbtcInterests: currentDividend
       });
-      setValue(JSON.stringify(current));
+      // setValue(JSON.stringify(current));
       setState(current);
     }
 

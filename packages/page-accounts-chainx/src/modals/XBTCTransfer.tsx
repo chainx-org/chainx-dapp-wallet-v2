@@ -37,7 +37,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t<string>('Send X-BTC')}
+      header={t<string>('Send sBTC')}
       size='large'
     >
       <Modal.Content>
@@ -89,9 +89,9 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
             <Modal.Column>
               <Input
                 autoFocus
-                help={t<string>('Transfer X-BTC Amount')}
+                help={t<string>('Transfer sBTC Amount')}
                 isError={!hasAvailable}
-                label={t<string>('Transfer X-BTC Amount')}
+                label={t<string>('Transfer sBTC Amount')}
                 onChange={setAmount}
                 type={'number'}
               />

@@ -9,7 +9,7 @@ import { assert } from '@polkadot/util';
 const chainNetwork = {
   decimals: [18],
   displayName: "chainx",
-  genesisHash: ["0x6ac13efb5b368b97b4934cef6edfdd99c2af51ba5109bfb8dacc116f9c584c10"],
+  genesisHash: ["0x96e71a7ab978721be3c56721a369cbc65aab400db757dfd71c6eaae0b1783b8b"],
   icon: "chainx",
   network: "chainx",
   prefix: 2,

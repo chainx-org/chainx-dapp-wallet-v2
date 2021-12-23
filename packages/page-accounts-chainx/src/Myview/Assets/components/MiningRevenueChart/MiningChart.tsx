@@ -93,7 +93,7 @@ export default function (): React.ReactElement {
     },
     {
       color: 'orange',
-      type: 'X-BTC',
+      type: 'sBTC',
       data: '0.5%'
     },
     {

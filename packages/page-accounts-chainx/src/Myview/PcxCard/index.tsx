@@ -16,7 +16,7 @@ import BigNumber from 'bignumber.js';
 import BN from 'bn.js';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import Button from '@polkadot/react-components-chainx/Button';
-// import useStaking from '@polkadot/react-hooks-chainx/useStaking';
+import useStaking from '@polkadot/react-hooks-chainx/useStaking';
 
 const InnerWrapper = styled.div`
   position: relative;

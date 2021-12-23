@@ -508,7 +508,7 @@ function Account({account: {address, meta}, assetsInfo, className = '', delegati
                   key='xbtc withdraw'
                   onClick={toggleWithdraw}
                 >
-                  {t('X-BTC Withdrawals')}
+                  {t('sBTC Withdrawals')}
                 </Menu.Item>
               ),
               (

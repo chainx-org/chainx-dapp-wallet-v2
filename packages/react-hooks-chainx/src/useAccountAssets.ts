@@ -51,7 +51,7 @@ export default function useAccountAssets(accounts: string[]) {
 
         current = Object.assign(current, {
           account: account,
-          assetName: "X-BTC",
+          assetName: "sBTC",
           XbtcInterests: currentDividend
         });
         allAssets.push(current);

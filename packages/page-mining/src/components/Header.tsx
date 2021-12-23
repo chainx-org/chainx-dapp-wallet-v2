@@ -36,7 +36,7 @@ export default function ({ accounts, allAssets, interestTotal }: Props): React.R
         <img alt=''
           src={XBTCLogo as string}
           width='30' />
-        <h6>X-BTC</h6>
+        <h6>sBTC</h6>
       </div>
     </header>
   );

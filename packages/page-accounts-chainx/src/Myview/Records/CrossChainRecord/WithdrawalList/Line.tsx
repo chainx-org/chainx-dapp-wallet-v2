@@ -33,7 +33,7 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
     <li onClick={() => setOutSideOpen(!outSideOpen)}
       ref={wrapper}>
       <header>
-        <span>X-BTC</span>
+        <span>sBTC</span>
         <span>{moment(props.withdrawal.indexer.blockTime).format(timeFormat)}</span>
       </header>
       <main>
@@ -66,7 +66,7 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
           </li>
           <li>
             <Label>{t('Amount')}</Label>
-            <p className='memo'>{toPrecision(props.withdrawal.data[1].balance, 8)} X-BTC</p>
+            <p className='memo'>{toPrecision(props.withdrawal.data[1].balance, 8)} sBTC</p>
           </li>
 
         </Detail>

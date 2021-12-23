@@ -14,7 +14,7 @@ const Content = styled.div`
   align-items: flex-start;
   flex-grow: 1;
   margin: 0 28px;
-  > .X-BTC{
+  > .sBTC{
     background: rgba(255, 255, 255);
     display: flex;
     flex-direction: column;
@@ -146,7 +146,7 @@ export default function (): React.ReactElement {
     <Content>
       {
 
-        <div className='X-BTC'>
+        <div className='sBTC'>
           <Header accounts={canwithDrawAccounts}
             allAssets={allAssets}
             interestTotal={userTotalInterest} />

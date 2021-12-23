@@ -85,7 +85,7 @@ export default function ({assetsInfo, tradingPairsInfo}: Props): React.ReactElem
     <Wrapper>
       <div className='info'>
         <Free
-          asset='X-BTC'
+          asset='sBTC'
           free={assetsInfo?.Usable || '0'}
           precision={8}
         />

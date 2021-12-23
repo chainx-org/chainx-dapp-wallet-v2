@@ -30,7 +30,7 @@ export default function ({ handleClose }) {
   const accountId = useSelector(accountIdSelector);
   const isDemoAddr = useSelector(isDemoSelector);
 
-  const options = ['X-BTC', 'XRC20-BTC'].map((token) => ({
+  const options = ['sBTC', 'XRC20-BTC'].map((token) => ({
     value: token,
     label: token
   }));
@@ -38,7 +38,7 @@ export default function ({ handleClose }) {
   const xbtcFree = useSelector(xbtcFreeSelector);
   const xrcBtcBalance = useSelector(xrcBtcBalanceSelector);
 
-  const [from, setFrom] = useState('X-BTC');
+  const [from, setFrom] = useState('sBTC');
   const [to, setTo] = useState('XRC20-BTC');
 
   const [amount, setAmount] = useState('');
@@ -47,7 +47,7 @@ export default function ({ handleClose }) {
   const [disabled, setDisabled] = useState(false);
 
   const precision = 8;
-  const free = from === 'X-BTC' ? xbtcFree : xrcBtcBalance;
+  const free = from === 'sBTC' ? xbtcFree : xrcBtcBalance;
 
   const { address: contractAddress, selectors } = useSelector(
     xrcBtcXrc20InfoSelector
@@ -86,7 +86,7 @@ export default function ({ handleClose }) {
     try {
       let status;
 
-      if (from === 'X-BTC') {
+      if (from === 'sBTC') {
         const extrinsic = chainx.api.tx.xContracts.convertToXrc20(
           'BTC',
           realAmount,
@@ -107,7 +107,7 @@ export default function ({ handleClose }) {
         status = await signAndSendExtrinsic(accountAddress, extrinsic.toHex());
       }
 
-      const prefix = from === 'X-BTC' ? '划转' : '转回';
+      const prefix = from === 'sBTC' ? '划转' : '转回';
 
       const messages = {
         successTitle: `${prefix}成功`,
@@ -141,7 +141,7 @@ export default function ({ handleClose }) {
             <SelectInput
               onChange={(value) => {
                 setFrom(value);
-                setTo(value === 'XRC20-BTC' ? 'X-BTC' : 'XRC20-BTC');
+                setTo(value === 'XRC20-BTC' ? 'sBTC' : 'XRC20-BTC');
               }}
               options={options}
               value={from}

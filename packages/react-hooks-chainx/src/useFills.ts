@@ -10,7 +10,7 @@ export default function useFills(isLoading: boolean): Fill[] {
     const testOrMain = await api.api.rpc.system.properties();
     const testOrMainNum = JSON.parse(testOrMain);
     let res;
-    if (testOrMainNum.ss58Format === 42) {
+    if (testOrMainNum.ss58Format === 44) {
       res = await axios.get('https://testnet-api.chainx.org/dex/fills/0?page=0&page_size=20');
     } else {
       res = await axios.get('https://api-v2.chainx.cc/dex/fills/0');

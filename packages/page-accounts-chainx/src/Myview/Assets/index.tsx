@@ -2,7 +2,7 @@
 import React from 'react';
 import Xbtc from './XbtcCard';
 import styled from 'styled-components';
-import MiningChart from '@polkadot/app-accounts-chainx/Myview/Assets/components/MiningRevenueChart/MiningChart';
+// import MiningChart from '@polkadot/app-accounts-chainx/Myview/Assets/components/MiningRevenueChart/MiningChart';
 
 const Wrapper = styled.section`
   // display:flex;
@@ -12,18 +12,21 @@ const Wrapper = styled.section`
   // }
 
   & > div {
-    margin-top: 16px;
+    // margin-top: 16px;
     // display: flex;
 
     &.first-line {
       // width: 70%;
-      min-height: 23em;
+      min-height: 282px;
+      height: 100%;
       @media (max-width: 1439px) {
         width: 100%;
       }
 
       & > section {
         width: 100%;
+        // display: flex;
+        // flex-direction: column;
         &:not(:first-of-type) {
           margin-left: 16px;
         }

@@ -118,7 +118,7 @@ export default function (props: { children?: ReactNode, buttonGroup?: ReactNode,
       </header>
       <HeadWrapper>
         <Logo logo={logo}
-              name='X-BTC'
+              name='sBTC'
               tokenName='Interchain BTC'/>
         {props.buttonGroup}
       </HeadWrapper>

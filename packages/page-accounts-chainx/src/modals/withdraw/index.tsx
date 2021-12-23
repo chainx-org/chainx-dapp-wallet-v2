@@ -54,7 +54,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
 
   return (
     <Wrapper
-      header={t('X-BTC Withdrawals')}
+      header={t('sBTC Withdrawals')}
       size='large'
     >
       <Modal.Content>
@@ -67,7 +67,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               label={t('Withdrawal Account')}
               labelExtra={
                 <div>
-                  {t('You can withdrawal')} {Number(btc) / Math.pow(10, 8)} X-BTC
+                  {t('You can withdrawal')} {Number(btc) / Math.pow(10, 8)} sBTC
                 </div>
               }
               onChange={setAccount}
