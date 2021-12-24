@@ -39,7 +39,8 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
       <GlobalStyle uiHighlight={uiHighlight}/>
       <div className={`apps--Wrapper theme--${theme} ${className}`}>
         {/*<AccountAlert/>*/}
-        <NavBar/>
+        {/*<NavBar/>*/}
+        {window.location.hash=='#/transactionList'?'':<NavBar/>}
         <AccountSidebar>
           <Signer>
             <Content/>
