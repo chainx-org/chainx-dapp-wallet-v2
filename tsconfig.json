@@ -4,7 +4,8 @@
     "build/**/*",
     "**/build/**/*",
     "node_modules",
-    "packages"
+    "packages",
+    "packages/apps/build/*"
   ],
   "compilerOptions": {
     "baseUrl": "./packages",

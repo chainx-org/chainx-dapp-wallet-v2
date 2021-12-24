@@ -19,7 +19,7 @@
   "scripts": {
     "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/main.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
-    "build:code": "yarn polkadot-dev-build-ts",
+    "build:code": "NODE_ENV=production yarn polkadot-dev-build-ts",
     "build:devElectronMain": "cd packages/apps-electron && NODE_ENV=development webpack --config webpack.main.config.js",
     "build:devElectronRenderer": "cd packages/apps-electron && NODE_ENV=development webpack --config webpack.renderer.config.js",
     "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
@@ -63,7 +63,7 @@
     "@babel/register": "^7.16.0",
     "@babel/runtime": "^7.16.3",
     "@pinata/sdk": "^1.1.23",
-    "@polkadot/dev": "0.64.12",
+    "@polkadot/dev": "0.64.19",
     "@polkadot/ts": "^0.4.21",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.34",
