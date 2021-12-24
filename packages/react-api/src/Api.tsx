@@ -31,6 +31,7 @@ import rpc from './RPCTypes.json'
 interface Props {
   children: React.ReactNode;
   url?: string;
+  isElectron: boolean;
   store?: KeyringStore;
 }
 
@@ -204,14 +205,15 @@ async function loadOnReady(api: ApiPromise, injectedPromise: Promise<InjectedExt
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
-    isSubstrateV2,
+    specName: api.runtimeVersion.specName.toString(),
+    specVersion: api.runtimeVersion.specVersion.toString(),
     systemChain,
     systemName,
     systemVersion
   };
 }
 
-function Api({ children, store, url }: Props): React.ReactElement<Props> | null {
+function Api({ children, store, isElectron, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -219,9 +221,13 @@ function Api({ children, store, url }: Props): React.ReactElement<Props> | null 
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
+  // const value = useMemo<ApiProps>(
+  //   () => ({ ...state, api, apiError, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+  //   [apiError, extensions, isApiConnected, isApiInitialized, state]
+  // );
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, state]
+    () => objectSpread({}, state, { api, apiError, url, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, url]
   );
 
   // initial initialization
