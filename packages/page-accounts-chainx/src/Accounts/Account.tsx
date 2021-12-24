@@ -496,16 +496,16 @@ function Account({account: {address, meta}, assetsInfo, className = '', delegati
 
               (
                 <Menu.Item
-                  key='xbtc recharge'
+                  key='sbtc recharge'
                   onClick={toggleDeposite}
                 >
-                  {t('XBTC recharge')}
+                  {t('sBTC recharge')}
                 </Menu.Item>
 
               ),
               (
                 <Menu.Item
-                  key='xbtc withdraw'
+                  key='sbtc withdraw'
                   onClick={toggleWithdraw}
                 >
                   {t('sBTC Withdrawals')}
@@ -513,10 +513,10 @@ function Account({account: {address, meta}, assetsInfo, className = '', delegati
               ),
               (
                 <Menu.Item
-                  key='xbtc transfer'
+                  key='sbtc transfer'
                   onClick={toggleXbtcTransfer}
                 >
-                  {t('XBTC Transfer')}
+                  {t('sBTC Transfer')}
                 </Menu.Item>
               ),
               api.api.tx.identity?.setIdentity && (

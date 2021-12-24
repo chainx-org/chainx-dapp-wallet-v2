@@ -5,7 +5,7 @@ WORKDIR /opt/web
 COPY . ./
 RUN yarn install
 ENV REACT_APP_API_ENV=pre
-RUN yarn build;exit 0
+RUN yarn build;
 
 # docker in docker 安装nginx镜像暴露80端口
 

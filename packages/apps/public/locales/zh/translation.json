@@ -675,10 +675,6 @@
   "Sell KSX": "卖出 KSX",
   "Send": "发送",
   "Send Funds": "发送资金",
-<<<<<<< HEAD
-=======
-  "Send sBTC": "S-BTC转账",
->>>>>>> f1d92e7b63eb48490540862f49fd3d270d8eec57
   "Send from account": "从账户发送",
   "Send funds from this account": "从这个账户发送资金",
   "Send funds to this address": "发送资金到这个地址",
@@ -1068,7 +1064,7 @@
   "Total Peers": "节点总数",
   "Total Vote": "总票数",
   "Total amount of fund that will be reserved. These funds are returned when the identity is cleared": "预留资金的总额。当身份被清除时，这些资金将被返还",
-  "Total avalible xbtc balance": "我的总可用余额",
+  "Total avalible sbtc balance": "我的总可用余额",
   "Total chain balance": "全链总余额",
   "Total interest on all accounts": "所有账户总利息",
   "Total prize pool": "奖池总额",
@@ -1076,12 +1072,8 @@
   "Trading ID": "交易ID",
   "Transaction fee": "交易手续费",
   "Transfer": "转账",
-<<<<<<< HEAD
-=======
-  "Transfer sBTC Amount": "S-BTC转账数量",
->>>>>>> f1d92e7b63eb48490540862f49fd3d270d8eec57
   "Transfer an amount from a specific account into a parachain.": "将一笔款项从一个特定的账户转到一个平行链账户",
-  "Transfer sBTC Amount": "X-BTC转账数量",
+  "Transfer sBTC Amount": "S-BTC转账数量",
   "Transfer to chain": "给链转账",
   "Transfer to parachain": "给平行链转账",
   "Transfer with account keep-alive checks": "用保持活跃检查的账户转账",
@@ -1195,13 +1187,8 @@
   "Withdrawal application": "提现申请",
   "Withdrawal application of interest": "提息申请",
   "Withdrawals": "提现",
-<<<<<<< HEAD
-=======
-  "sBTC Withdrawals": "S-BTC提现",
-  "sBTC balances": "sBTC 余额",
->>>>>>> f1d92e7b63eb48490540862f49fd3d270d8eec57
-  "XBTC Transfer": "XBTC 转账",
-  "XBTC recharge": "XBTC 充值",
+  "sBTC Transfer": "sBTC 转账",
+  "sBTC recharge": "sBTC 充值",
   "Yes": "是",
   "You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.": "您将从可用帐户列表中删除此帐户。一旦完成，如果您需要再次访问它，您将不得不通过种子或备份文件重新创建帐户。",
   "You are about to remove this address from your address book. Once completed, should you need to access it again, you will have to re-add the address.": "您将从地址簿中删除此地址。一旦完成，如果您需要再次访问它，您将不得不重新添加地址",

@@ -56,7 +56,7 @@ const definitions: OverrideBundleDefinition = {
           }
         },
         TokenSymbol: {
-          _enum: ['ACA', 'AUSD', 'DOT', 'XBTC', 'LDOT', 'RENBTC', 'SDN', 'PLM', 'XRT']
+          _enum: ['ACA', 'AUSD', 'DOT', 'sBTC', 'LDOT', 'RENBTC', 'SDN', 'PLM', 'XRT']
         },
         AmountOf: 'Amount',
         Amount: 'i128'
