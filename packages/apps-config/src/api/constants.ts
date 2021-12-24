@@ -24,7 +24,6 @@ selectableNetworks.push(chainNetwork)
 
 function getGenesis (name: string): string {
   const network = selectableNetworks.find(({ network }) => network === name);
-
   assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
 
   return network.genesisHash[0];
