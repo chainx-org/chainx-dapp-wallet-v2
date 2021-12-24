@@ -15,7 +15,7 @@ interface XbtcAssetInfo {
 }
 
 function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
-  const {api} = useApi();
+  const {api,isApiReady} = useApi();
   const [state, setState] = useState<XbtcAssetInfo>({
     Locked: '0',
     Reserved: '0',
@@ -30,7 +30,7 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
 
   useEffect((): void => {
     async function getAssets(account: string): Promise<any> {
-      const res = await api.rpc.xassets.getAssetsByAccount(account);
+      // const res = await api.rpc.xassets.getAssetsByAccount(account);
       let current = {
         Locked: '0',
         Reserved: '0',
@@ -38,10 +38,10 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
         ReservedWithdrawal: '0',
         Usable: '0'
       } as AssetsInfo;
-      const userAssets = JSON.parse(res);
-      Object.keys(userAssets).forEach((key: string) => {
-        current = userAssets[key] as AssetsInfo;
-      });
+      // const userAssets = JSON.parse(res);
+      // Object.keys(userAssets).forEach((key: string) => {
+      //   current = userAssets[key] as AssetsInfo;
+      // });
 
       // const dividendRes = await api.rpc.xminingasset.getDividendByAccount(
       //   account
@@ -73,7 +73,7 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
     }
 
     getAssets(account);
-  }, [account, n]);
+  }, [account, isApiReady, n]);
 
   return state;
 }

@@ -129,7 +129,6 @@ export default function ({address, onClose}: Props) {
     useEffect((): void => {
       async function getHotAddress() {
         const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
-        console.log('dividendRes', dividendRes.toJSON())
         setHotAddress(dividendRes.hotAddress.addr);
       }
   

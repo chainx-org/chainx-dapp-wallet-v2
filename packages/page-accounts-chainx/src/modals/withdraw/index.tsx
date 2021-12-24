@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 interface Props {
   onClose: () => void;
-  btc: string | undefined | null;
+  btc: number | undefined | null;
   account: string | undefined,
   setN: Dispatch<number>
 }

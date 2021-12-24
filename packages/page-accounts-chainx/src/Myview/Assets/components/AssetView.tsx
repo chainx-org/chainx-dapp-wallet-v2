@@ -1,4 +1,4 @@
-import {AssetsInfo} from '@polkadot/react-hooks-chainx/types';
+import {SbtcAssetsInfo} from '@polkadot/react-hooks-chainx/types';
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Free from './Free';
@@ -14,11 +14,19 @@ import {isPaste} from '@polkadot/react-components/Input';
 export const AssetDetail = styled.div`
   display: flex;
   margin-top: 14px;
+  div.infoView {
+    width: 16%;
+    @media screen and (max-width:767px) {
+      width: 30%;
+    }
+  }
+  div.infoViews {
+    width: 50%;
+  }
   div {
     display: flex;
     flex-direction: row;
     margin-right: 26px;
-    width: 50%;
     div {
       margin-bottom: 10px;
       width: 80%;
@@ -57,14 +65,15 @@ export const AssetLine = styled.div`
 type Props = {
   nodeName?: string,
   setNodeName?: React.Dispatch<string> | undefined,
-  assetsInfo: AssetsInfo | undefined;
+  assetsInfo: SbtcAssetsInfo | undefined;
 }
 
 interface XbtcFreeInfo {
-  usableBalance: string,
-  reservedDexSpotBalance: string,
-  reservedWithdrawalBalance: string,
-  allBalance: string
+  balance: number,
+  extra: null,
+  isFrozen: boolean,
+  sufficient: boolean,
+  locked: number
 }
 
 export default function ({assetsInfo}: Props): React.ReactElement<Props> {
@@ -74,36 +83,37 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
   const currentAccount = useContext(AccountContext);
 
   const [usable, setUsable] = useState<number>(0)
-  const [reservedDexSpot, setReservedDexSpot] = useState<number>(0)
+  const [reservedDexSpot, setReservedDexSpot] = useState<boolean>(false)
   const [reservedWithdrawal, setReservedWithdrawal] = useState<number>(0)
   const [allBalance, setAllBalance] = useState<number>(0)
-  // const reservedDexSpot = new BN(assetsInfo?.ReservedDexSpot);
-  // const reservedWithdrawal = new BN(assetsInfo?.ReservedWithdrawal);
-  // const allBalance = usable.add(reservedDexSpot).add(reservedWithdrawal);
 
-  const defaultValue = JSON.parse(window.localStorage.getItem('xbtcInfo')) || {
-    usableBalance: 0,
-    reservedDexSpotBalance: 0,
-    reservedWithdrawalBalance: 0,
-    allBalance: 0
+  const defaultValue = JSON.parse(window.localStorage.getItem('sbtcInfo')) || {
+    balance: 0,
+    extra: null,
+    isFrozen: false,
+    sufficient: false,
+    locked: 0
   }
-  const [defaultXbtc, setDefaultXbtc] = useState<AssetsInfo>(defaultValue)
+
+  const [defaultXbtc, setDefaultXbtc] = useState<SbtcAssetsInfo>(defaultValue)
 
   const [defaultXbtcValue, setDefaultXbtcValue] = useState<XbtcFreeInfo>({
-    usableBalance: defaultValue.usableBalance,
-    reservedDexSpotBalance: defaultValue.reservedDexSpotBalance,
-    reservedWithdrawalBalance: defaultValue.reservedWithdrawalBalance,
-    allBalance: defaultValue.allBalance
+    balance: defaultValue.balance,
+    extra: defaultValue.extra,
+    isFrozen: defaultValue.isFrozen,
+    sufficient: defaultValue.sufficient,
+    locked: defaultValue.locked
   });
 
   useEffect(() => {
     setDefaultXbtc(defaultValue);
     if (defaultXbtc) {
       setDefaultXbtcValue({
-        usableBalance: defaultXbtc.Usable,
-        reservedDexSpotBalance: defaultXbtc.ReservedDexSpot,
-        reservedWithdrawalBalance: defaultXbtc.ReservedWithdrawal,
-        allBalance: new BN(defaultXbtc.ReservedDexSpot).add(new BN(defaultXbtc.ReservedWithdrawal)).add(new BN(defaultXbtc.Usable))
+        balance: defaultXbtc.balance,
+        extra: defaultXbtc.extra,
+        isFrozen: defaultXbtc.isFrozen,
+        sufficient: defaultXbtc.sufficient,
+        locked: defaultValue.locked
       });
     }
 
@@ -111,28 +121,15 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
 
   useEffect(() => {
     if(isApiReady && assetsInfo){
-      setUsable((new BN(assetsInfo.Usable)).toNumber())
-      setReservedDexSpot((new BN(assetsInfo.ReservedDexSpot)).toNumber())
-      setReservedWithdrawal((new BN(assetsInfo.ReservedWithdrawal)).toNumber())
-      setAllBalance(
-        (new BN(assetsInfo.Usable)).add(
-          (new BN(assetsInfo.ReservedDexSpot))).add(
-          (new BN(assetsInfo.ReservedWithdrawal)
-          )
-        ).toNumber()
-      )
-
+      setUsable((new BN(assetsInfo.balance)).toNumber())
+      setReservedDexSpot(assetsInfo.isFrozen)
+      setReservedWithdrawal(assetsInfo.locked)
+      setAllBalance(assetsInfo.balance)
     }else{
-      setUsable((new BN(defaultXbtcValue.usableBalance)).toNumber())
-      setReservedDexSpot((new BN(defaultXbtcValue.reservedDexSpotBalance)).toNumber())
-      setReservedWithdrawal((new BN(defaultXbtcValue.reservedWithdrawalBalance)).toNumber())
-      setAllBalance(
-        (new BN(defaultXbtcValue.usableBalance)).add(
-          (new BN(defaultXbtcValue.reservedDexSpotBalance))).add(
-          (new BN(defaultXbtcValue.reservedWithdrawalBalance)
-          )
-        ).toNumber()
-      )
+      setUsable((new BN(defaultXbtcValue.balance)).toNumber())
+      setReservedDexSpot(defaultXbtcValue.isFrozen)
+      setReservedWithdrawal(defaultXbtcValue.locked)
+      setAllBalance(assetsInfo?.balance)
     }
   }, [defaultValue, isApiReady, assetsInfo])
 
@@ -141,25 +138,25 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
       <AssetLine>
         <Frees
           asset='Balance'
-          free={usable}
+          free={reservedDexSpot ? 0 : usable}
           precision={8}
         />
       </AssetLine>
       <AssetDetail>
-        <div>
+        <div className='infoView'>
           <AssetLine>
             <InfoView info='Bitcoin'
                       title={t('Chain')}/>
           </AssetLine>
-          <AssetLine>
+          {/* <AssetLine>
             <Free
               asset={t('DEX Reserved')}
               free={reservedDexSpot}
               precision={8}
             />
-          </AssetLine>
+          </AssetLine> */}
         </div>
-        <div>
+        <div className='infoViews'>
           <AssetLine>
             <Free
               asset={t('Withdrawal Reserved')}

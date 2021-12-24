@@ -10,7 +10,7 @@ const Wrapper = styled.section`
   //   display: flex;
   //   flex-direction: column;
   // }
-
+  margin-top: 16px;
   & > div {
     // margin-top: 16px;
     // display: flex;
