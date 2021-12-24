@@ -13,7 +13,7 @@ import Withdraw from '../../../modals/withdraw';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import Button from '@polkadot/react-components-chainx/Button';
-import useXbtcAssets from '@polkadot/app-accounts-chainx/Myview/useXbtcAssets';
+import useSbtcAssets from '@polkadot/app-accounts-chainx/Myview/useSbtcAssets';
 
 
 export default function (): React.ReactElement {
@@ -25,7 +25,7 @@ export default function (): React.ReactElement {
   const [isWithdraw, toggleWithdraw] = useToggle();
   const [n, setN] = useState(0);
   const {hasAccounts, allAccounts} = useAccounts()
-  const currentAccountInfo = useXbtcAssets(currentAccount, n)
+  const currentAccountInfos = useSbtcAssets(currentAccount, n)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
 
   const buttonGroup = (
@@ -40,7 +40,7 @@ export default function (): React.ReactElement {
       {isWithdraw && (
         <Withdraw
           account={currentAccount}
-          btc={currentAccountInfo?.Usable}
+          btc={currentAccountInfos?.isFrozen ? 0 : currentAccountInfos?.balance}
           onClose={toggleWithdraw}
           setN={setN}
         />
@@ -87,7 +87,7 @@ export default function (): React.ReactElement {
         <DetailWrapper>
           <AssetLine>
             <AssetView
-              assetsInfo={currentAccountInfo}
+              assetsInfo={currentAccountInfos}
             />
           </AssetLine>
         </DetailWrapper>

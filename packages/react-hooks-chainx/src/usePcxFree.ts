@@ -26,9 +26,11 @@ export default function usePcxFree(address = '',n = 0): PcxFreeInfo {
       if (address === '') {
         return;
       }
-      const { data: balance } = await api.query.system.account(address);
-      setValue(balance)
-      setState(balance);
+      if(isApiReady) {
+        const { data: balance } = await api.query.system.account(address);
+        setValue(balance)
+        setState(balance);
+      }
     }
 
     fetchPcxFree();

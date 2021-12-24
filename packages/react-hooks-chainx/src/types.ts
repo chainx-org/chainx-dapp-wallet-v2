@@ -208,3 +208,11 @@ export interface AssetsList {
 export interface userDividend {
   dividend: Dividended[]
 }
+
+export interface SbtcAssetsInfo {
+  balance: number,
+  extra: null,
+  isFrozen: boolean,
+  sufficient: boolean,
+  locked: number
+}
