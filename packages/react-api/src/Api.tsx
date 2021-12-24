@@ -26,7 +26,8 @@ import { options } from '@chainx-v2/api';
 import { decodeUrlTypes } from './urlTypes';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
-
+import newTypes from './NewTypes.json'
+import rpc from './RPCTypes.json'
 interface Props {
   children: React.ReactNode;
   url?: string;
@@ -164,7 +165,6 @@ async function loadOnReady(api: ApiPromise, injectedPromise: Promise<InjectedExt
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
-
   // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
   setSS58Format(ss58Format);
 
@@ -229,10 +229,8 @@ function Api({ children, store, url }: Props): React.ReactElement<Props> | null 
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
-
-    api = new ApiPromise(options({ provider, registry, signer, types, typesBundle, typesChain }));
-    // api = new ApiPromise(options({ provider, registry, signer, types, typesBundle, typesChain, typesSpec }));
-
+    api = new ApiPromise({ provider, registry, rpc, signer, types, typesBundle, typesChain });
+    api.registerTypes(newTypes)
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('error', (error: Error) => setApiError(error.message));

@@ -88,12 +88,12 @@ export default function (): React.ReactElement {
   const detailList = [
     {
       color: 'yellow',
-      type: 'PCX',
+      type: 'KSX',
       data: '77.6%'
     },
     {
       color: 'orange',
-      type: 'X-BTC',
+      type: 'sBTC',
       data: '0.5%'
     },
     {

@@ -33,7 +33,7 @@ function VoteNode({ onClose, validatorId, onSuccess, remainingVotesData }: Props
     {t<string>('Remaining Votes')}
     {'： '}
     {remainingVotesData && Number(remainingVotesData) > 0 ? <span> {remainingVotesData}</span> :<span className='warning'>0</span>}
-    {'  PCX'}
+    {'  KSX'}
   </VoteData>)
 
   return (

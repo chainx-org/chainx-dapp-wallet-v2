@@ -86,7 +86,7 @@ export default function ({allInterests, usableInterests, insufficientStake, setN
                   // onChange={setAccount}
                   labelExtra={
                     <span>
-                      {t('Total Interests')}： {allInterests ? allInterests.toFixed(8) : toPrecision(0,8)} PCX
+                      {t('Total Interests')}： {allInterests ? allInterests.toFixed(8) : toPrecision(0,18)} KSX
                       {/*<LabelHelp help={'111111'}/>*/}
                     </span>
                   }
@@ -96,9 +96,9 @@ export default function ({allInterests, usableInterests, insufficientStake, setN
               </Modal.Column>
               <Modal.Column>
                 <span>
-                  {t('Available Interest')} : {usableInterests ? usableInterests.toFixed(8) : toPrecision(0,8)} PCX
+                  {t('Available Interest')} : {usableInterests ? usableInterests.toFixed(8) : toPrecision(0,18)} KSX
                 </span>
-                {insufficientStake ? <Tip>{t('you need to mortgage')} : {insufficientStake.toFixed(8)} PCX</Tip>: ''}
+                {insufficientStake ? <Tip>{t('you need to mortgage')} : {insufficientStake.toFixed(8)} KSX</Tip>: ''}
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>

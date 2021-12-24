@@ -130,8 +130,8 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   const stored = store.get('settings') as Record<string, unknown> || {};
 
   const nodeMap: {[key: string]: string} = {
-    'wss://mainnet.chainx.org/ws': 'ChainX node A',
-    'wss://testnet.chainx.org': t('Test Node'),
+    'wss://mainnet.chainx.org/ws': 'SherpaX node A',
+    'wss://sherpax-testnet.chainx.org': t('Test Node'),
   }
 
   useEffect(() => {
@@ -158,12 +158,12 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
 
   const nodeList = ([
     {nodeName: t<string>('Assets'), link: '/accounts', icon: 'users'},
-    {nodeName: t<string>('Stak. over.'), link: '/staking/staking', icon: 'certificate'},
-    {nodeName: t<string>('My Staking'), link: '/staking/nomination', icon: 'certificate'},
-    {nodeName: t<string>('Democracy'), link: '/democracy/democracy', icon: 'calendar-check'},
-    {nodeName: t<string>('Council'), link: '/democracy/council', icon: 'building'},
-    {nodeName: t<string>('Treasury'), link: '/democracy/treasury', icon: 'gem'},
-    {nodeName: t<string>('Trustee'), link: '/democracy/trustee', icon: 'coins'},
+    // {nodeName: t<string>('Stak. over.'), link: '/staking/staking', icon: 'certificate'},
+    // {nodeName: t<string>('My Staking'), link: '/staking/nomination', icon: 'certificate'},
+    // {nodeName: t<string>('Democracy'), link: '/democracy/democracy', icon: 'calendar-check'},
+    // {nodeName: t<string>('Council'), link: '/democracy/council', icon: 'building'},
+    // {nodeName: t<string>('Treasury'), link: '/democracy/treasury', icon: 'gem'},
+    // {nodeName: t<string>('Trustee'), link: '/democracy/trustee', icon: 'coins'},
     {nodeName: t<string>('Explorer'), link: '/chainstate/explorer', icon: 'braille'}
   ]);
 

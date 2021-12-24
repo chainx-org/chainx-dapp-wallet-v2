@@ -34,7 +34,7 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
     <li onClick={() => setOutSideOpen(!outSideOpen)}
       ref={wrapper}>
       <header>
-        <span>X-BTC</span>
+        <span>sBTC</span>
         <span>{moment(props.deposit.indexer.blockTime).format(timeFormat)}</span>
       </header>
       <main>

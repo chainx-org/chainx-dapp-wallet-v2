@@ -346,7 +346,7 @@ function AccountActions({account: {address, meta}, isContract, delegation, proxy
             //     key='xbtc withdraw'
             //     onClick={toggleWithdraw}
             //   >
-            //     {t('X-BTC Withdrawals')}
+            //     {t('sBTC Withdrawals')}
             //   </Menu.Item>
             // ),
             // (

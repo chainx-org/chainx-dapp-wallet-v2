@@ -90,7 +90,7 @@ export default function ({tradingPairsInfo}: Props): React.ReactElement<Props> {
   return (
     <Wrapper>
       <div className='info'>
-        <Free asset={'PCX'}
+        <Free asset={'KSX'}
               free={hasAccounts ? bgUsableBalance.toNumber().toString() : Number(toPrecision(0, 7)).toString()}
               precision={8}/>
 
@@ -128,7 +128,7 @@ export default function ({tradingPairsInfo}: Props): React.ReactElement<Props> {
             }
           }}
           maxLength={13}
-          tokenName={'PCX'}
+          tokenName={'KSX'}
           value={amount}
         />
       </div>
@@ -160,7 +160,7 @@ export default function ({tradingPairsInfo}: Props): React.ReactElement<Props> {
           <TxButton
             accountId={currentAccount}
             isDisabled={disabled}
-            label={t('Sell PCX')}
+            label={t('Sell KSX')}
             params={[0, 'Limit', 'Sell',
               bgAmount.multipliedBy(Math.pow(10, 8)).toNumber(),
               bgPrice.multipliedBy(Math.pow(10, 9)).toNumber()]}

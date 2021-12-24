@@ -5,6 +5,7 @@ import type { TFunction } from 'i18next';
 import type { Routes } from './types';
 
 import accounts from './accounts';
+import transactionList from './transactionList'
 import addresses from './addresses';
 import calendar from './calendar';
 import claims from './claims';
@@ -38,6 +39,7 @@ import chainBrowser from '@polkadot/apps-routing/chainBrowser';
 export default function create(t: TFunction): Routes {
   return [
     accounts(t),
+    transactionList(t),
     addAccount(t),
     restore(t),
     addresses(t),
@@ -67,6 +69,5 @@ export default function create(t: TFunction): Routes {
     trade(t),
     settings(t),
     chainBrowser(t)
-
   ];
 }

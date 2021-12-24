@@ -29,6 +29,9 @@ const Wrapper = styled.div`
   div.left {
     flex: 1;
     width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   div.right {

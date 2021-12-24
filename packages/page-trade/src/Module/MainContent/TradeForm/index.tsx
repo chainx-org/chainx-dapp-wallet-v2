@@ -41,7 +41,7 @@ export default function (): React.ReactElement {
 
       current = Object.assign(current, {
         account: account,
-        assetName: 'X-BTC',
+        assetName: 'sBTC',
       });
       setCurrentAccountInfo(current);
 

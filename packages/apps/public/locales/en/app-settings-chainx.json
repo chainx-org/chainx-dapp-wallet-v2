@@ -45,8 +45,13 @@
   "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot",
   "Update metadata": "Update metadata",
   "Your custom types have been added": "Your custom types have been added",
+  "address prefix": "address prefix",
+  "default icon theme": "default icon theme",
+  "default interface language": "default interface language",
+  "default interface theme": "default interface theme",
   "do not include empty strings in the generated file": "do not include empty strings in the generated file",
   "include all empty strings in the generated file": "include all empty strings in the generated file",
+  "manage hardware connections": "manage hardware connections",
   "upgradable extensions": "upgradable extensions",
   "{{done}}/{{total}}, {{progress}}% done": "{{done}}/{{total}}, {{progress}}% done"
 }

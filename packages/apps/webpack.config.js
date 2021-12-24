@@ -18,7 +18,7 @@ module.exports = merge(
     devtool: process.env.BUILD_ANALYZE ? 'source-map' : false,
     plugins: [
       new HtmlWebpackPlugin({
-        PAGE_TITLE: 'ChainX Dapp Wallet',
+        PAGE_TITLE: 'SherpaX Dapp Wallet',
         meta: {'viewport': 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover'},
         inject: true,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)

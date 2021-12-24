@@ -59,7 +59,7 @@ export default function () {
       const testOrMain = await api.api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
       let res;
-      if (testOrMainNum.ss58Format === 42) {
+      if (testOrMainNum.ss58Format === 44) {
         res = await axios.get('https://testnet-api.chainx.org/dex/kline/0/86400000');
         dataList.push(...res.data.items)
       } else {

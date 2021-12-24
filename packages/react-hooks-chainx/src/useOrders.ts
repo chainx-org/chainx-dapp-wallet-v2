@@ -40,7 +40,7 @@ export default function useOrders(currentAccount = '', isLoading: boolean): Orde
       const nowOrdersList = JSON.parse(JSON.stringify(nowOrdersData)).data
 
       let historyOrdersList: any;
-      if (testOrMainNum.ss58Format === 42) {
+      if (testOrMainNum.ss58Format === 44) {
         historyOrdersList = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/deals?page=0&page_size=10`)
       } else {
         historyOrdersList = await axios.get(`https://api-v2.chainx.cc/accounts/${currentAccount}/deals?page=0&page_size=10`)

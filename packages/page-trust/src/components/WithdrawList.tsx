@@ -82,7 +82,7 @@ export default function ({ addr, applicant, assetId, balance, ext, height, id, s
       const testOrMain = await api.api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
 
-      if (testOrMainNum.ss58Format === 42) {
+      if (testOrMainNum.ss58Format === 44) {
         setAccountUrl(`https://testnet-scan.chainx.org/accounts/${applicant}`)
         setWithdrawalUr(`https://live.blockcypher.com/btc-testnet/address/${addr}`)
       } else {

@@ -14,7 +14,7 @@ const Content = styled.div`
   align-items: flex-start;
   flex-grow: 1;
   margin: 0 28px;
-  > .X-BTC{
+  > .sBTC{
     background: rgba(255, 255, 255);
     display: flex;
     flex-direction: column;
@@ -146,7 +146,7 @@ export default function (): React.ReactElement {
     <Content>
       {
 
-        <div className='X-BTC'>
+        <div className='sBTC'>
           <Header accounts={canwithDrawAccounts}
             allAssets={allAssets}
             interestTotal={userTotalInterest} />
@@ -155,9 +155,9 @@ export default function (): React.ReactElement {
           <div>
             <ul>
               <li><span>{t('Total chain balance')}</span> <span>{miningDetail.balance}</span></li>
-              <li><span>{t('Mining calculation')}（PCX）</span> <span>{miningDetail.miningPower}</span></li>
-              <li><span>{t('The number of votes')}（PCX）</span> <span>{miningDetail.votes}</span></li>
-              <li><span>{t('Total prize pool')}（PCX）</span> <span>{Number(miningDetail.totalPrizePool) / Math.pow(10, 8)}</span></li>
+              <li><span>{t('Mining calculation')}（KSX）</span> <span>{miningDetail.miningPower}</span></li>
+              <li><span>{t('The number of votes')}（KSX）</span> <span>{miningDetail.votes}</span></li>
+              <li><span>{t('Total prize pool')}（KSX）</span> <span>{Number(miningDetail.totalPrizePool) / Math.pow(10, 8)}</span></li>
               <li><span>{t('Total avalible xbtc balance')} XBTC</span>
                 <span>{userTotalAvailable / Math.pow(10, 8)}</span></li>
             </ul>

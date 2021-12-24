@@ -16,7 +16,7 @@ import { Table } from '@polkadot/react-components';
 export default function (): React.ReactElement {
   const { fills } = useContext(DexContext);
   const latest = fills[0]?.price || toPrecision(0, 7);
-  const currencies = ['PCX'];
+  const currencies = ['KSX'];
   const precision = 9;
   const showPrecision = 7;
   const { t } = useTranslation();

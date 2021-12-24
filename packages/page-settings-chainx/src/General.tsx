@@ -51,7 +51,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       let ss58Format = api.registry.chainSS58;
 
       if (isUndefined(ss58Format)) {
-        ss58Format = 42;
+        ss58Format = 44;
       }
 
       const network = allNetworks.find(({ prefix }) => prefix === ss58Format);

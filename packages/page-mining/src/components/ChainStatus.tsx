@@ -81,7 +81,7 @@ export default function (): React.ReactElement {
   const detailList = [
     {
       color: 'yellow',
-      type: 'PCX',
+      type: 'KSX',
       data: '57.6%'
     },
     {
@@ -96,7 +96,7 @@ export default function (): React.ReactElement {
     },
     {
       color: 'orange',
-      type: 'X-BTC',
+      type: 'sBTC',
       data: '1.1%'
     }
   ];
@@ -105,7 +105,7 @@ export default function (): React.ReactElement {
     <ChainStatus>
       <p>{t('Chain status')}</p>
       <div className='total'>
-        <span>{t('Total Issuance')}（PCX）</span>
+        <span>{t('Total Issuance')}（KSX）</span>
         <span>7,311,000/21,000,000</span>
       </div>
       <ProgressBar>
