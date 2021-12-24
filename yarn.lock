@@ -3840,7 +3840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ts@npm:^0.4.18":
+"@polkadot/ts@npm:^0.4.21":
   version: 0.4.22
   resolution: "@polkadot/ts@npm:0.4.22"
   dependencies:
@@ -18761,13 +18761,9 @@ fsevents@^1.2.7:
     "@babel/register": ^7.16.0
     "@babel/runtime": ^7.16.3
     "@pinata/sdk": ^1.1.23
-<<<<<<< HEAD
-    "@polkadot/dev": 0.64.12
-=======
     "@polkadot/app-transactionList": "workspace:packages/page-transactionList"
-    "@polkadot/dev": ^0.60.5
->>>>>>> 1a19a61415c7b8cebdd68070d2ca82611b0ff31f
-    "@polkadot/ts": ^0.4.18
+    "@polkadot/dev": 0.64.12
+    "@polkadot/ts": ^0.4.21
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.34
     "@types/file-saver": ^2.0.4

@@ -53,10 +53,10 @@
     "test:one": "polkadot-dev-run-test"
   },
   "dependencies": {
+    "@polkadot/app-transactionList": "workspace:packages/page-transactionList",
     "bignumber.js": "^9.0.1",
     "klinecharts": "^5.7.0",
-    "uniqid": "^5.2.0",
-    "@polkadot/app-transactionList": "workspace:packages/page-transactionList"
+    "uniqid": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
