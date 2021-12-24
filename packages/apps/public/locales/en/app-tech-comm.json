@@ -14,6 +14,7 @@
   "Propose from account": "Propose from account",
   "Select the account you wish close the proposal with.": "Select the account you wish close the proposal with.",
   "Select the account you wish to make the proposal with.": "Select the account you wish to make the proposal with.",
+  "Sending Account": "Sending Account",
   "Submit Proposal": "Submit Proposal",
   "Tech. committee": "Tech. committee",
   "The committee account that will apply the close for the current round.": "The committee account that will apply the close for the current round.",
@@ -30,6 +31,5 @@
   "prime member": "prime member",
   "proposal": "proposal",
   "proposals": "proposals",
-  "Sending Account": "Sending Account",
   "total": "Total"
 }

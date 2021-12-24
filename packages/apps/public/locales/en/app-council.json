@@ -23,6 +23,7 @@
   "No runners up found": "No runners up found",
   "Positive number between 1 and {{memberCount}}": "Positive number between 1 and {{memberCount}}",
   "Preimage Hash": "Preimage Hash",
+  "Proposals": "Proposals",
   "Propose": "Propose",
   "Propose External": "Propose external motion",
   "Propose Motion": "Propose Motion",
@@ -37,6 +38,7 @@
   "Select the account you wish close the proposal with.": "Select the account you wish close the proposal with.",
   "Select the account you wish to make the proposal with.": "Select the account you wish to make the proposal with.",
   "Select the account you wish to submit for candidacy.": "Select the account you wish to submit for candidacy.",
+  "Sending Account": "Sending Account",
   "Submit Candidacy": "Submit Candidacy",
   "Submit your council candidacy": "Submit your council candidacy",
   "Term Progress": "Term Progress",
@@ -74,7 +76,6 @@
   "no unapplied slashes found": "no unapplied slashes found",
   "prime voter": "prime voter",
   "proposal": "proposal",
-  "Sending Account": "Sending Account",
   "the era to cancel for": "the era to cancel for",
   "voting round": "voting round"
 }

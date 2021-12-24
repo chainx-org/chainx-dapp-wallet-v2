@@ -66,6 +66,7 @@
   "Total": "Total",
   "Treasury Overview": "Treasury Overview",
   "Use this account to request the tip from. This can be a normal or council account.": "Use this account to request the tip from. This can be a normal or council account.",
+  "Value": "Value",
   "Voting": "Voting",
   "Your endorsement will be applied for this account.": "Your endorsement will be applied for this account.",
   "approved": "approved",
@@ -73,6 +74,5 @@
   "next burn": "next burn",
   "proposals": "proposals",
   "tips": "tips",
-  "total": "Total",
-  "Value": "Value"
+  "total": "Total"
 }

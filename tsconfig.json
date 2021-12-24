@@ -47,6 +47,9 @@
       "@polkadot/app-addresses": [
         "packages/page-addresses/src"
       ],
+      "@polkadot/app-transactionList": [
+        "packages/page-transactionList/src"
+      ],
       "@polkadot/app-addresses/*": [
         "packages/page-addresses/src/*"
       ],

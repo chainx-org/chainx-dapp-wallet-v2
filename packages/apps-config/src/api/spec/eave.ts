@@ -237,6 +237,7 @@ const definitions: OverrideBundleDefinition = {
             RandomnessCollectiveFlip: 'Null',
             Balances: 'Null',
             Accounts: 'Null',
+            TransactionList:'Null',
             Currencies: 'Null',
             Tokens: 'Null',
             Vesting: 'Null',
