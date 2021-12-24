@@ -390,7 +390,7 @@ const definitions: OverrideBundleDefinition = {
             EUSD: 1,
             DOT: 2,
             LDOT: 3,
-            XBTC: 4,
+            sBTC: 4,
             RENBTC: 5,
             INTERBTC: 6,
             PLM: 7,

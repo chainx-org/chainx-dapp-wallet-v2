@@ -158,7 +158,7 @@ export default function (): React.ReactElement {
               <li><span>{t('Mining calculation')}（KSX）</span> <span>{miningDetail.miningPower}</span></li>
               <li><span>{t('The number of votes')}（KSX）</span> <span>{miningDetail.votes}</span></li>
               <li><span>{t('Total prize pool')}（KSX）</span> <span>{Number(miningDetail.totalPrizePool) / Math.pow(10, 8)}</span></li>
-              <li><span>{t('Total avalible xbtc balance')} XBTC</span>
+              <li><span>{t('Total avalible sbtc balance')} sBTC</span>
                 <span>{userTotalAvailable / Math.pow(10, 8)}</span></li>
             </ul>
           </div>
