@@ -62,12 +62,12 @@ export default function create (t: (key: string, text: string, options: { ns: st
   }
 
   let endpoints = [
-    {
-      isHeader: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
-      value: ''
-    },
-    ...createLive(t),
+    // {
+    //   isHeader: true,
+    //   text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+    //   value: ''
+    // },
+    // ...createLive(t),
     {
       isHeader: true,
       text: t('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
