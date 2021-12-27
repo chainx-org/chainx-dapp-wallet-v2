@@ -205,7 +205,7 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
           <AssetView
             bold
             title={t('Free Balance')}
-            value={usableBalance}
+            value={usableBalance > 0 ? usableBalance : 0}
           />
           {/*{api.api.tx.balances?.transfer && currentAccount && (*/}
             <Button
