@@ -1,13 +1,20 @@
 {
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "Settings management",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-settings-chainx#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
   "name": "@polkadot/app-settings-chainx",
   "private": true,
+  "repository": {
+    "directory": "packages/page-settings-chainx",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "version": "0.98.2-142",
-  "description": "Settings management",
   "main": "index.js",
-  "scripts": {},
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/apps-config": "^0.98.2-142",

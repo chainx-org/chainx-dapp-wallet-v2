@@ -1,15 +1,22 @@
 {
-  "name": "@polkadot/app-mining",
-  "private": true,
-  "version": "0.98.2-142",
-  "description": "Mining management",
-  "main": "index.js",
-  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "Mining management",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-mining#readme",
+  "license": "Apache-2.0",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "license": "Apache-2.0",
+  "name": "@polkadot/app-mining",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-mining",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "version": "0.98.2-142",
+  "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/apps-config": "0.98.2-142",

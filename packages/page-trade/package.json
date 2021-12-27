@@ -1,15 +1,22 @@
 {
-  "name": "@polkadot/app-trade",
-  "private": true,
-  "version": "0.98.2-142",
-  "description": "Trade management",
-  "main": "index.js",
-  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "Trade management",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-trade#readme",
+  "license": "Apache-2.0",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "license": "Apache-2.0",
+  "name": "@polkadot/app-trade",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-trade",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "version": "0.98.2-142",
+  "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/apps-config": "^0.98.2-142",

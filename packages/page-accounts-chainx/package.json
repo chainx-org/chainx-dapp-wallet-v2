@@ -1,15 +1,22 @@
 {
-  "name": "@polkadot/app-accounts-chainx",
-  "private": true,
-  "version": "",
-  "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "contributors": [],
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-accounts-chainx#readme",
+  "license": "Apache-2.0",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "contributors": [],
-  "license": "Apache-2.0",
+  "name": "@polkadot/app-accounts-chainx",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-accounts-chainx",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "version": "",
+  "main": "index.js",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/phishing": "^0.6.529",
