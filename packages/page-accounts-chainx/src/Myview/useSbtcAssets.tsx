@@ -24,12 +24,12 @@ function useSbtcAssets(account: string, n = 0): SbtcAssetsInfo {
 
   useEffect((): void => {
     async function getAssets(account: string): Promise<any> {
-        if(isApiReady) {
-            const asset = await api.query.assets.account(1, account)
-            const assetLock = await api.query.xGatewayRecords.locks(account, 1)
-            setValue(asset)
-            setLock(assetLock)
-        }
+      // if(isApiReady) {
+          const asset = await api.query.assets.account(1, account)
+          const assetLock = await api.query.xGatewayRecords.locks(account, 1)
+          setValue(asset)
+          setLock(assetLock)
+      // }
       let current = {
         balance: 0,
         extra: null,
@@ -37,16 +37,16 @@ function useSbtcAssets(account: string, n = 0): SbtcAssetsInfo {
         sufficient: false,
       } as SbtcAssetsInfo;
 
-      if (JSON.stringify(current) === '{}') {
-        current = {
-            balance: 0,
-            extra: null,
-            isFrozen: false,
-            sufficient: false,
-        } as SbtcAssetsInfo;
-      }
+      // if (JSON.stringify(current) === '{}') {
+      //   current = {
+      //     balance: 0,
+      //     extra: null,
+      //     isFrozen: false,
+      //     sufficient: false,
+      //   } as SbtcAssetsInfo;
+      // }
       
-      current = Object.assign(current, {
+      current = Object.assign(asset, {
         account: account,
         assetName: 'sBTC',
         locked: lock || 0
