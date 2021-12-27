@@ -130,7 +130,7 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   const stored = store.get('settings') as Record<string, unknown> || {};
 
   const nodeMap: {[key: string]: string} = {
-    'wss://mainnet.chainx.org/ws': 'SherpaX node A',
+    // 'wss://mainnet.chainx.org/ws': 'SherpaX node A',
     'wss://sherpax-testnet.chainx.org': t('Test Node'),
   }
 
