@@ -40,7 +40,7 @@ export default function (): React.ReactElement {
       {isWithdraw && (
         <Withdraw
           account={currentAccount}
-          btc={currentAccountInfos?.isFrozen ? 0 : currentAccountInfos?.balance}
+          btc={currentAccountInfos?.isFrozen ? currentAccountInfos?.balance : 0}
           onClose={toggleWithdraw}
           setN={setN}
         />
