@@ -145,7 +145,7 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
       <AssetDetail>
         <div className='infoView'>
           <AssetLine>
-            <InfoView info='Bitcoin'
+            <InfoView info='Signet'
                       title={t('Chain')}/>
           </AssetLine>
           {/* <AssetLine>
