@@ -5,16 +5,24 @@ import sbtcIcon from './assets/sbtc.png';
 import processIcon from './assets/process.png'
 import {useApi} from "@polkadot/react-hooks";
 import CopyText from "./CopyText";
+import BigNumber from 'bignumber.js'
+import { toPrecision } from '../../page-accounts-chainx/src/Myview/toPrecision';
+import FinalWithdrawal from './components/FinalWithdrawal';
 
 function transactionList({basePath, className = ''}: Props): React.ReactElement<Props> {
   const {api, isApiReady} = useApi();
   const [transList, setTransList] = useState([]);
+  const [fee, setFee] = useState();
 
   async function getData(): Promise<any> {
     if (isApiReady) {
       const result = await api.rpc.xgatewayrecords.withdrawalList()
+      const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
       let resultList = Object.values(result.toJSON())
+      let resFee = res.toJSON()
       setTransList(resultList)
+      setFee(resFee.fee)
+      console.log('fee',resFee,result.toJSON())
     }
   }
 
@@ -50,7 +58,19 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
               </div>
               <div className='title'>
                 Amount
-                <span className='content'>{item.balance}</span>
+                <span className='content'>{toPrecision(item.balance,8)}</span>
+              </div>
+              <div className='title'>
+                Fee
+                { fee && <span className='content'>{toPrecision(fee,8)}</span> }
+              </div>
+              <div className='title'>
+                <FinalWithdrawal
+                  asset={('Final_Withdrawal')}
+                  balance={item.balance}
+                  free={fee}
+                  precision={8}
+                />
               </div>
               <CopyText text={item.addr}>
                 <span className='title' style={{marginRight:'10px'}}>Address</span>
