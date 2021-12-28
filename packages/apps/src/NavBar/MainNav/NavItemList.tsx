@@ -71,9 +71,9 @@ function NavItemList(): React.ReactElement {
         <li className='assets media--500'>
           <Link to={'/accounts'}>{t('Assets')}</Link>
         </li>
-        <li className='assets media--500'>
+        {/* <li className='assets media--500'>
           <Link to={'/transactionList'}>{t('Transaction')}</Link>
-        </li>
+        </li> */}
         {/* <li className='staking media--600'
             onMouseEnter={() => toggleSelector('staking')}
             onMouseLeave={() => setToggleStaking(false)}

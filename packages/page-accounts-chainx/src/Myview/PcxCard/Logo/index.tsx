@@ -49,7 +49,7 @@ export default function () {
         src={sherpax} />
       <section className='info'>
         <Title>KSX</Title>
-        <Desc>Polkadot ChainX</Desc>
+        <Desc>ChainX's Canary Network</Desc>
       </section>
     </Wrapper>
   );
