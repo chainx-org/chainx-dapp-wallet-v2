@@ -83,12 +83,12 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           <Modal.Column>
             <Input
               help={t('the actual account you wish to withdraw')}
-              label={t('BTC withdraw address')}
+              label={t('sBTC withdraw address')}
               onChange={setWithdrawAddress}
             />
           </Modal.Column>
           <Modal.Column>
-            {/* <p>{t('BTC withdraw address')}</p> */}
+            {/* <p>{t('sBTC withdraw address')}</p> */}
             <span style={{display: (disabled === true) ? "block" : "none"}}>{t('Required')}</span>
           </Modal.Column>
         </Modal.Columns>
