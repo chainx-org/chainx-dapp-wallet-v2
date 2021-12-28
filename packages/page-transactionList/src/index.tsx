@@ -2,19 +2,23 @@ import type {AppProps as Props, ThemeProps} from '@polkadot/react-components/typ
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import sbtcIcon from './assets/sbtc.png';
-import processIcon from './assets/process.png'
+import {AccountLoading} from '@polkadot/react-components-chainx';
 import {useApi} from "@polkadot/react-hooks";
 import CopyText from "./CopyText";
 
 function transactionList({basePath, className = ''}: Props): React.ReactElement<Props> {
   const {api, isApiReady} = useApi();
   const [transList, setTransList] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   async function getData(): Promise<any> {
+    setLoading(true)
     if (isApiReady) {
+      setTransList([])
       const result = await api.rpc.xgatewayrecords.withdrawalList()
       let resultList = Object.values(result.toJSON())
       setTransList(resultList)
+      setLoading(false)
     }
   }
 
@@ -25,54 +29,58 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
     getData()
   }
   return (
-    <main className={`staking--App ${className}`}>
-      <div className='bar'>
-        <span>Redeem Request</span>
-        <button className='myButton' onClick={refreshData}>Refresh</button>
-      </div>
-      <div className='container'>
-        {transList && transList.map((item: any) => {
-          return (
-            <div className='box' key={item.block}>
-              <div className='firstLine'>
-                <CopyText text={item.applicant}>
-                  <span className='title' style={{marginRight:'10px'}}>User</span>
-                  {item.applicant
+    <div>
+      <main className={`staking--App ${className}`}>
+        <div className='bar'>
+          <span>Redeem Request</span>
+          <button className='myButton' onClick={refreshData}>Refresh</button>
+        </div>
+        <div className='container'>
+          {transList && transList.map((item: any) => {
+            return (
+              <div className='box' key={item.block}>
+                <div className='firstLine'>
+                  <CopyText text={item.applicant}>
+                    <span className='title' style={{marginRight: '10px'}}>User</span>
+                    {item.applicant
+                      ?.substring(0, 7)
+                      .concat('...')
+                      .concat(item.applicant?.substring(item.applicant.length - 5))}
+                  </CopyText>
+                  <div className='imgContent'>
+                    <img src={sbtcIcon} alt="" style={{width: '18px'}}/>
+                    {/*{item.asset_id}*/}
+                    <span className='content'>sBTC</span>
+                  </div>
+                </div>
+                <div className='title'>
+                  Amount
+                  <span className='content'>{item.balance}</span>
+                </div>
+                <CopyText text={item.addr}>
+                  <span className='title' style={{marginRight: '10px'}}>Address</span>
+                  {item.addr
                     ?.substring(0, 7)
                     .concat('...')
-                    .concat(item.applicant?.substring(item.applicant.length - 5))}
+                    .concat(item.addr?.substring(item.addr.length - 5))}
                 </CopyText>
-                <div className='imgContent'>
-                  <img src={sbtcIcon} alt="" style={{width: '18px'}}/>
-                  {/*{item.asset_id}*/}
-                  <span className='content' style={{color: '#A535A5'}}>sBTC</span>
+                <div className='firstLine'>
+                  <div>
+                    <span className='title'>Block</span>
+                    <span className='content'>{item.height}</span>
+                  </div>
+                  <div className='imgContent'>
+                    <div className='cricle'></div>
+                    <span className='content'>{item.state}</span>
+                  </div>
                 </div>
-              </div>
-              <div className='title'>
-                Amount
-                <span className='content'>{item.balance}</span>
-              </div>
-              <CopyText text={item.addr}>
-                <span className='title' style={{marginRight:'10px'}}>Address</span>
-                {item.addr
-                  ?.substring(0, 7)
-                  .concat('...')
-                  .concat(item.addr?.substring(item.addr.length - 5))}
-              </CopyText>
-              <div className='firstLine'>
-                <div>
-                  <span className='title'>Block</span>
-                  <span className='content'>{item.height}</span>
-                </div>
-                <div className='imgContent'>
-                  <img src={processIcon} alt="" style={{width: '18px'}}/>
-                  <span className='content'>{item.state}</span>
-                </div>
-              </div>
-            </div>)
-        })}
-      </div>
-    </main>
+              </div>)
+          })}
+        </div>
+      </main>
+      {loading && <AccountLoading/>}
+    </div>
+
   );
 }
 
@@ -143,6 +151,18 @@ export default React.memo(styled(transactionList)(({theme}: ThemeProps) => `
       display: flex;
       align-items: center;
       justify-content: center;
+      .cricle{
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        width: 10px;
+        height: 10px;
+        background-color: #A535A5;
+        border-radius: 50%;
+      }
+      .content{
+        color:#A535A5;
+      }
     }
   }
 }
