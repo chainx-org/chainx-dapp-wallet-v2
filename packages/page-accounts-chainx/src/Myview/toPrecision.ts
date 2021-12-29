@@ -6,7 +6,7 @@ export function toPrecision(value: number, precision = 0, paddingZero = true): n
   const big = new BigNumber(value).dividedBy(Math.pow(10, precision));
 
   if (paddingZero) {
-    return big.toFixed(precision);
+    return parseFloat(big.toPrecision(precision));
   } else {
     return big.toNumber();
   }

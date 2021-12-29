@@ -19,14 +19,17 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
     setLoading(true)
     if (isApiReady) {
       setTransList([])
-      const result = await api.rpc.xgatewayrecords.withdrawalList()
+      const resdata = await api.rpc.xgatewayrecords.withdrawalList()
+      let resultList = Object.values(resdata.toJSON())
+      let result = Object.keys(resultList).reduce((pre,cur)=>{
+        resultList[cur].id = parseInt(cur)
+        return pre.concat(resultList[cur])
+      },[])
+      setTransList(result)
       const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
-      let resultList = Object.values(result.toJSON())
       let resFee = res.toJSON()
-      setTransList(resultList)
       setFee(resFee.fee)
       setLoading(false)
-      // console.log('fee',resFee,result.toJSON())
     }
   }
 
@@ -46,6 +49,10 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
         {transList && transList.map((item: any) => {
           return (
             <div className='box' key={item.block}>
+              <div className='title'>
+                Id
+                <span className='content'>{item.id}</span>
+              </div>
               <div className='firstLine'>
                 <CopyText text={item.applicant}>
                   <span className='title' style={{marginRight:'10px'}}>User</span>
@@ -145,7 +152,7 @@ export default React.memo(styled(transactionList)(({theme}: ThemeProps) => `
   .box{
     border: 1px solid #dce0e2;
     border-radius: 10px;
-    padding: 16px;
+    padding: 14px;
     background: #fff;
     height: fit-content;
     .firstLine{
