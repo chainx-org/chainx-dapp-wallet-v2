@@ -52,20 +52,20 @@ function createDev(t: TFunction): LinkOption[] {
   ];
 }
 
-function createLiveNetworks(t: TFunction): LinkOption[] {
+// function createLiveNetworks(t: TFunction): LinkOption[] {
 
-  const endsArray = ['wss://mainnet.chainx.org/ws']
-  return [
-    // polkadot test relays
-    {
-      dnslink: 'SherpaX',
-      info: 'SherpaX',
-      text: 'SherpaX node A',
-      textBy: t('rpc.hosted.by', 'hosted by SherpaX', { ns: 'apps-config', replace: { host: 'SherpaX' } }),
-      value: 'wss://mainnet.chainx.org/ws'
-    }
-  ];
-}
+//   const endsArray = ['wss://mainnet.chainx.org/ws']
+//   return [
+//     // polkadot test relays
+//     {
+//       dnslink: 'SherpaX',
+//       info: 'SherpaX',
+//       text: 'SherpaX node A',
+//       textBy: t('rpc.hosted.by', 'hosted by SherpaX', { ns: 'apps-config', replace: { host: 'SherpaX' } }),
+//       value: 'wss://mainnet.chainx.org/ws'
+//     }
+//   ];
+// }
 
 function createTestNetworks(t: TFunction): LinkOption[] {
   return [
