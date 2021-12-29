@@ -115,7 +115,7 @@
     "height": "BlockNumber"
   },
   "WithdrawalLimit": {
-    "minimal_withdrawal": "Balance",
+    "minimalWithdrawal": "Balance",
     "fee": "Balance"
   },
   "TrusteeInfoConfig": {

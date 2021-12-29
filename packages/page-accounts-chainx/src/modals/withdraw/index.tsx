@@ -73,9 +73,8 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
     async function getMinWithdraw() {
       const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
       let resFee = res.toJSON()
-      // setMinWithdraw(resFee.minimal_withdrawal)
+      setMinWithdraw(Number(resFee.minimalWithdrawal) / Math.pow(10, 8))
       setMinFee(Number(resFee.fee) / Math.pow(10, 8));
-      setFinalWithdraw(Number(amount) / Math.pow(10, 10) - resFee.fee)
     }
     getMinWithdraw();
   }, [isApiReady]);
