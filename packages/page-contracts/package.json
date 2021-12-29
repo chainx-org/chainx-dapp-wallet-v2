@@ -1,13 +1,20 @@
 {
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "Deployment and management of substrate contracts",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-contracts#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
   "name": "@polkadot/app-contracts",
   "private": true,
+  "repository": {
+    "directory": "packages/page-contracts",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "version": "0.98.2-142",
-  "description": "Deployment and management of substrate contracts",
   "main": "index.js",
-  "scripts": {},
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/api-contract": "^6.11.1"

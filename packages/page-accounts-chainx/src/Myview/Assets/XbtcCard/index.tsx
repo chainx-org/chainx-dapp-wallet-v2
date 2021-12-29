@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import xbtcLogo from './xbtc.svg';
+import sbtcLogo from './icon_SBTC.svg'
 import AssetCard from '../components/AssetCard';
 import AssetView from '../components/AssetView';
 import {AssetLine, DetailWrapper} from '../components/common';
@@ -40,7 +41,7 @@ export default function (): React.ReactElement {
       {isWithdraw && (
         <Withdraw
           account={currentAccount}
-          btc={currentAccountInfos?.isFrozen ? 0 : currentAccountInfos?.balance}
+          btc={currentAccountInfos?.isFrozen ? currentAccountInfos?.balance : 0}
           onClose={toggleWithdraw}
           setN={setN}
         />
@@ -82,7 +83,7 @@ export default function (): React.ReactElement {
   );
 
   return (
-    <AssetCard buttonGroup={buttonGroup} logo={xbtcLogo}>
+    <AssetCard buttonGroup={buttonGroup} logo={sbtcLogo}>
       <div className='details'>
         <DetailWrapper>
           <AssetLine>

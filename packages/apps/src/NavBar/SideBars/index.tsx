@@ -130,7 +130,7 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   const stored = store.get('settings') as Record<string, unknown> || {};
 
   const nodeMap: {[key: string]: string} = {
-    'wss://mainnet.chainx.org/ws': 'SherpaX node A',
+    // 'wss://mainnet.chainx.org/ws': 'SherpaX node A',
     'wss://sherpax-testnet.chainx.org': t('Test Node'),
   }
 
@@ -158,7 +158,7 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
 
   const nodeList = ([
     {nodeName: t<string>('Assets'), link: '/accounts', icon: 'users'},
-    {nodeName: t<string>('Transaction'), link: '/transactionList', icon: 'users'},
+    // {nodeName: t<string>('Transaction'), link: '/transactionList', icon: 'users'},
     // {nodeName: t<string>('Stak. over.'), link: '/staking/staking', icon: 'certificate'},
     // {nodeName: t<string>('My Staking'), link: '/staking/nomination', icon: 'certificate'},
     // {nodeName: t<string>('Democracy'), link: '/democracy/democracy', icon: 'calendar-check'},

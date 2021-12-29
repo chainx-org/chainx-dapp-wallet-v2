@@ -1,8 +1,17 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-electron#readme",
+  "license": "Apache-2",
   "name": "@polkadot/apps-electron",
-  "main": "index.js",
   "private": true,
+  "repository": {
+    "directory": "packages/apps-electron",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "version": "0.98.2-142",
+  "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/polyfill": "^7.12.1",

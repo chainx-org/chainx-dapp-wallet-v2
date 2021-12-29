@@ -5,16 +5,28 @@ import sbtcIcon from './assets/sbtc.png';
 import processIcon from './assets/process.png'
 import {useApi} from "@polkadot/react-hooks";
 import CopyText from "./CopyText";
+import {AccountLoading} from '@polkadot/react-components-chainx';
+import { toPrecision } from '../../page-accounts-chainx/src/Myview/toPrecision';
+import FinalWithdrawal from './components/FinalWithdrawal';
 
 function transactionList({basePath, className = ''}: Props): React.ReactElement<Props> {
   const {api, isApiReady} = useApi();
   const [transList, setTransList] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [fee, setFee] = useState();
 
   async function getData(): Promise<any> {
+    setLoading(true)
     if (isApiReady) {
+      setTransList([])
       const result = await api.rpc.xgatewayrecords.withdrawalList()
+      const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
       let resultList = Object.values(result.toJSON())
+      let resFee = res.toJSON()
       setTransList(resultList)
+      setFee(resFee.fee)
+      setLoading(false)
+      // console.log('fee',resFee,result.toJSON())
     }
   }
 
@@ -45,12 +57,24 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
                 <div className='imgContent'>
                   <img src={sbtcIcon} alt="" style={{width: '18px'}}/>
                   {/*{item.asset_id}*/}
-                  <span className='content' style={{color: '#A535A5'}}>sBTC</span>
+                  <span className='content'>sBTC</span>
                 </div>
               </div>
               <div className='title'>
                 Amount
-                <span className='content'>{item.balance}</span>
+                <span className='content'>{toPrecision(item.balance,8)}</span>
+              </div>
+              <div className='title'>
+                Fee
+                { fee && <span className='content'>{toPrecision(fee,8)}</span> }
+              </div>
+              <div className='title'>
+                <FinalWithdrawal
+                  asset={('Final_Withdrawal')}
+                  balance={item.balance}
+                  free={fee}
+                  precision={8}
+                />
               </div>
               <CopyText text={item.addr}>
                 <span className='title' style={{marginRight:'10px'}}>Address</span>
@@ -65,13 +89,14 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
                   <span className='content'>{item.height}</span>
                 </div>
                 <div className='imgContent'>
-                  <img src={processIcon} alt="" style={{width: '18px'}}/>
+                  <div className='cricle'></div>
                   <span className='content'>{item.state}</span>
                 </div>
               </div>
             </div>)
         })}
       </div>
+      {loading && <AccountLoading/>}
     </main>
   );
 }
@@ -143,6 +168,18 @@ export default React.memo(styled(transactionList)(({theme}: ThemeProps) => `
       display: flex;
       align-items: center;
       justify-content: center;
+       .cricle{
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        width: 10px;
+        height: 10px;
+        background-color: #A535A5;
+        border-radius: 50%;
+      }
+      .content{
+        color:#A535A5;
+      }
     }
   }
 }

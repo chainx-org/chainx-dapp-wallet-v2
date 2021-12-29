@@ -1,11 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+// import BN from 'bn.js';
 import React, {Dispatch, useEffect, useState} from 'react';
 import {Input, InputAddress, Modal, TxButton} from '@polkadot/react-components';
 import {InputXBTCBalance} from '@polkadot/react-components-chainx';
+import InputSBTCBalance from '@polkadot/react-components-chainx/InputSBTCBalance';
+import {useApi} from "@polkadot/react-hooks";
 import {useTranslation} from '../../translate';
+import BigNumber from 'bignumber.js';
 import styled from 'styled-components';
 
 interface Props {
@@ -26,17 +29,31 @@ const Wrapper = styled(Modal)`
       }
     }
   }
+  .finalWithdrawAmount {
+    position: relative;
+    .final {
+      position: absolute;
+      left: 40px;
+      z-index: 99;
+      bottom: 6px;
+      background: #fff;
+      padding: 4px 10px;
+    }
+  }
 `;
 
 function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
-
-  const [amount, setAmount] = useState<BN | undefined>();
+  const {api,isApiReady} = useApi();
+  const [amount, setAmount] = useState<number | undefined>(0);
   const [memo, setMemo] = useState<string | null | undefined>();
   const [accountId, setAccount] = useState<string | null | undefined>();
   const [withdrawAddress, setWithdrawAddress] = useState<string | null | undefined>();
   const [disabled, setDisabled] = useState(false);
   const [addressErrMsg, setAddressErrMsg] = useState('');
+  const [minWithdraw, setMinWithdraw] = useState<number>(0.0075)
+  const [minfee, setMinFee] = useState<number>(0.005)
+  const [finalWithdraw, setFinalWithdraw] = useState<number>(0)
   useEffect(() => {
     if (!withdrawAddress) {
       setAddressErrMsg('必填');
@@ -52,6 +69,21 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
     }
   }, [withdrawAddress]);
 
+  useEffect((): void => {
+    async function getMinWithdraw() {
+      const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
+      let resFee = res.toJSON()
+      // setMinWithdraw(resFee.minimal_withdrawal)
+      setMinFee(Number(resFee.fee) / Math.pow(10, 8));
+      setFinalWithdraw(Number(amount) / Math.pow(10, 10) - resFee.fee)
+    }
+    getMinWithdraw();
+  }, [isApiReady]);
+  
+  useEffect((): void => {
+    const WithdrawAmount = new BigNumber(Number(amount) / Math.pow(10, 18))
+    setFinalWithdraw(WithdrawAmount.minus(minfee).toNumber())
+  }, [amount,minfee]);
   return (
     <Wrapper
       header={t('sBTC Withdrawals')}
@@ -83,12 +115,12 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           <Modal.Column>
             <Input
               help={t('the actual account you wish to withdraw')}
-              label={t('BTC withdraw address')}
+              label={t('sBTC withdraw address')}
               onChange={setWithdrawAddress}
             />
           </Modal.Column>
           <Modal.Column>
-            {/* <p>{t('BTC withdraw address')}</p> */}
+            {/* <p>{t('sBTC withdraw address')}</p> */}
             <span style={{display: (disabled === true) ? "block" : "none"}}>{t('Required')}</span>
           </Modal.Column>
         </Modal.Columns>
@@ -101,11 +133,26 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setAmount}
             />
           </Modal.Column>
-          {/* <Modal.Column>
-            <p>{t('The number of withdrawals')}</p>
-          </Modal.Column> */}
+          <Modal.Column>
+            <p>{t('Minimum withdrawal amount is')} {minWithdraw}</p>
+          </Modal.Column>
         </Modal.Columns>
-
+        <Modal.Columns>
+          <Modal.Column>
+            <div className='finalWithdrawAmount'>
+              <div className='final'>{finalWithdraw>0?finalWithdraw:0}</div>
+              <InputSBTCBalance
+                defaultValue={0}
+                help={<p>{t<string>('Service Fee')} {minfee} sBTC</p>}
+                isDisabled
+                label={t<string>('You will received')}
+              />
+            </div>
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Service Fee')} {minfee} sBTC</p>
+          </Modal.Column>
+        </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Input
@@ -115,9 +162,6 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setMemo}
             />
           </Modal.Column>
-          {/* <Modal.Column>
-            <p>{t('Remark')}</p>
-          </Modal.Column> */}
         </Modal.Columns>
 
       </Modal.Content>
@@ -128,7 +172,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           icon='sign-in-alt'
           label={t('Withdrawals')}
           onStart={onClose}
-          params={['1', amount, withdrawAddress, memo ? memo.trim() : '']}
+          params={['1', Number(amount) / Math.pow(10, 10), withdrawAddress, memo ? memo.trim() : '']}
           tx='xGatewayCommon.withdraw'
           isDisabled={disabled}
           onSuccess={() => {

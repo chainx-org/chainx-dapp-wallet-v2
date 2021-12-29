@@ -1,13 +1,20 @@
 {
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "A on-chain events calendar",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-calendar#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
   "name": "@polkadot/app-calendar",
   "private": true,
+  "repository": {
+    "directory": "packages/page-calendar",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "version": "0.98.2-142",
-  "description": "A on-chain events calendar",
   "main": "index.js",
-  "scripts": {},
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/react-components": "^0.98.2-142"

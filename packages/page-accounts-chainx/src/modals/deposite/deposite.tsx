@@ -160,12 +160,16 @@ export default function ({address, onClose}: Props) {
         <ul className={'info'}>
           <li>
             <img alt='info' src={infoIcon}/>
-            <span>{t('The top-up amount must be greater than 0.001 BTC')}</span>
+            <span>{t('The top-up amount must be greater than 0.001 sBTC')}</span>
           </li>
           <li>
             <img alt='info' src={infoIcon}/>
-            <span>{t('Currently, only cross-chain top-up initiated by BTC addresses starting with 1 and 3 is supported')}</span>
+            <span>{t('The X-sBTC will arrive in 1~2 hours ')}</span>
           </li>
+          {/* <li>
+            <img alt='info' src={infoIcon}/>
+            <span>{t('Currently, only cross-chain top-up initiated by BTC addresses starting with 1 and 3 is supported')}</span>
+          </li> */}
         </ul>
         <section className='show-code'>
           <h3 style={{marginBottom: 0}}>

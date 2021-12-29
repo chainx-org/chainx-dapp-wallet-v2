@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-transactionList';
+import Component  from '@polkadot/app-transactionList';
 
 export default function create(t: TFunction): Route {
   return {

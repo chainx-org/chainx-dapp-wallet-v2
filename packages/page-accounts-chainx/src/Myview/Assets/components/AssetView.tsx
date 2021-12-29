@@ -138,14 +138,14 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
       <AssetLine>
         <Frees
           asset='Balance'
-          free={reservedDexSpot ? 0 : usable}
+          free={reservedDexSpot ? usable : 0}
           precision={8}
         />
       </AssetLine>
       <AssetDetail>
         <div className='infoView'>
           <AssetLine>
-            <InfoView info='Bitcoin'
+            <InfoView info='Bitcoin(Signet)'
                       title={t('Chain')}/>
           </AssetLine>
           {/* <AssetLine>
