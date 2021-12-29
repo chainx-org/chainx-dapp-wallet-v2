@@ -20,7 +20,7 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
     const testOrMain = await api.api.rpc.system.properties();
     const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
-    if (testOrMainNum.ss58Format === 42) {
+    if (testOrMainNum.ss58Format === 44) {
       res = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/transfers?page=0&page_size=20`);
     } else {
       res = await axios.get(`https://api-v2.chainx.cc/accounts/${currentAccount}/transfers?page=0&page_size=20`);

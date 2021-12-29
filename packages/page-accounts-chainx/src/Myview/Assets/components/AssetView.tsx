@@ -5,7 +5,7 @@ import Free from './Free';
 import Frees from './Frees';
 import InfoView from './InfoView';
 import {useTranslation} from '@polkadot/app-accounts/translate';
-import BN from 'bn.js';
+import BigNumber from 'bignumber.js';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
 import {isPaste} from '@polkadot/react-components/Input';
@@ -17,7 +17,7 @@ export const AssetDetail = styled.div`
   div.infoView {
     width: 16%;
     @media screen and (max-width:767px) {
-      width: 30%;
+      width: 40%;
     }
   }
   div.infoViews {
@@ -117,15 +117,15 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
 
   useEffect(() => {
     if(defaultValue){
-      setUsable((new BN(defaultValue.balance)).toNumber())
+      setUsable(new BigNumber(defaultValue.balance).toNumber())
+      setReservedWithdrawal(new BigNumber(defaultValue.locked).toNumber())
       setReservedDexSpot(defaultValue.isFrozen)
-      setReservedWithdrawal(defaultValue.locked)
       setAllBalance(defaultValue?.balance)
-    }else{
+    } else{
       if(assetsInfo) {
-        setUsable((new BN(assetsInfo.balance)).toNumber())
+        setUsable(new BigNumber(assetsInfo.balance).toNumber())
+        setReservedWithdrawal(new BigNumber(assetsInfo.locked).toNumber())
         setReservedDexSpot(assetsInfo.isFrozen)
-        setReservedWithdrawal(assetsInfo.locked)
         setAllBalance(assetsInfo.balance)  
       }
     }

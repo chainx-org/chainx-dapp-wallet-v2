@@ -39,7 +39,7 @@ export default function useRecords(currentAccount = ''): Records {
     const testOrMainNum = JSON.parse(testOrMain);
     let depositsList: any;
     let withdrawalsList: any;
-    if (testOrMainNum.ss58Format === 42) {
+    if (testOrMainNum.ss58Format === 44) {
       depositsList = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/deposits?page=0&page_size=20`);
       withdrawalsList = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/withdrawals?page=0&page_size=20`);
     } else {

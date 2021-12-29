@@ -28,21 +28,20 @@ function useSbtcAssets(account: string, n = 0): SbtcAssetsInfo {
         const assetLock = await api.query.xGatewayRecords.locks(account, 1)
         // setValue(asset)
         let current = {
-          balance: 0,
-          extra: null,
-          isFrozen: false,
-          sufficient: false,
-          locked: 0
+          balance: asset.balance,
+          extra: asset.extra,
+          isFrozen: asset.isFrozen,
+          sufficient: asset.sufficient,
+          locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
         } as SbtcAssetsInfo;
-        current = Object.assign(asset, {
+        current = Object.assign(current, {
           account: account,
           assetName: 'sBTC',
-          locked: assetLock || 0
+          locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
         });
         setValue(JSON.stringify(current));
         setState(current);
       }
-
       // if (JSON.stringify(current) === '{}') {
       //   current = {
       //     balance: 0,

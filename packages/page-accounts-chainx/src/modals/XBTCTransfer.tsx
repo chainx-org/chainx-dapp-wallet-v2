@@ -115,7 +115,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
           params={
             [recipientId, 1, Number(amount) * Math.pow(10, 8)]
           }
-          tx={'xAssets.transfer'}
+          tx={'assets.transfer'}
         />
       </Modal.Actions>
     </Modal>
