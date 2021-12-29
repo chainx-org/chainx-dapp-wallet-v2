@@ -82,10 +82,10 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
   const currentAccount = useContext(AccountContext);
 
-  const [usable, setUsable] = useState<number>(0)
+  const [usable, setUsable] = useState<number>()
   const [reservedDexSpot, setReservedDexSpot] = useState<boolean>(false)
-  const [reservedWithdrawal, setReservedWithdrawal] = useState<number>(0)
-  const [allBalance, setAllBalance] = useState<number>(0)
+  const [reservedWithdrawal, setReservedWithdrawal] = useState<number>()
+  const [allBalance, setAllBalance] = useState<number>()
 
   const defaultValue = JSON.parse(window.localStorage.getItem('sbtcInfo')) || {
     balance: 0,
@@ -94,51 +94,49 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
     sufficient: false,
     locked: 0
   }
-
-  const [defaultXbtc, setDefaultXbtc] = useState<SbtcAssetsInfo>(defaultValue)
-
-  const [defaultXbtcValue, setDefaultXbtcValue] = useState<XbtcFreeInfo>({
-    balance: defaultValue.balance,
-    extra: defaultValue.extra,
-    isFrozen: defaultValue.isFrozen,
-    sufficient: defaultValue.sufficient,
-    locked: defaultValue.locked
-  });
-
-  useEffect(() => {
-    setDefaultXbtc(defaultValue);
-    if (defaultXbtc) {
-      setDefaultXbtcValue({
-        balance: defaultXbtc.balance,
-        extra: defaultXbtc.extra,
-        isFrozen: defaultXbtc.isFrozen,
-        sufficient: defaultXbtc.sufficient,
-        locked: defaultValue.locked
-      });
-    }
-
-  }, [currentAccount, isApiReady, assetsInfo]);
+  // const [defaultXbtc, setDefaultXbtc] = useState<SbtcAssetsInfo>(defaultValue)
+  // const [defaultXbtcValue, setDefaultXbtcValue] = useState<XbtcFreeInfo>({
+  //   balance: defaultValue.balance,
+  //   extra: defaultValue.extra,
+  //   isFrozen: defaultValue.isFrozen,
+  //   sufficient: defaultValue.sufficient,
+  //   locked: defaultValue.locked
+  // });
+  // useEffect(() => {
+  //   setDefaultXbtc(defaultValue);
+  //   if (defaultXbtc) {
+  //     setDefaultXbtcValue({
+  //       balance: defaultXbtc.balance,
+  //       extra: defaultXbtc.extra,
+  //       isFrozen: defaultXbtc.isFrozen,
+  //       sufficient: defaultXbtc.sufficient,
+  //       locked: defaultValue.locked
+  //     });
+  //   }
+  // }, [currentAccount, isApiReady, assetsInfo]);
 
   useEffect(() => {
-    if(isApiReady && assetsInfo){
-      setUsable((new BN(assetsInfo.balance)).toNumber())
-      setReservedDexSpot(assetsInfo.isFrozen)
-      setReservedWithdrawal(assetsInfo.locked)
-      setAllBalance(assetsInfo.balance)
+    if(defaultValue){
+      setUsable((new BN(defaultValue.balance)).toNumber())
+      setReservedDexSpot(defaultValue.isFrozen)
+      setReservedWithdrawal(defaultValue.locked)
+      setAllBalance(defaultValue?.balance)
     }else{
-      setUsable((new BN(defaultXbtcValue.balance)).toNumber())
-      setReservedDexSpot(defaultXbtcValue.isFrozen)
-      setReservedWithdrawal(defaultXbtcValue.locked)
-      setAllBalance(assetsInfo?.balance)
+      if(assetsInfo) {
+        setUsable((new BN(assetsInfo.balance)).toNumber())
+        setReservedDexSpot(assetsInfo.isFrozen)
+        setReservedWithdrawal(assetsInfo.locked)
+        setAllBalance(assetsInfo.balance)  
+      }
     }
-  }, [defaultValue, isApiReady, assetsInfo])
+  }, [currentAccount, defaultValue, isApiReady, assetsInfo])
 
   return (
     <div>
       <AssetLine>
         <Frees
           asset='Balance'
-          free={reservedDexSpot ? usable : 0}
+          free={reservedDexSpot ? 0 : usable}
           precision={8}
         />
       </AssetLine>
