@@ -128,7 +128,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           <Modal.Column>
             <InputXBTCBalance
               autoFocus
-              help={t('The number of withdrawals')}
+              // help={t('The number of withdrawals')}
               label={t('The number of withdrawals')}
               onChange={setAmount}
             />
