@@ -19,9 +19,9 @@ function transactionList({basePath, className = ''}: Props): React.ReactElement<
     setLoading(true)
     if (isApiReady) {
       setTransList([])
-      const resdata = await api.rpc.xgatewayrecords.withdrawalList()
-      let resultList = Object.values(resdata.toJSON())
-      let result = Object.keys(resultList).reduce((pre,cur)=>{
+      const resData = await api.rpc.xgatewayrecords.withdrawalList()
+      let resultList = resData.toJSON()
+      let result = Object.keys(resData.toJSON()).reduce((pre,cur)=>{
         resultList[cur].id = parseInt(cur)
         return pre.concat(resultList[cur])
       },[])
