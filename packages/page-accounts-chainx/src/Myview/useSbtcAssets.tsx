@@ -37,7 +37,7 @@ function useSbtcAssets(account: string, n = 0): SbtcAssetsInfo {
         current = Object.assign(asset, {
           account: account,
           assetName: 'sBTC',
-          locked: assetLock
+          locked: assetLock || 0
         });
         setValue(JSON.stringify(current));
         setState(current);

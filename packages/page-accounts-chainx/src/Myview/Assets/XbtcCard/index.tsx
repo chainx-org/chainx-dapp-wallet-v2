@@ -28,7 +28,6 @@ export default function (): React.ReactElement {
   const {hasAccounts, allAccounts} = useAccounts()
   const currentAccountInfos = useSbtcAssets(currentAccount, n)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
-
   const buttonGroup = (
     <div style={{display: 'flex', alignItems: 'center', height: '100%'}}>
       {isDepositeOpen && (
@@ -41,7 +40,7 @@ export default function (): React.ReactElement {
       {isWithdraw && (
         <Withdraw
           account={currentAccount}
-          btc={currentAccountInfos?.isFrozen ? currentAccountInfos?.balance : 0}
+          btc={currentAccountInfos?.balance}
           onClose={toggleWithdraw}
           setN={setN}
         />
