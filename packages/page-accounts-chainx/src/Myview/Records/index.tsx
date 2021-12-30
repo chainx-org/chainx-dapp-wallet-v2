@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components';
 import TransferRecords from './TransferRecords';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import Records from './CrossChainRecord'
 import AllAccounts from './Contacts';
+import useTransfer from '../../useTransfer';
+import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
+import useRecords from '../../useRecords';
+import useDepositsList from '../../useDepositsList';
 
 const Wrapper = styled.section`
   border: 1px solid #dce0e2;
@@ -52,7 +56,7 @@ const Wrappers = styled.div`
     flex: 1;
     margin: 0 -16px;
     border-top: 1px solid #eee;
-    height: 100%;
+    height: 540px;
     overflow-y: auto;
   }
 `;
@@ -60,7 +64,9 @@ const Wrappers = styled.div`
 export default function (): React.ReactElement {
   const [recordType, setRecordType] = useState(1);
   const { t } = useTranslation();
-
+  const { currentAccount } = useContext(AccountContext);
+  const transfer = useTransfer(currentAccount);
+  const depositsList = useDepositsList(currentAccount);
 
   return (
     <Wrapper>
@@ -86,8 +92,8 @@ export default function (): React.ReactElement {
           </li>
         </ul>
         <main>
-          {recordType === 1 ? <TransferRecords /> : null}
-          {recordType === 2 ? <Records /> : null}
+          {recordType === 1 ? <TransferRecords transfers={transfer}/> : null}
+          {recordType === 2 ? <Records deposits={depositsList}/> : null}
           {recordType === 3 ? <AllAccounts /> : null}
         </main>
       </Wrappers>

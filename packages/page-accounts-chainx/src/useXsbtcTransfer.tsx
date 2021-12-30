@@ -3,15 +3,18 @@ import axios from 'axios';
 import {useApi} from '@polkadot/react-hooks';
 
 export interface Transfer {
-  extrinsicHash: string,	
-  blockHeight: number,	
-  blockTime:number,	
-  from:	string,	
-  to:	string,	
+  assetId: number,
+  fromAccountId: string,
+  toAccountId: string,
   balance: string,
+  blockNum: number,
+  moduleId: string,
+  eventId: string,
+  extrinsicHash: string,
+  blockTimestamp: number,
 }
 
-export default function useTransfer(currentAccount = ''): Transfer[] {
+export default function useXsbtcTransfer(currentAccount = ''): Transfer[] {
   const {api, isApiReady} = useApi();
   const [state, setState] = useState<Transfer[]>([]);
   // let transferTimeId: any = '';
@@ -21,10 +24,9 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
     const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
     if (testOrMainNum.ss58Format === 44) {
-      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
+      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/palletAssets/${currentAccount}/transfers?asset_id=1&page=0&page_size=20`);
     } else {
-      res = await axios.get(`https://multiscan-api.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
-      // let res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=5Escb2u24DLhTSJBkStrfQjQcdDe9XaP4wsa3EA9BGAhk8mu/transfers?page=0&page_size=10`);
+      res = await axios.get(`https://multiscan-api.coming.chat/sherpax/palletAssets/${currentAccount}/transfers?asset_id=1&page=0&page_size=20`);
     }
     setState(res.data.items);
   }

@@ -9,15 +9,20 @@ import Hash from '@polkadot/app-accounts-chainx/Myview/Records/TransferRecords/H
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
-
+import Status from './State'
 interface Withdraw {
-  data: any[],
-  extrinsicHash: string,
-  indexer: Indexer
-}
-
-interface Indexer {
-  blockTime: number
+  addr: string,
+  applicant: string,
+  assetId: number
+  balance: string
+  blockNum: number
+  blockTimestamp: number
+  eventId: string
+  ext: string
+  extrinsicHash: string
+  moduleId: string
+  withdrawStatus: string
+  withdrawalId: number
 }
 
 export default function (props: { withdrawal: Withdraw }): React.ReactElement {
@@ -34,25 +39,15 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
       ref={wrapper}>
       <header>
         <span>sBTC</span>
-        <span>{moment(props.withdrawal.indexer.blockTime).format(timeFormat)}</span>
+        <span>{moment((props.withdrawal.blockTimestamp)*1000).format(timeFormat)}</span>
       </header>
       <main>
         <span className='text'>
-          {toPrecision(props.withdrawal.data[1].balance, 8)}
+          {toPrecision((props.withdrawal.balance), 8)}
         </span>
-        {/*<span className='state'>*/}
-        {/* <span className="text">{getState(props.withdrawal.txstate)}</span> */}
-        {/* {withdrawal.txstate === 'Applying' ? (
-            <img
-              onClick={e => {
-                e.stopPropagation()
-                revokeWithdraw(withdrawal.id, withdrawal.balance).then(() => {})
-              }}
-              src={cancelIcon}
-              alt="cancel"
-            />
-          ) : null} */}
-        {/*</span>*/}
+        <span className='text'>
+          {Status(props.withdrawal.withdrawStatus)}
+        </span>
       </main>
       {outSideOpen ? (
         <Detail>
@@ -61,14 +56,17 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
             <Hash hash={props.withdrawal.extrinsicHash} />
           </li>
           <li>
-            <Label>{t('Address')}</Label>
-            <BtcAddress address={props.withdrawal.data[1].addr} />
+            <Label>{t('Applicant')}</Label>
+            <BtcAddress address={props.withdrawal.applicant} />
           </li>
           <li>
-            <Label>{t('Amount')}</Label>
-            <p className='memo'>{toPrecision(props.withdrawal.data[1].balance, 8)} sBTC</p>
+            <Label>{t('Address')}</Label>
+            <BtcAddress address={props.withdrawal.addr} />
           </li>
-
+          <li>
+            <Label>{t('Remark')}</Label>
+            <p className='memo'>{props.withdrawal.ext}</p>
+          </li>
         </Detail>
       ) : null}
     </li>

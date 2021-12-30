@@ -10,13 +10,14 @@ import { AccountContext } from '@polkadot/react-components-chainx/AccountProvide
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
 
 interface Deposit {
-  data: any[],
+  accountId: string,
+  balance: string,
+  blockNum: number,
+  blockTimestamp: number,
+  eventId: string,
   extrinsicHash: string,
-  indexer: Indexer
-}
-
-interface Indexer {
-  blockTime: number
+  hashCode: string,
+  moduleId: string,
 }
 
 export default function (props: { deposit: Deposit }): React.ReactElement {
@@ -35,11 +36,12 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
       ref={wrapper}>
       <header>
         <span>sBTC</span>
-        <span>{moment(props.deposit.indexer.blockTime).format(timeFormat)}</span>
+        <span>{moment((props.deposit.blockTimestamp)*1000).format(timeFormat)}</span>
       </header>
       <main>
-        <span>{toPrecision(props.deposit.data[2], 8)}</span>
-        {/* <span>{getState(props.deposit.txstate)}</span> */}
+        <span>{toPrecision(props.deposit.balance, 8)}</span>
+        <BtcAddress address={props.deposit.accountId} />
+        {/* <span>{props.deposit.accountId}</span> */}
       </main>
       {outSideOpen ? (
         <Detail>
@@ -48,10 +50,12 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
             <BtcTx hash={props.deposit.extrinsicHash} />
           </li>
           <li>
-            <Label>{t('Address')}</Label>
-
-            <BtcAddress address={currentAccount} />
-
+            <Label>{t('Btc tx Hash')}</Label>
+            <BtcTx hash={props.deposit.hashCode} />
+          </li>
+          <li>
+            <Label>{t('BlockHeight')}</Label>
+            <span>{props.deposit.blockNum}</span>
           </li>
         </Detail>
       ) : null
