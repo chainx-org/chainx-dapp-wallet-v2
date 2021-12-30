@@ -40,8 +40,8 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
       </header>
       <main>
         <span>{toPrecision(props.deposit.balance, 8)}</span>
-        {/* <span>{getState(props.deposit.txstate)}</span> */}
-        <span>{props.deposit.blockNum}</span>
+        <BtcAddress address={props.deposit.accountId} />
+        {/* <span>{props.deposit.accountId}</span> */}
       </main>
       {outSideOpen ? (
         <Detail>
@@ -50,8 +50,12 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
             <BtcTx hash={props.deposit.extrinsicHash} />
           </li>
           <li>
-            <Label>{t('Address')}</Label>
-            <BtcAddress address={currentAccount} />
+            <Label>{t('Btc tx Hash')}</Label>
+            <BtcTx hash={props.deposit.hashCode} />
+          </li>
+          <li>
+            <Label>{t('BlockHeight')}</Label>
+            <span>{props.deposit.blockNum}</span>
           </li>
         </Detail>
       ) : null

@@ -69,6 +69,10 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
             <Hash hash={props.withdrawal.extrinsicHash} />
           </li>
           <li>
+            <Label>{t('Applicant')}</Label>
+            <BtcAddress address={props.withdrawal.applicant} />
+          </li>
+          <li>
             <Label>{t('Address')}</Label>
             <BtcAddress address={props.withdrawal.addr} />
           </li>

@@ -11,6 +11,7 @@ import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClic
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
 import BigNumber from 'bignumber.js'
+import useTransition from '../../../useTransition';
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -32,9 +33,9 @@ export default function ({ transfer }: any) {
         <span>{moment(new Date((transfer.blockTime)*1000)).format('YYYY/MM/DD')}</span>
       </header>
       <main>
-        <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span>
-        {/* <span>{Number(new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4))}</span> */}
-        <span>{transfer.from === currentAccount? t('In') : t('Out')}</span>
+        {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}
+        <span>{Number(new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4))}</span>
+        <span>{useTransition(`0x${transfer.from}`) === currentAccount? t('In') : t('Out')}</span>
       </main>
       {isApiReady && api.rpc.system.properties() && open ? (
         <Detail>
@@ -46,10 +47,10 @@ export default function ({ transfer }: any) {
             <Label>{t('Address')}</Label>
             <Address address={transfer.to} />
           </li>
-          {/* <li className="memo"> */}
-          {/*  <Label>{}</Label> */}
-          {/*  <p className="memo">{transfer.memo}</p> */}
-          {/* </li> */}
+          <li className="memo">
+           <Label>{t('BlockHeight')}</Label>
+           <p className="memo">{transfer.blockHeight}</p>
+          </li>
         </Detail>
       ) : null}
     </div>

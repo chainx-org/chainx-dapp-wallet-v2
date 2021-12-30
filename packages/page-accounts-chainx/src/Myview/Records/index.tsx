@@ -65,7 +65,7 @@ export default function (): React.ReactElement {
   const { t } = useTranslation();
   const { currentAccount } = useContext(AccountContext);
   const transfer = useTransfer(currentAccount);
-  const record = useRecords(currentAccount);
+  // const record = useRecords(currentAccount);
 
   return (
     <Wrapper>
@@ -92,7 +92,7 @@ export default function (): React.ReactElement {
         </ul>
         <main>
           {recordType === 1 ? <TransferRecords transfers={transfer}/> : null}
-          {recordType === 2 ? <Records records = {record}/> : null}
+          {recordType === 2 ? <Records /> : null}
           {recordType === 3 ? <AllAccounts /> : null}
         </main>
       </Wrappers>
