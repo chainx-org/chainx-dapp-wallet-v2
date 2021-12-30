@@ -9,7 +9,7 @@ import Hash from '@polkadot/app-accounts-chainx/Myview/Records/TransferRecords/H
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
-
+import Status from './State'
 interface Withdraw {
   addr: string,
   applicant: string,
@@ -46,21 +46,8 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
           {toPrecision((props.withdrawal.balance), 8)}
         </span>
         <span className='text'>
-          {props.withdrawal.withdrawStatus}
+          {Status(props.withdrawal.withdrawStatus)}
         </span>
-        {/*<span className='state'>*/}
-        {/* <span className="text">{getState(props.withdrawal.txstate)}</span> */}
-        {/* {withdrawal.txstate === 'Applying' ? (
-            <img
-              onClick={e => {
-                e.stopPropagation()
-                revokeWithdraw(withdrawal.id, withdrawal.balance).then(() => {})
-              }}
-              src={cancelIcon}
-              alt="cancel"
-            />
-          ) : null} */}
-        {/*</span>*/}
       </main>
       {outSideOpen ? (
         <Detail>
@@ -80,10 +67,6 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
             <Label>{t('Remark')}</Label>
             <p className='memo'>{props.withdrawal.ext}</p>
           </li>
-          {/* <li>
-            <Label>{t('Amount')}</Label>
-            <p className='memo'>{toPrecision(props.withdrawal.balance, 8)} sBTC</p>
-          </li> */}
         </Detail>
       ) : null}
     </li>

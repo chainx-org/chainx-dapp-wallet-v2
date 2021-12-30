@@ -4,10 +4,9 @@ import {useApi} from '@polkadot/react-hooks';
 
 export default function useTransition(currentAccount = ''): string {
   const api = useApi();
-  const [state, setState] = useState<Transfer>();
-  let transferTimeId: any = '';
+  const [state, setState] = useState<string>('');
 
-  async function fetchTransfers(currentAccount: string) {
+  async function fetchTransition(currentAccount: string) {
     const testOrMain = await api.api.rpc.system.properties();
     const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
@@ -20,7 +19,7 @@ export default function useTransition(currentAccount = ''): string {
   }
 
   useEffect((): void => {
-    fetchTransfers(currentAccount);
+    fetchTransition(currentAccount);
   }, [currentAccount]);
 
   return state;

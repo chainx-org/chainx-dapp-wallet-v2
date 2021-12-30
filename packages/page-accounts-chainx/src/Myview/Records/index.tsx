@@ -7,6 +7,7 @@ import AllAccounts from './Contacts';
 import useTransfer from '../../useTransfer';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useRecords from '../../useRecords';
+import useDepositsList from '../../useDepositsList';
 
 const Wrapper = styled.section`
   border: 1px solid #dce0e2;
@@ -65,7 +66,7 @@ export default function (): React.ReactElement {
   const { t } = useTranslation();
   const { currentAccount } = useContext(AccountContext);
   const transfer = useTransfer(currentAccount);
-  // const record = useRecords(currentAccount);
+  const depositsList = useDepositsList(currentAccount);
 
   return (
     <Wrapper>
@@ -92,7 +93,7 @@ export default function (): React.ReactElement {
         </ul>
         <main>
           {recordType === 1 ? <TransferRecords transfers={transfer}/> : null}
-          {recordType === 2 ? <Records /> : null}
+          {recordType === 2 ? <Records deposits={depositsList}/> : null}
           {recordType === 3 ? <AllAccounts /> : null}
         </main>
       </Wrappers>

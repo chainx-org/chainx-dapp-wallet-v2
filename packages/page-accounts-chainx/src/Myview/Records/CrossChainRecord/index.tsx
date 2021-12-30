@@ -6,6 +6,9 @@ import WithdrawalList from './WithdrawalList';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import useRecords from '@polkadot/app-accounts-chainx/useRecords';
+import useWithdrawalsList from '../../../useWithdrawalsList';
+import TransferList from './TransferList';
+import useXsbtcTransfer from '../../../useXsbtcTransfer';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -51,11 +54,13 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function (): React.ReactElement {
-  const [option, setOption] = useState<'deposit' | 'withdraw'>('deposit');
+export default function ({deposits}): React.ReactElement {
+  const [option, setOption] = useState<'deposit' | 'withdraw' | 'transfer'>('deposit');
   const { t } = useTranslation();
   const { currentAccount } = useContext(AccountContext);
-  const records = useRecords(currentAccount);
+  const WithdrawalsList = useWithdrawalsList(currentAccount);
+  const XsbtcTransfer = useXsbtcTransfer(currentAccount)
+
   return (
     <Wrapper>
       <header>
@@ -72,6 +77,12 @@ export default function (): React.ReactElement {
           >
             {t('Withdrawals')}
           </li>
+          <li
+            className={option === 'transfer' ? 'active' : ''}
+            onClick={() => setOption('transfer')}
+          >
+            {t('Transfer')}
+          </li>
           {/* <li */}
           {/*  onClick={() => setOption('lock')} */}
           {/*  className={option === 'lock' ? 'active' : ''} */}
@@ -81,8 +92,9 @@ export default function (): React.ReactElement {
         </ul>
       </header>
       <main>
-        {option === 'deposit' ? <DepositList deposits={records.Deposits}/> : null}
-        {option === 'withdraw' ? <WithdrawalList withdrawals={records.Withdrawals}/> : null}
+        {option === 'deposit' ? <DepositList deposits={deposits}/> : null}
+        {option === 'withdraw' ? <WithdrawalList withdrawals={WithdrawalsList}/> : null}
+        {option === 'transfer' ? <TransferList transfers={XsbtcTransfer}/> : null}
       </main>
     </Wrapper>
   );

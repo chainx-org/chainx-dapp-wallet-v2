@@ -1,15 +1,21 @@
-// import $t from '../../../../../locale'
+import { useTranslation } from '@polkadot/app-accounts/translate';
 
 export default function (txstate: any) {
+  const { t } = useTranslation();
+
   switch (txstate) {
     case 'NormalCancel':
-      return '已取消';
+      return t('NormalCancel');
     case 'Applying':
-      return '申请中';
-    case 'Confirmed':
-      return '已确认';
-    case 'Signing':
-      return '签名中';
+      return t('Applying');
+    case 'RootFinish':
+      return t('RootFinish');
+    case 'RootCancel':
+      return t('RootCancel');
+    case 'Processing':
+     return t('Processing'); 
+    case 'NormalFinish':
+      return t('NormalFinish');
     default:
       return txstate;
   }
