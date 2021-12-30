@@ -51,12 +51,11 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function (): React.ReactElement {
+export default function ({records}): React.ReactElement {
   const [option, setOption] = useState<'deposit' | 'withdraw'>('deposit');
   const { t } = useTranslation();
-  const { currentAccount } = useContext(AccountContext);
-  const records = useRecords(currentAccount);
-
+  // const { currentAccount } = useContext(AccountContext);
+  // const records = useRecords(currentAccount);
   return (
     <Wrapper>
       <header>

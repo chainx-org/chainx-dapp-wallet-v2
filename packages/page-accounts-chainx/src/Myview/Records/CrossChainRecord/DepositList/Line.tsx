@@ -10,13 +10,14 @@ import { AccountContext } from '@polkadot/react-components-chainx/AccountProvide
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
 
 interface Deposit {
-  data: any[],
+  accountId: string,
+  balance: string,
+  blockNum: number,
+  blockTimestamp: number,
+  eventId: string,
   extrinsicHash: string,
-  indexer: Indexer
-}
-
-interface Indexer {
-  blockTime: number
+  hashCode: string,
+  moduleId: string,
 }
 
 export default function (props: { deposit: Deposit }): React.ReactElement {
@@ -35,11 +36,12 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
       ref={wrapper}>
       <header>
         <span>sBTC</span>
-        <span>{moment(props.deposit.indexer.blockTime).format(timeFormat)}</span>
+        <span>{moment((props.deposit.blockTimestamp)*1000).format(timeFormat)}</span>
       </header>
       <main>
-        <span>{toPrecision(props.deposit.data[2], 8)}</span>
+        <span>{toPrecision(props.deposit.balance, 8)}</span>
         {/* <span>{getState(props.deposit.txstate)}</span> */}
+        <span>{props.deposit.blockNum}</span>
       </main>
       {outSideOpen ? (
         <Detail>
@@ -49,9 +51,7 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
           </li>
           <li>
             <Label>{t('Address')}</Label>
-
             <BtcAddress address={currentAccount} />
-
           </li>
         </Detail>
       ) : null

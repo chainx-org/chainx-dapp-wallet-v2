@@ -11,13 +11,18 @@ import { AccountContext } from '@polkadot/react-components-chainx/AccountProvide
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
 
 interface Withdraw {
-  data: any[],
-  extrinsicHash: string,
-  indexer: Indexer
-}
-
-interface Indexer {
-  blockTime: number
+  addr: string,
+  applicant: string,
+  assetId: number
+  balance: string
+  blockNum: number
+  blockTimestamp: number
+  eventId: string
+  ext: string
+  extrinsicHash: string
+  moduleId: string
+  withdrawStatus: string
+  withdrawalId: number
 }
 
 export default function (props: { withdrawal: Withdraw }): React.ReactElement {
@@ -34,11 +39,14 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
       ref={wrapper}>
       <header>
         <span>sBTC</span>
-        <span>{moment(props.withdrawal.indexer.blockTime).format(timeFormat)}</span>
+        <span>{moment((props.withdrawal.blockTimestamp)*1000).format(timeFormat)}</span>
       </header>
       <main>
         <span className='text'>
-          {toPrecision(props.withdrawal.data[1].balance, 8)}
+          {toPrecision((props.withdrawal.balance), 8)}
+        </span>
+        <span className='text'>
+          {props.withdrawal.withdrawStatus}
         </span>
         {/*<span className='state'>*/}
         {/* <span className="text">{getState(props.withdrawal.txstate)}</span> */}
@@ -62,13 +70,16 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <BtcAddress address={props.withdrawal.data[1].addr} />
+            <BtcAddress address={props.withdrawal.addr} />
           </li>
           <li>
-            <Label>{t('Amount')}</Label>
-            <p className='memo'>{toPrecision(props.withdrawal.data[1].balance, 8)} sBTC</p>
+            <Label>{t('Remark')}</Label>
+            <p className='memo'>{props.withdrawal.ext}</p>
           </li>
-
+          {/* <li>
+            <Label>{t('Amount')}</Label>
+            <p className='memo'>{toPrecision(props.withdrawal.balance, 8)} sBTC</p>
+          </li> */}
         </Detail>
       ) : null}
     </li>

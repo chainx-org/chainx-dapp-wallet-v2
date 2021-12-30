@@ -7,6 +7,8 @@ import { useIsMounted } from '../hooks';
 import useTransfer from '../../../useTransfer';
 import { useTranslation } from '@polkadot/react-components/translate';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
+import { InfiniteScroll, List } from 'antd-mobile'
+import { sleep } from 'antd-mobile/es/utils/sleep'
 
 const Wrapper = styled.div`
   & > div.empty {
@@ -55,8 +57,11 @@ const LoadingWrapper = styled.div`
 export default function ({transfers}): React.ReactElement {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true)
+  const [data, setData] = useState<string[]>([])
   const mounted = useIsMounted();
-  console.log('transfer',transfers)
+  // const { currentAccount } = useContext(AccountContext);
+  // const transfer = useTransfer(currentAccount);
   useEffect(() => {
     setLoading(true);
   }, [mounted]);
@@ -78,11 +83,27 @@ export default function ({transfers}): React.ReactElement {
       </LoadingWrapper>
     );
   }
-
+  let count = 0;
+  async function mockRequest() {
+    if (count >= 5) {
+      return []
+    }
+    await sleep(2000)
+    count++
+    return ['1']
+  }
+  async function loadMore() {
+    const append = await mockRequest()
+    setData(val => [...val, ...append])
+    setHasMore(append.length > 0)
+  }
   return (
     <Wrapper>
       {(transfers || []).length > 0 ? (
-        transfersElement
+        <>
+          {transfersElement}
+          {/* <InfiniteScroll loadMore={loadMore} hasMore={hasMore} /> */}
+        </>
       ) : (
           <div className='empty'>
             <Empty text={t('No transfer record')} />

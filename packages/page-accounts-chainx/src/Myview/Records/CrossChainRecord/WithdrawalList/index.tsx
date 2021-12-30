@@ -68,13 +68,10 @@ export default function ({withdrawals}: Props): React.ReactElement<Props> {
   const withdrawalsElement = (
     <ul>
       {(withdrawals || []).map((withdrawal, index) => {
-
         return <Line key={index} withdrawal={withdrawal} />;
-
       })}
     </ul>
   );
-
   return (
     <Wrapper>
       {(withdrawals || []).length > 0 ? (

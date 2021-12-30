@@ -20,7 +20,6 @@ export default function ({deposits}: Props): React.ReactElement<Props> {
       })}
     </ul>
   );
-
   return (
     <Wrapper>
       {(deposits || []).length > 0 ? (

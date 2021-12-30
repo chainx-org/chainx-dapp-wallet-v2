@@ -6,6 +6,7 @@ import Records from './CrossChainRecord'
 import AllAccounts from './Contacts';
 import useTransfer from '../../useTransfer';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
+import useRecords from '../../useRecords';
 
 const Wrapper = styled.section`
   border: 1px solid #dce0e2;
@@ -64,6 +65,7 @@ export default function (): React.ReactElement {
   const { t } = useTranslation();
   const { currentAccount } = useContext(AccountContext);
   const transfer = useTransfer(currentAccount);
+  const record = useRecords(currentAccount);
 
   return (
     <Wrapper>
@@ -90,7 +92,7 @@ export default function (): React.ReactElement {
         </ul>
         <main>
           {recordType === 1 ? <TransferRecords transfers={transfer}/> : null}
-          {recordType === 2 ? <Records /> : null}
+          {recordType === 2 ? <Records records = {record}/> : null}
           {recordType === 3 ? <AllAccounts /> : null}
         </main>
       </Wrappers>

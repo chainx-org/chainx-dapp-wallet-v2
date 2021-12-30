@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@polkadot/app-transactionList": "workspace:packages/page-transactionList",
+    "antd-mobile": "next",
     "bignumber.js": "^9.0.1",
     "klinecharts": "^5.7.0",
     "uniqid": "^5.2.0"
