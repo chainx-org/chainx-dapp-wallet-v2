@@ -47,8 +47,8 @@ export default function useRecords(currentAccount = ''): Records {
       withdrawalsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
     }
     setState({
-      Deposits :depositsList.items,
-      Withdrawals :withdrawalsList.items
+      Deposits :depositsList.data.items,
+      Withdrawals :withdrawalsList.data.items
     });
   }
 

@@ -52,13 +52,11 @@ const LoadingWrapper = styled.div`
   margin-top: 20px;
 `;
 
-export default function (): React.ReactElement {
+export default function ({transfers}): React.ReactElement {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const mounted = useIsMounted();
-  const { currentAccount } = useContext(AccountContext);
-  const transfers = useTransfer(currentAccount);
-
+  console.log('transfer',transfers)
   useEffect(() => {
     setLoading(true);
   }, [mounted]);

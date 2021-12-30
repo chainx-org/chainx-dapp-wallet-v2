@@ -10,6 +10,7 @@ import { useTranslation } from '@polkadot/react-components/translate';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
+import BigNumber from 'bignumber.js'
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -28,11 +29,12 @@ export default function ({ transfer }: any) {
       ref={wrapper}>
       <header>
         <span> KSX </span>
-        <span>{moment(new Date(transfer.indexer.blockTime)).format('YYYY/MM/DD')}</span>
+        <span>{moment(new Date((transfer.blockTime)*1000)).format('YYYY/MM/DD')}</span>
       </header>
       <main>
-        <span>{toPrecision(transfer.data[2], 8)}</span>
-        <span>{transfer.data[1] === currentAccount? t('In') : t('Out')}</span>
+        <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span>
+        {/* <span>{Number(new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4))}</span> */}
+        <span>{transfer.from === currentAccount? t('In') : t('Out')}</span>
       </main>
       {isApiReady && api.rpc.system.properties() && open ? (
         <Detail>
@@ -42,7 +44,7 @@ export default function ({ transfer }: any) {
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <Address address={transfer.data[1]} />
+            <Address address={transfer.to} />
           </li>
           {/* <li className="memo"> */}
           {/*  <Label>{}</Label> */}
