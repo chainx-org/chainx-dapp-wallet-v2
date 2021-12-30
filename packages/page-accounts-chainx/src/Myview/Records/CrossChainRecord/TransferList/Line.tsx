@@ -35,7 +35,7 @@ export default function ({ transfer }: any) {
       <main>
         {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}
         <span>{Number(new BigNumber(toPrecision(transfer.balance, 8)).toNumber().toFixed(4))}</span>
-        <span>{useTransition(`0x${transfer.fromAccountId}`) === currentAccount? t('In') : t('Out')}</span>
+        <span>{transfer.fromAccountId === currentAccount? t('Out') : t('In')}</span>
       </main>
       {isApiReady && api.rpc.system.properties() && open ? (
         <Detail>

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {useApi} from '@polkadot/react-hooks';
 
-interface Transfer {
+export interface Transfer {
   extrinsicHash: string,	
   blockHeight: number,	
   blockTime:number,	
@@ -23,7 +23,7 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
     if (testOrMainNum.ss58Format === 44) {
       res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
     } else {
-      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
+      res = await axios.get(`https://multiscan-api.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
       // let res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=5Escb2u24DLhTSJBkStrfQjQcdDe9XaP4wsa3EA9BGAhk8mu/transfers?page=0&page_size=10`);
     }
     setState(res.data.items);
