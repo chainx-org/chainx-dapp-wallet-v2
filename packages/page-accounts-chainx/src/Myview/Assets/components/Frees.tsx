@@ -25,15 +25,13 @@ interface Props {
 }
 
 export default function ({ asset, free, precision }: Props): React.ReactElement<Props> {
-  const validFree = free
-  const validPrecision = precision;
   return (
     <div style={{
       marginBottom: '10px'
     }}>
       <Title>{asset}</Title>
       <Value>
-        <span>{free ? validFree && validPrecision && toPrecision(Number(free), precision) : toPrecision(0, precision)}</span>
+        <span>{free > 0 ? Number(toPrecision(free, precision)) : 0}</span>
       </Value>
     </div>
   );

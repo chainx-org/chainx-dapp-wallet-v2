@@ -39,16 +39,16 @@ export default function useRecords(currentAccount = ''): Records {
     const testOrMainNum = JSON.parse(testOrMain);
     let depositsList: any;
     let withdrawalsList: any;
-    if (testOrMainNum.ss58Format === 42) {
-      depositsList = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/deposits?page=0&page_size=20`);
-      withdrawalsList = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/withdrawals?page=0&page_size=20`);
+    if (testOrMainNum.ss58Format === 44) {
+      depositsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=0&page_size=20`);
+      withdrawalsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
     } else {
-      depositsList = await axios.get(`https://api-v2.chainx.cc/accounts/${currentAccount}/deposits?page=0&page_size=20`);
-      withdrawalsList = await axios.get(`https://api-v2.chainx.cc/accounts/${currentAccount}/withdrawals?page=0&page_size=20`);
+      depositsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=0&page_size=20`);
+      withdrawalsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
     }
     setState({
-      Deposits :depositsList.data.items,
-      Withdrawals :withdrawalsList.data.items
+      Deposits :depositsList.items,
+      Withdrawals :withdrawalsList.items
     });
   }
 

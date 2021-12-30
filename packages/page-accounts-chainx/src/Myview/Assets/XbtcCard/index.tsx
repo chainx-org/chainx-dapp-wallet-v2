@@ -16,7 +16,6 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 import Button from '@polkadot/react-components-chainx/Button';
 import useSbtcAssets from '@polkadot/app-accounts-chainx/Myview/useSbtcAssets';
 
-
 export default function (): React.ReactElement {
   const {isApiReady} = useApi();
   const {t} = useTranslation();
@@ -26,9 +25,8 @@ export default function (): React.ReactElement {
   const [isWithdraw, toggleWithdraw] = useToggle();
   const [n, setN] = useState(0);
   const {hasAccounts, allAccounts} = useAccounts()
-  const currentAccountInfos = useSbtcAssets(currentAccount, n)
+  const currentAccountInfo = useSbtcAssets(currentAccount, n)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
-
   const buttonGroup = (
     <div style={{display: 'flex', alignItems: 'center', height: '100%'}}>
       {isDepositeOpen && (
@@ -41,7 +39,7 @@ export default function (): React.ReactElement {
       {isWithdraw && (
         <Withdraw
           account={currentAccount}
-          btc={currentAccountInfos?.isFrozen ? currentAccountInfos?.balance : 0}
+          btc={currentAccountInfo?.balance}
           onClose={toggleWithdraw}
           setN={setN}
         />
@@ -65,14 +63,14 @@ export default function (): React.ReactElement {
         {t('Top Up')}
       </Button>
       <Button
-        className="btnLists defaultBtn"
+        className="btnLists primaryBtn"
         onClick={toggleWithdraw}
         isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
       >
         {t('Withdrawals')}
       </Button>
       <Button
-        className="btnLists defaultBtn"
+        className="btnLists primaryBtn"
         onClick={toggleTransfer}
         isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
       >
@@ -88,7 +86,7 @@ export default function (): React.ReactElement {
         <DetailWrapper>
           <AssetLine>
             <AssetView
-              assetsInfo={currentAccountInfos}
+              assetsInfo={currentAccountInfo}
             />
           </AssetLine>
         </DetailWrapper>

@@ -4,7 +4,6 @@
 // import BN from 'bn.js';
 import React, {Dispatch, useEffect, useState} from 'react';
 import {Input, InputAddress, Modal, TxButton} from '@polkadot/react-components';
-import {InputXBTCBalance} from '@polkadot/react-components-chainx';
 import InputSBTCBalance from '@polkadot/react-components-chainx/InputSBTCBalance';
 import {useApi} from "@polkadot/react-hooks";
 import {useTranslation} from '../../translate';
@@ -73,9 +72,8 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
     async function getMinWithdraw() {
       const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
       let resFee = res.toJSON()
-      // setMinWithdraw(resFee.minimal_withdrawal)
+      setMinWithdraw(Number(resFee.minimalWithdrawal) / Math.pow(10, 8))
       setMinFee(Number(resFee.fee) / Math.pow(10, 8));
-      setFinalWithdraw(Number(amount) / Math.pow(10, 10) - resFee.fee)
     }
     getMinWithdraw();
   }, [isApiReady]);
@@ -126,9 +124,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
-            <InputXBTCBalance
+            <InputSBTCBalance
               autoFocus
-              help={t('The number of withdrawals')}
+              // help={t('The number of withdrawals')}
               label={t('The number of withdrawals')}
               onChange={setAmount}
             />
