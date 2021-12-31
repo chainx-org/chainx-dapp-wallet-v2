@@ -4,13 +4,13 @@ import Empty from '../../Empty/index';
 import MiniLoading from '../../MiniLoading/index';
 import Line from './Line';
 import { useIsMounted } from '../../hooks';
-import useTransfer from '../../../../useTransfer';
 import { useTranslation } from '@polkadot/react-components/translate';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
-import { InfiniteScroll, List } from 'antd-mobile'
+import { InfiniteScroll, Loading } from 'antd-mobile'
 import { sleep } from 'antd-mobile/es/utils/sleep'
 import {useApi} from '@polkadot/react-hooks';
 import axios from 'axios';
+import { Transfer } from '../../../../useXsbtcTransfer';
 
 const Wrapper = styled.div`
   & > div.empty {
