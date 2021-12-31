@@ -1,7 +1,7 @@
 
 import React, {useContext, useRef, useState} from 'react';
-import Hash from './Hash';
-import Address from './Address';
+import BtcTx from '../components/BtcTx';
+import Address from '../components/Address';
 import Detail from '../components/Detail';
 import Label from '../components/Label';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
@@ -41,7 +41,7 @@ export default function ({ transfer }: any) {
         <Detail>
           <li>
             <Label>{t('Tx ID')}</Label>
-            <Hash hash={transfer.extrinsicHash} />
+            <BtcTx hash={transfer.extrinsicHash} />
           </li>
           <li>
             <Label>{t('Address')}</Label>

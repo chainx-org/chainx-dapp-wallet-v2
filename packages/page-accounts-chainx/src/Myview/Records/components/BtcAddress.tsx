@@ -4,6 +4,7 @@ import LinkWrapper from './LinkWrapper';
 import link from './link.svg';
 import linkHighlight from './link-highlight.svg';
 import {useApi} from '@polkadot/react-hooks';
+import ScanUrl from './SherpaxScanUrl';
 
 export default function ({ address = '', length = 5 }) {
   const {api} = useApi()
@@ -13,22 +14,10 @@ export default function ({ address = '', length = 5 }) {
     result =
       address.substring(0, 5) + '...' + address.substring(address.length - 5);
   }
-
-  useEffect(() => {
-    async function fetchUrl() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 44) {
-        setUrl(`http://sherpaxscan-pre.chainx.org/account/${address}`)
-      } else {
-        setUrl(`http://sherpaxscan.chainx.org/account/${address}`)
-      }
-    }
-
-    fetchUrl()
+  const sherpaxScanUrl = ScanUrl()
+  useEffect(() => {  
+    setUrl(`${sherpaxScanUrl}/account/${address}`)
   }, [])
-
-
   return (
     <LinkWrapper href={url} target='_blank'>
       <span title={address}>{result}</span>

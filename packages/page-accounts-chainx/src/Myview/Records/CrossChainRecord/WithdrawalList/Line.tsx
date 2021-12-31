@@ -5,7 +5,7 @@ import Detail from '../../components/Detail';
 import Label from '../../components/Label';
 import BtcAddress from '../../components/BtcAddress';
 import { useTranslation } from '@polkadot/app-accounts/translate';
-import Hash from '@polkadot/app-accounts-chainx/Myview/Records/TransferRecords/Hash';
+import BtcTx from '../../components/BtcTx';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
@@ -53,7 +53,7 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
         <Detail>
           <li>
             <Label>{t('Trading ID')}</Label>
-            <Hash hash={props.withdrawal.extrinsicHash} />
+            <BtcTx hash={props.withdrawal.extrinsicHash} />
           </li>
           <li>
             <Label>{t('Applicant')}</Label>

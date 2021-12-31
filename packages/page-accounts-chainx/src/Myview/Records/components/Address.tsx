@@ -2,12 +2,13 @@
 // import { networkSelector } from '../reducers/settingsSlice'
 // import { mainNetExplorer, testNetExplorer } from '../services/api'
 // import { getChainx } from '../services/chainx'
-import link from '../components/link.svg';
-import linkHighlight from '../components/link-highlight.svg';
+import link from './link.svg';
+import linkHighlight from './link-highlight.svg';
 import React, {useEffect, useState} from 'react';
-import LinkWrapper from '../components/LinkWrapper';
+import LinkWrapper from './LinkWrapper';
 import {useApi} from '@polkadot/react-hooks';
 import useTransition from '../../../useTransition';
+import ScanUrl from './SherpaxScanUrl';
 
 export default function ({ address = '', mainnet = null }) {
   const {api} = useApi()
@@ -20,19 +21,9 @@ export default function ({ address = '', mainnet = null }) {
   if(address.length > 10) {
     ToAddress = address.substring(0, 5) + '...' + address.substring(address.length - 5);
   }
-  console.log('result',result)
+  const sherpaxScanUrl = ScanUrl()
   useEffect(() => {
-    async function fetchUrl() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 44) {
-        setUrl(`http://sherpaxscan-pre.chainx.org/account/${result}`)
-      } else {
-        setUrl(`http://sherpaxscan.chainx.org/account/${result}`)
-      }
-    }
-
-    fetchUrl()
+    setUrl(`${sherpaxScanUrl}/account/${result}`)
   }, [])
 
   return (
