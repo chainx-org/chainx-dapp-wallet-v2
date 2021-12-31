@@ -34,12 +34,10 @@ export default function usePcxFree(address = '',n = 0): PcxFreeInfo {
       }
       if(isApiReady) {
         const { data: balance } = await api.query.system.account(address);
-        console.log('balance', balance)
         setValue(balance)
         setState(balance);
       }
     }
-
     fetchPcxFree();
   }, [currentAccount, n, isApiReady]);
 
