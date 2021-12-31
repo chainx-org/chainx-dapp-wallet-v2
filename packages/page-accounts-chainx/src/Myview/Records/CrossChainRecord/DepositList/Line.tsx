@@ -2,13 +2,11 @@ import React, { useContext, useRef, useState } from 'react';
 import moment from 'moment';
 import Detail from '../../components/Detail';
 import Label from '../../components/Label';
-import BtcTx from '../../components/BtcTx';
-import BtcAddress from '../../components/BtcAddress';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
-import BtcBlockHeight from '../../components/BtcBlockHeight';
+import XsbtcLinkScan from '../../components/XsbtcLinkScan';
 
 interface Deposit {
   accountId: string,
@@ -41,14 +39,14 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
       </header>
       <main>
         <span>{toPrecision(props.deposit.balance, 8)}</span>
-        <BtcAddress address={props.deposit.accountId} />
+        <XsbtcLinkScan linkTo={props.deposit.accountId} status='account' />
         {/* <span>{props.deposit.accountId}</span> */}
       </main>
       {outSideOpen ? (
         <Detail>
           <li>
             <Label>{t('Btc tx ID')}</Label>
-            <BtcTx hash={props.deposit.extrinsicHash} />
+            <XsbtcLinkScan linkTo={props.deposit.extrinsicHash} status='trade' />
           </li>
           {/* <li>
             <Label>{t('Btc tx Hash')}</Label>
@@ -56,7 +54,7 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
           </li> */}
           <li>
             <Label>{t('BlockHeight')}</Label>
-            <BtcBlockHeight blockHeight={props.deposit.blockNum} />
+            <XsbtcLinkScan linkTo={props.deposit.blockNum} status='blockDetails'/>
           </li>
         </Detail>
       ) : null
