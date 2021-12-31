@@ -1,8 +1,5 @@
 
 import React, {useContext, useRef, useState} from 'react';
-
-import BtcTx from '../../components/BtcTx';
-import BtcAddress from '../../components/BtcAddress';
 import Detail from '../../components/Detail';
 import Label from '../../components/Label';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
@@ -12,8 +9,7 @@ import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClic
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
 import BigNumber from 'bignumber.js'
-import useTransition from '../../../../useTransition';
-import BtcBlockHeight from '../../components/BtcBlockHeight';
+import XsbtcLinkScan from '../../components/XsbtcLinkScan';
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -43,15 +39,15 @@ export default function ({ transfer }: any) {
         <Detail>
           <li>
             <Label>{t('Tx ID')}</Label>
-            <BtcTx hash={transfer.extrinsicHash} />
+            <XsbtcLinkScan linkTo={transfer.extrinsicHash} status='trade' />
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <BtcAddress address={transfer.toAccountId} />
+            <XsbtcLinkScan linkTo={transfer.toAccountId} status='account' />
           </li>
           <li className="memo">
            <Label>{t('BlockHeight')}</Label>
-           <BtcBlockHeight blockHeight={transfer.blockNum} />
+           <XsbtcLinkScan linkTo={transfer.blockNum} status={'blockDetails'}/>
           </li>
         </Detail>
       ) : null}
