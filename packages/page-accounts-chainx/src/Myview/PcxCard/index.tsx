@@ -127,7 +127,7 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
   const [feeFrozen, setFeeFrozen] = useState<number>(0)
   const [miscFrozen, setMiscFrozen] = useState<number>(0)
   const [reserved, setReserved] = useState<number>(0)
-
+  // console.log('pcxFree',pcxFree)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
 
   // const allBalance = freeBalance.add(new BigNumber(pcxFree.reserved)).toNumber();
