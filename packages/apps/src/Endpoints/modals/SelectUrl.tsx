@@ -115,12 +115,12 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
             options={translatedEndpoints}
           />
       }</div>
-      <Toggle
+      {/* <Toggle
         className='settings--customToggle'
         defaultValue={isCustom}
         label={t('Custom Endpoint')}
         onChange={_onChangeCustom}
-      />
+      /> */}
     </div>
   );
 }
