@@ -3,11 +3,9 @@ import React, {useEffect, useState} from 'react';
 import LinkWrapper from './LinkWrapper';
 import link from './link.svg';
 import linkHighlight from './link-highlight.svg';
-import {useApi} from '@polkadot/react-hooks';
 import ScanUrl from './SherpaxScanUrl';
 
 export default function ({ address = '', length = 5 }) {
-  const {api} = useApi()
   let result = address;
   const [url, setUrl] = useState<string>('')
   if (address.length > 2 * length) {

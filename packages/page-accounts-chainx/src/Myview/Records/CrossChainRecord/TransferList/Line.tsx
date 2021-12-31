@@ -13,6 +13,7 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 import {useApi} from '@polkadot/react-hooks';
 import BigNumber from 'bignumber.js'
 import useTransition from '../../../../useTransition';
+import BtcBlockHeight from '../../components/BtcBlockHeight';
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -50,7 +51,7 @@ export default function ({ transfer }: any) {
           </li>
           <li className="memo">
            <Label>{t('BlockHeight')}</Label>
-           <p className="memo">{transfer.blockNum}</p>
+           <BtcBlockHeight blockHeight={transfer.blockNum} />
           </li>
         </Detail>
       ) : null}

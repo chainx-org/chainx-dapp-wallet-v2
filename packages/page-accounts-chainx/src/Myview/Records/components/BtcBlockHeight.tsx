@@ -5,20 +5,16 @@ import linkHighlight from './link-highlight.svg';
 import LinkWrapper from './LinkWrapper';
 import ScanUrl from './SherpaxScanUrl';
 
-export default function ({ hash = '', length = 5 }) {
+export default function ({ blockHeight }) {
   const [url, setUrl] = useState<string>('')
-  let result: string = hash
-  if (hash.length > 2 * length) {
-    result = hash.substring(0, 5) + '...' + hash.substring(hash.length - 5)
-  }
   const sherpaxScanUrl = ScanUrl()
   useEffect(() => {
-    setUrl(`${sherpaxScanUrl}/trade/${hash}`)
+    setUrl(`${sherpaxScanUrl}/blockDetails/${blockHeight}`)
   }, [])
 
   return (
     <LinkWrapper href={url} target="_blank">
-      <span>{result}</span>
+      <span>{blockHeight}</span>
       <img className="link" src={link} alt="link" />
       <img
         alt='link-highlight'

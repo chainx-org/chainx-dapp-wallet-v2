@@ -10,6 +10,7 @@ import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
 import Status from './State'
+import BtcBlockHeight from '../../components/BtcBlockHeight';
 interface Withdraw {
   addr: string,
   applicant: string,
@@ -62,6 +63,10 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
           <li>
             <Label>{t('Address')}</Label>
             <BtcAddress address={props.withdrawal.addr} />
+          </li>
+          <li>
+            <Label>{t('BlockHeight')}</Label>
+            <BtcBlockHeight blockHeight={props.withdrawal.blockNum} />
           </li>
           <li>
             <Label>{t('Remark')}</Label>
