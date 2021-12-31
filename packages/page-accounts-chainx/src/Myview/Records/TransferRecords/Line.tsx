@@ -1,7 +1,7 @@
 
 import React, {useContext, useRef, useState} from 'react';
 import BtcTx from '../components/BtcTx';
-import Address from '../components/Address';
+import BtcAddress from '../components/BtcAddress';
 import Detail from '../components/Detail';
 import Label from '../components/Label';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
@@ -36,7 +36,7 @@ export default function ({ transfer }: any) {
       <main>
         {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}
         <span>{Number(new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4))}</span>
-        <span>{useTransition(`0x${transfer.from}`) === currentAccount? t('Out') : t('In')}</span>
+        <span>{transfer.from === currentAccount? t('Out') : t('In')}</span>
       </main>
       {isApiReady && api.rpc.system.properties() && open ? (
         <Detail>
@@ -46,7 +46,7 @@ export default function ({ transfer }: any) {
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <Address address={transfer.to} />
+            <BtcAddress address={transfer.to} />
           </li>
           <li className="memo">
            <Label>{t('BlockHeight')}</Label>

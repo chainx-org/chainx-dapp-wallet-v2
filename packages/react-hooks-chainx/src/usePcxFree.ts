@@ -3,7 +3,13 @@ import { useApi } from '@polkadot/react-hooks';
 import { useContext, useEffect, useState } from 'react';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import {useLocalStorage} from '@polkadot/react-hooks-chainx/index';
-
+import { date } from 'is';
+interface PcxFreeInfo {
+  free: number,
+  reserved: number,
+  miscFrozen: number,
+  feeFrozen: number
+}
 export default function usePcxFree(address = '',n = 0): PcxFreeInfo {
   const { api, isApiReady } = useApi();
   const [, setValue] = useLocalStorage('pcxFreeInfo')
@@ -28,6 +34,7 @@ export default function usePcxFree(address = '',n = 0): PcxFreeInfo {
       }
       if(isApiReady) {
         const { data: balance } = await api.query.system.account(address);
+        console.log('balance', balance)
         setValue(balance)
         setState(balance);
       }
