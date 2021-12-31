@@ -49,10 +49,10 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
             <Label>{t('Btc tx ID')}</Label>
             <BtcTx hash={props.deposit.extrinsicHash} />
           </li>
-          <li>
+          {/* <li>
             <Label>{t('Btc tx Hash')}</Label>
             <BtcTx hash={props.deposit.hashCode} />
-          </li>
+          </li> */}
           <li>
             <Label>{t('BlockHeight')}</Label>
             <span>{props.deposit.blockNum}</span>

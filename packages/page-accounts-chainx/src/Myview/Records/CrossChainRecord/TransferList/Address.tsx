@@ -21,9 +21,9 @@ export default function ({ address = '', mainnet = null }) {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
       if (testOrMainNum.ss58Format === 44) {
-        setUrl(`https://testnet-scan.chainx.org/accounts/${ToAddress}`)
+        setUrl(`http://sherpaxscan-pre.chainx.org/account/${ToAddress}`)
       } else {
-        setUrl(`https://scan.chainx.org/accounts/${ToAddress}`)
+        setUrl(`http://sherpaxscan.chainx.org/account/${ToAddress}`)
       }
     }
 

@@ -18,10 +18,10 @@ export default function ({ address = '', length = 5 }) {
     async function fetchUrl() {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 42) {
-        setUrl(`https://live.blockcypher.com/btc-testnet/address/${address}`)
+      if (testOrMainNum.ss58Format === 44) {
+        setUrl(`http://sherpaxscan-pre.chainx.org/account/${address}`)
       } else {
-        setUrl(`https://live.blockcypher.com/btc/address/${address}`)
+        setUrl(`http://sherpaxscan.chainx.org/account/${address}`)
       }
     }
 

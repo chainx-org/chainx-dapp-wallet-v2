@@ -17,10 +17,10 @@ export default function ({ hash = '', length = 5 }) {
     async function fetchUrl() {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 42) {
-        setUrl(`https://testnet-scan.chainx.org/extrinsics/${hash}`)
+      if (testOrMainNum.ss58Format === 44) {
+        setUrl(`http://sherpaxscan-pre.chainx.org/trade/${hash}`)
       } else {
-        setUrl(`https://scan.chainx.org/extrinsics/${hash}`)
+        setUrl(`http://sherpaxscan.chainx.org/trade/${hash}`)
       }
     }
 
