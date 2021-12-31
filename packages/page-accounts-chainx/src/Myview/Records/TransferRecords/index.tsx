@@ -76,7 +76,7 @@ export default function ({transfers}): React.ReactElement {
   });
 
   const transfersElement = transfers?.map((transfer, index) => {
-    return <Line key={index} transfer={transfer} />;
+    return <Line key={transfer.extrinsicHash} transfer={transfer} />;
   });
 
   if (loading) {
@@ -131,7 +131,7 @@ export default function ({transfers}): React.ReactElement {
             transfers && transfers.length > 19 ?
             <>
             {data?.map((transfer, index) => {
-              return <Line key={index} transfer={transfer} />;
+              return <Line key={transfer.extrinsicHash} transfer={transfer} />;
             })}
             <InfiniteScroll loadMore={loadMore} hasMore={hasMore}>
               <InfiniteScrollContent hasMore={hasMore} />

@@ -5,6 +5,7 @@ import {useApi} from '@polkadot/react-hooks';
 import {toPrecision} from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import BigNumber from 'bignumber.js';
 import { Icon } from '@polkadot/react-components';
+import { formatBalance } from '@polkadot/util';
 
 const Title = styled.h6`
   margin: 0;
@@ -91,6 +92,7 @@ const LoadingValue = styled.div`
   >.ui--FormatBalance-unit {
     font-size: 0.825em;
     text-align: right;
+    margin-left: 8px;
   }
 `
 
@@ -99,7 +101,6 @@ export default function ({ bold, title, value, help }: Props): React.ReactElemen
   const preciseValue: BigNumber = new BigNumber(toPrecision(value, 18))
   const decimalsValue = preciseValue.toNumber().toFixed(4).slice(-4)
   const intValue = preciseValue.toNumber().toFixed(8).slice(0,-8)
-
   return (
     <div>
       <Title>
@@ -120,7 +121,7 @@ export default function ({ bold, title, value, help }: Props): React.ReactElemen
           <LoadingValue>
             <span className='ui--FormatBalance-value"'>{intValue}</span>
             <span className='ui--FormatBalance-postfix'>{decimalsValue}</span>
-            <span className='ui--FormatBalance-unit'>{'  KSX'}</span>
+            <span className='ui--FormatBalance-unit'>{formatBalance.getDefaults().unit && formatBalance.getDefaults().unit !== 'Unit'? formatBalance.getDefaults().unit : 'KSX'}</span>
           </LoadingValue>
           :
           <>
@@ -128,7 +129,7 @@ export default function ({ bold, title, value, help }: Props): React.ReactElemen
           <LoadingValue>
             <span className='ui--FormatBalance-value"'>{intValue}</span>
             <span className='ui--FormatBalance-postfix'>{decimalsValue}</span>
-            <span className='ui--FormatBalance-unit'>{'  KSX'}</span>
+            <span className='ui--FormatBalance-unit'>{formatBalance.getDefaults().unit && formatBalance.getDefaults().unit !== 'Unit' ? formatBalance.getDefaults().unit : 'KSX'}</span>
           </LoadingValue>
         </>
           }

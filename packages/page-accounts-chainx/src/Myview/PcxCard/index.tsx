@@ -13,10 +13,8 @@ import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
 import {useTranslation} from '@polkadot/app-accounts-chainx/translate';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import BigNumber from 'bignumber.js';
-import BN from 'bn.js';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import Button from '@polkadot/react-components-chainx/Button';
-import useStaking from '@polkadot/react-hooks-chainx/useStaking';
 
 const InnerWrapper = styled.div`
   position: relative;
@@ -203,6 +201,7 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
         </header>
         <section className='free' key='free'>
           <AssetView
+            key={Math.random()}
             bold
             title={t('Free Balance')}
             value={usableBalance > 0 ? usableBalance : 0}

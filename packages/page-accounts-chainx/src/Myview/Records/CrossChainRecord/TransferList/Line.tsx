@@ -31,7 +31,7 @@ export default function ({ transfer }: any) {
       ref={wrapper}>
       <header>
         <span> sBTC </span>
-        <span>{moment(new Date((transfer.blockTimestamp)*1000)).format('YYYY/MM/DD')}</span>
+        <span>{moment(new Date((transfer.blockTimestamp)*1000)).format('YYYY/MM/DD HH:mm:ss')}</span>
       </header>
       <main>
         {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}

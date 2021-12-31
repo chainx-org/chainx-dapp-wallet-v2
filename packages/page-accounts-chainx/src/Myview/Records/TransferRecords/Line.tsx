@@ -12,6 +12,7 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 import {useApi} from '@polkadot/react-hooks';
 import BigNumber from 'bignumber.js'
 import useTransition from '../../../useTransition';
+import { formatBalance } from '@polkadot/util';
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -29,8 +30,8 @@ export default function ({ transfer }: any) {
       onClick={() => setOpen(!open)}
       ref={wrapper}>
       <header>
-        <span> KSX </span>
-        <span>{moment(new Date((transfer.blockTime)*1000)).format('YYYY/MM/DD')}</span>
+        <span>{formatBalance.getDefaults().unit && formatBalance.getDefaults().unit !== 'Unit'? formatBalance.getDefaults().unit : 'KSX'}</span>
+        <span>{moment(new Date((transfer.blockTime)*1000)).format('YYYY/MM/DD HH:mm:ss')}</span>
       </header>
       <main>
         {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}
