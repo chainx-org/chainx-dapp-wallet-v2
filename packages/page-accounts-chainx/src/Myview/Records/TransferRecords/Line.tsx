@@ -1,7 +1,7 @@
 
 import React, {useContext, useRef, useState} from 'react';
-import Hash from './Hash';
-import Address from './Address';
+import BtcTx from '../components/BtcTx';
+import BtcAddress from '../components/BtcAddress';
 import Detail from '../components/Detail';
 import Label from '../components/Label';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
@@ -12,6 +12,8 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 import {useApi} from '@polkadot/react-hooks';
 import BigNumber from 'bignumber.js'
 import useTransition from '../../../useTransition';
+import { formatBalance } from '@polkadot/util';
+import BtcBlockHeight from '../components/BtcBlockHeight';
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -29,27 +31,27 @@ export default function ({ transfer }: any) {
       onClick={() => setOpen(!open)}
       ref={wrapper}>
       <header>
-        <span> KSX </span>
-        <span>{moment(new Date((transfer.blockTime)*1000)).format('YYYY/MM/DD')}</span>
+        <span>{formatBalance.getDefaults().unit && formatBalance.getDefaults().unit !== 'Unit'? formatBalance.getDefaults().unit : 'KSX'}</span>
+        <span>{moment(new Date((transfer.blockTime)*1000)).format('YYYY/MM/DD HH:mm:ss')}</span>
       </header>
       <main>
         {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}
         <span>{Number(new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4))}</span>
-        <span>{useTransition(`0x${transfer.from}`) === currentAccount? t('Out') : t('In')}</span>
+        <span>{transfer.from === currentAccount? t('Out') : t('In')}</span>
       </main>
       {isApiReady && api.rpc.system.properties() && open ? (
         <Detail>
           <li>
             <Label>{t('Tx ID')}</Label>
-            <Hash hash={transfer.extrinsicHash} />
+            <BtcTx hash={transfer.extrinsicHash} />
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <Address address={transfer.to} />
+            <BtcAddress address={transfer.to} />
           </li>
           <li className="memo">
            <Label>{t('BlockHeight')}</Label>
-           <p className="memo">{transfer.blockHeight}</p>
+           <BtcBlockHeight blockHeight={transfer.blockHeight} />
           </li>
         </Detail>
       ) : null}

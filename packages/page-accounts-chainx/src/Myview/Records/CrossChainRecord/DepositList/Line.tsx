@@ -8,6 +8,7 @@ import { useTranslation } from '@polkadot/app-accounts/translate';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
+import BtcBlockHeight from '../../components/BtcBlockHeight';
 
 interface Deposit {
   accountId: string,
@@ -49,13 +50,13 @@ export default function (props: { deposit: Deposit }): React.ReactElement {
             <Label>{t('Btc tx ID')}</Label>
             <BtcTx hash={props.deposit.extrinsicHash} />
           </li>
-          <li>
+          {/* <li>
             <Label>{t('Btc tx Hash')}</Label>
             <BtcTx hash={props.deposit.hashCode} />
-          </li>
+          </li> */}
           <li>
             <Label>{t('BlockHeight')}</Label>
-            <span>{props.deposit.blockNum}</span>
+            <BtcBlockHeight blockHeight={props.deposit.blockNum} />
           </li>
         </Detail>
       ) : null

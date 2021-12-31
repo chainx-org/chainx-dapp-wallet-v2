@@ -5,11 +5,12 @@ import Detail from '../../components/Detail';
 import Label from '../../components/Label';
 import BtcAddress from '../../components/BtcAddress';
 import { useTranslation } from '@polkadot/app-accounts/translate';
-import Hash from '@polkadot/app-accounts-chainx/Myview/Records/TransferRecords/Hash';
+import BtcTx from '../../components/BtcTx';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import useOutsideClick from '@polkadot/app-accounts-chainx/Myview/useOutsideClick';
 import Status from './State'
+import BtcBlockHeight from '../../components/BtcBlockHeight';
 interface Withdraw {
   addr: string,
   applicant: string,
@@ -53,7 +54,7 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
         <Detail>
           <li>
             <Label>{t('Trading ID')}</Label>
-            <Hash hash={props.withdrawal.extrinsicHash} />
+            <BtcTx hash={props.withdrawal.extrinsicHash} />
           </li>
           <li>
             <Label>{t('Applicant')}</Label>
@@ -62,6 +63,10 @@ export default function (props: { withdrawal: Withdraw }): React.ReactElement {
           <li>
             <Label>{t('Address')}</Label>
             <BtcAddress address={props.withdrawal.addr} />
+          </li>
+          <li>
+            <Label>{t('BlockHeight')}</Label>
+            <BtcBlockHeight blockHeight={props.withdrawal.blockNum} />
           </li>
           <li>
             <Label>{t('Remark')}</Label>

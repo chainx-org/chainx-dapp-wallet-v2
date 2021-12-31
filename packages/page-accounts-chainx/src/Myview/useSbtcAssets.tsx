@@ -24,23 +24,39 @@ function useSbtcAssets(account: string, n = 0): SbtcAssetsInfo {
   useEffect((): void => {
     async function getAssets(account: string): Promise<any> {
       if(isApiReady) {
-        const asset = await api.query.assets.account(1, account)
-        const assetLock = await api.query.xGatewayRecords.locks(account, 1)
-        // setValue(asset)
-        let current = {
-          balance: asset.balance,
-          extra: asset.extra,
-          isFrozen: asset.isFrozen,
-          sufficient: asset.sufficient,
-          locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
-        } as SbtcAssetsInfo;
-        current = Object.assign(current, {
-          account: account,
-          assetName: 'sBTC',
-          locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
-        });
-        setValue(JSON.stringify(current));
-        setState(current);
+        if(api.query.assets) {
+          const asset = await api.query.assets.account(1, account)
+          const assetLock = await api.query.xGatewayRecords.locks(account, 1)
+          // setValue(asset)
+          let current = {
+            balance: asset.balance,
+            extra: asset.extra,
+            isFrozen: asset.isFrozen,
+            sufficient: asset.sufficient,
+            locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
+          } as SbtcAssetsInfo;
+          current = Object.assign(current, {
+            account: account,
+            assetName: 'sBTC',
+            locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
+          });
+          setValue(JSON.stringify(current));
+          setState(current);
+        } else {
+          let curr = {
+            balance: 0,
+            extra: null,
+            isFrozen: false,
+            sufficient: false,
+            locked: 0
+          }
+          curr = Object.assign(curr, {
+            account: account,
+            assetName: 'sBTC',
+          });
+          setValue(JSON.stringify(curr));
+          setState(curr);
+        }
       }
       // if (JSON.stringify(current) === '{}') {
       //   current = {

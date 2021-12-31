@@ -130,7 +130,7 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   const stored = store.get('settings') as Record<string, unknown> || {};
 
   const nodeMap: {[key: string]: string} = {
-    // 'wss://mainnet.chainx.org/ws': 'SherpaX node A',
+    'wss://sherpax-mainnet.chainx.org': 'SherpaX node',
     'wss://sherpax-testnet.chainx.org': t('Test Node'),
   }
 
@@ -146,10 +146,10 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
     async function judgeNetwork() {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 42) {
-        setUrl('https://testnet-scan.chainx.org/')
+      if (testOrMainNum.ss58Format === 44) {
+        setUrl('http://sherpaxscan-pre.chainx.org/')
       } else {
-        setUrl('https://scan.chainx.org/')
+        setUrl('http://sherpaxscan.chainx.org/')
       }
     }
 

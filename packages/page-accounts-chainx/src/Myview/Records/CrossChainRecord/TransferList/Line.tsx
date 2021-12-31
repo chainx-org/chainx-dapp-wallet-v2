@@ -1,7 +1,8 @@
 
 import React, {useContext, useRef, useState} from 'react';
-import Hash from './Hash';
-import Address from './Address';
+
+import BtcTx from '../../components/BtcTx';
+import BtcAddress from '../../components/BtcAddress';
 import Detail from '../../components/Detail';
 import Label from '../../components/Label';
 import { toPrecision } from '@polkadot/app-accounts-chainx/Myview/toPrecision';
@@ -12,6 +13,7 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 import {useApi} from '@polkadot/react-hooks';
 import BigNumber from 'bignumber.js'
 import useTransition from '../../../../useTransition';
+import BtcBlockHeight from '../../components/BtcBlockHeight';
 
 export default function ({ transfer }: any) {
   const { t } = useTranslation();
@@ -30,7 +32,7 @@ export default function ({ transfer }: any) {
       ref={wrapper}>
       <header>
         <span> sBTC </span>
-        <span>{moment(new Date((transfer.blockTimestamp)*1000)).format('YYYY/MM/DD')}</span>
+        <span>{moment(new Date((transfer.blockTimestamp)*1000)).format('YYYY/MM/DD HH:mm:ss')}</span>
       </header>
       <main>
         {/* <span>{new BigNumber(toPrecision(transfer.balance, 18)).toNumber().toFixed(4)}</span> */}
@@ -41,15 +43,15 @@ export default function ({ transfer }: any) {
         <Detail>
           <li>
             <Label>{t('Tx ID')}</Label>
-            <Hash hash={transfer.extrinsicHash} />
+            <BtcTx hash={transfer.extrinsicHash} />
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <Address address={transfer.toAccountId} />
+            <BtcAddress address={transfer.toAccountId} />
           </li>
           <li className="memo">
            <Label>{t('BlockHeight')}</Label>
-           <p className="memo">{transfer.blockNum}</p>
+           <BtcBlockHeight blockHeight={transfer.blockNum} />
           </li>
         </Detail>
       ) : null}

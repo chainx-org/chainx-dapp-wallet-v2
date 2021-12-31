@@ -70,7 +70,7 @@ function getRegex(isDecimal: boolean): RegExp {
 
 function getSiOptions(): { text: string; value: string }[] {
   return [{
-    text: "KSX",
+    text: formatBalance.getDefaults().unit ? formatBalance.getDefaults().unit : "KSX",
     value: "-"
   }]
 }
@@ -81,7 +81,6 @@ function getSiPowers(si: SiDef | null): [BN, number, number] {
   }
 
   const basePower = formatBalance.getDefaults().decimals;
-
   return [new BN(basePower + si.power), basePower, si.power];
 }
 
