@@ -114,7 +114,7 @@ export function createWsEndpoints(t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    // ...createTestNetworks(t),
+    ...createTestNetworks(t),
     // {
     //   isHeader: true,
     //   text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
