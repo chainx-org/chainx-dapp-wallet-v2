@@ -110,18 +110,18 @@ export function createWsEndpoints(t: TFunction): LinkOption[] {
     ...createCustom(t),
     {
       isHeader: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createLiveNetworks(t),
-    {
-      isHeader: true,
       text: t('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
     ...createTestNetworks(t),
+    {
+      isHeader: true,
+      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createLiveNetworks(t),
     // {
     //   isDevelopment: true,
     //   isHeader: true,
