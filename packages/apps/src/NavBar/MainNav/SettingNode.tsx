@@ -17,7 +17,7 @@ function SettingNode(): React.ReactElement {
 
   const nodeMap: {[key: string]: string} = {
     'wss://sherpax-testnet.chainx.org': t('Test Node'),
-    'wss://sherpax-mainnet.chainx.org': 'SherpaX node',
+    // 'wss://sherpax-mainnet.chainx.org': 'SherpaX node',
   }
 
   useEffect(() => {

@@ -16,7 +16,9 @@ import WarmUp from './WarmUp';
 import NavBar from './NavBar/index';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import AccountAlert from '@polkadot/react-components-chainx/AccountAlert';
-
+import {useWeb3React} from '@web3-react/core'
+import {Web3Provider} from '@ethersproject/providers'
+import {injected} from './Web3Library'
 export const PORTAL_ID = 'portals';
 
 function Apps({className = ''}: Props): React.ReactElement<Props> {
@@ -25,6 +27,15 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
   const {allAccounts} = useAccounts()
   const [hasCurrentName, setHasCurrentName] = useState<boolean>(false)
   const {currentAccount} = useContext(AccountContext)
+  const context = useWeb3React<Web3Provider>()
+  const {connector, activate} = context
+  const [activatingConnector, setActivatingConnector] = useState<any>()
+  useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined)
+    }
+  }, [activatingConnector, connector])
+
   const uiHighlight = useMemo(
     () => getSystemChainColor(systemChain, systemName),
     [systemChain, systemName]
@@ -34,6 +45,16 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
     setHasCurrentName(!!allAccounts.find(account => account === currentAccount))
   }, [allAccounts, isApiReady, currentAccount])
 
+  useEffect(() => {
+    if (
+      (window as any).web3 &&
+      (window as any).web3.currentProvider &&
+      (window as any).web3.currentProvider.isComingWallet
+    ) {
+      setActivatingConnector(injected)
+      activate(injected)
+    }
+  }, [(window as any).web3])
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight}/>
