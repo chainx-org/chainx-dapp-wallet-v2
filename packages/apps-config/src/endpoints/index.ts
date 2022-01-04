@@ -52,20 +52,20 @@ function createOwn(t: TFunction): LinkOption[] {
 //   ];
 // }
 
-function createLiveNetworks(t: TFunction): LinkOption[] {
+// function createLiveNetworks(t: TFunction): LinkOption[] {
 
-  const endsArray = ['wss://sherpax-mainnet.chainx.org']
-  return [
-    // polkadot test relays
-    {
-      dnslink: 'SherpaX',
-      info: 'SherpaX',
-      text: 'SherpaX node',
-      textBy: t('rpc.hosted.by', 'hosted by SherpaX', { ns: 'apps-config', replace: { host: 'SherpaX' } }),
-      value: 'wss://sherpax-mainnet.chainx.org'
-    }
-  ];
-}
+//   const endsArray = ['wss://sherpax-mainnet.chainx.org']
+//   return [
+//     // polkadot test relays
+//     {
+//       dnslink: 'SherpaX',
+//       info: 'SherpaX',
+//       text: 'SherpaX node',
+//       textBy: t('rpc.hosted.by', 'hosted by SherpaX', { ns: 'apps-config', replace: { host: 'SherpaX' } }),
+//       value: 'wss://sherpax-mainnet.chainx.org'
+//     }
+//   ];
+// }
 
 function createTestNetworks(t: TFunction): LinkOption[] {
   return [
@@ -115,13 +115,13 @@ export function createWsEndpoints(t: TFunction): LinkOption[] {
       value: ''
     },
     ...createTestNetworks(t),
-    {
-      isHeader: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createLiveNetworks(t),
+    // {
+    //   isHeader: true,
+    //   text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+    //   textBy: '',
+    //   value: ''
+    // },
+    // ...createLiveNetworks(t),
     // {
     //   isDevelopment: true,
     //   isHeader: true,

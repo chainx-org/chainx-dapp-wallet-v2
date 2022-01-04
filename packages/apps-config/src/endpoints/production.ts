@@ -44,7 +44,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        ChainX: 'wss://mainnet.chainx.org/ws'
+        ChainX: 'wss://sherpax-testnet.chainx.org'
       }
     },
     {

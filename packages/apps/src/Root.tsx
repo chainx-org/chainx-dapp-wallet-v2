@@ -16,7 +16,8 @@ import { AccountProvider } from '@polkadot/react-components-chainx/AccountProvid
 import Apps from './Apps';
 import WindowDimensions from './WindowDimensions';
 import { darkTheme, lightTheme } from './themes';
-
+import { Web3ReactProvider } from '@web3-react/core';
+import { getLibrary } from './Web3Library';
 interface Props {
   store?: KeyringStore;
 }
@@ -45,11 +46,13 @@ function Root({ store }: Props): React.ReactElement<Props> {
             >
               <BlockAuthors>
                 <Events>
+                <Web3ReactProvider getLibrary={getLibrary}>
                   <HashRouter>
                     <WindowDimensions>
                       <Apps />
                     </WindowDimensions>
                   </HashRouter>
+                </Web3ReactProvider>
                 </Events>
               </BlockAuthors>
             </Api>
