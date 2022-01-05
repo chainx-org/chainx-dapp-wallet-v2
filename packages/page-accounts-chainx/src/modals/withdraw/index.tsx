@@ -39,6 +39,15 @@ const Wrapper = styled(Modal)`
       padding: 4px 10px;
     }
   }
+  @media screen and (max-width:480px){
+    .mob {
+      flex-direction: column;
+      align-items: inherit;
+      .mobs {
+        padding-left: 2rem;
+      }
+    }
+  }
 `;
 
 function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Props> {
@@ -88,7 +97,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
+        <Modal.Columns className='mob'>
           <Modal.Column>
             <InputAddress
               defaultValue={account}
@@ -109,7 +118,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           </Modal.Column> */}
         </Modal.Columns>
 
-        <Modal.Columns>
+        <Modal.Columns className='mob'>
           <Modal.Column>
             <Input
               help={t('the actual account you wish to withdraw')}
@@ -117,12 +126,12 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setWithdrawAddress}
             />
           </Modal.Column>
-          <Modal.Column>
+          <Modal.Column className='mobs'>
             {/* <p>{t('sBTC withdraw address')}</p> */}
             <span style={{display: (disabled === true) ? "block" : "none"}}>{t('Required')}</span>
           </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
+        <Modal.Columns className='mob'>
           <Modal.Column>
             <InputSBTCBalance
               autoFocus
@@ -131,11 +140,11 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column>
+          <Modal.Column className='mobs'>
             <p>{t('Minimum withdrawal amount is')} {minWithdraw}</p>
           </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
+        <Modal.Columns className='mob'>
           <Modal.Column>
             <div className='finalWithdrawAmount'>
               <div className='final'>{finalWithdraw>0?finalWithdraw:0}</div>
@@ -147,11 +156,11 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               />
             </div>
           </Modal.Column>
-          <Modal.Column>
+          <Modal.Column className='mobs'>
             <p>{t('Service Fee')} {minfee} sBTC</p>
           </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
+        <Modal.Columns className='mob'>
           <Modal.Column>
             <Input
               autoFocus

@@ -1,5 +1,5 @@
 
-import React, { createContext, FC, useState } from 'react';
+import React, { createContext, FC, useEffect, useState } from 'react';
 
 import { useLocalStorage } from '@polkadot/react-hooks-chainx';
 
@@ -22,7 +22,7 @@ export const AccountProvider: FC = ({ children }) => {
   function changeAccount(account: string) {
     setAccount(account);
   }
-
+  
   return (
     <AccountContext.Provider value={{
       currentAccount,

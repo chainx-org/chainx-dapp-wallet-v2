@@ -32,5 +32,24 @@ export function useAccounts (): UseAccounts {
     };
   }, [mountedRef]);
 
+  useEffect(() => {
+    if (
+      (window as any).web3 &&
+      (window as any).web3.currentProvider &&
+      (window as any).web3.currentProvider.isComingWallet &&
+      (window as any).web3.comingUserInfo
+    ) {
+      const account = JSON.parse((window as any).web3.comingUserInfo).address
+      const name = JSON.parse((window as any).web3.comingUserInfo).name
+      const publicKey = keyring.decodeAddress(account)
+      const encodedAddress = keyring.encodeAddress(publicKey, 44)
+      setState({allAccounts:[encodedAddress],hasAccounts: [encodedAddress].length !== 0, isAccount:(address: string): boolean => [encodedAddress].includes(address)});
+    }
+  }, [
+    (window as any).web3 &&
+      (window as any).web3.currentProvider &&
+      (window as any).web3.currentProvider.isComingWallet,
+  ])
+
   return state;
 }
