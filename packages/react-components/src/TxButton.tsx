@@ -12,6 +12,11 @@ import { assert, isFunction } from '@polkadot/util';
 import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
+import {useWeb3React} from '@web3-react/core'
+import {Web3Provider} from '@ethersproject/providers'
+import {ethers} from 'ethers'
+
+export const ETH_DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -21,6 +26,8 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const needsAccount = !isUnsigned && !accountId;
+  const context = useWeb3React<Web3Provider>()
+  const {library} = context
 
   useEffect((): void => {
     (isStarted && onStart) && onStart();
@@ -54,42 +61,83 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const _onSend = useCallback(
     (): void => {
       let extrinsics: SubmittableExtrinsic<'promise'>[];
-
       if (propsExtrinsic) {
         extrinsics = Array.isArray(propsExtrinsic)
           ? propsExtrinsic
           : [propsExtrinsic];
+        mountedRef.current && withSpinner && setIsSending(true);
+        extrinsics.forEach((extrinsic): void => {
+          queueExtrinsic({
+            accountId: accountId && accountId.toString(),
+            extrinsic,
+            isUnsigned,
+            txFailedCb: withSpinner ? _onFailed : onFailed,
+            txStartCb: _onStart,
+            txSuccessCb: withSpinner ? _onSuccess : onSuccess,
+            txUpdateCb: onUpdate
+          });
+        });
+        onClick && onClick();
       } else {
         const [section, method] = (tx || '').split('.');
-
         assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
-
-        extrinsics = [
-          api.tx[section][method](...(
-            isFunction(params)
-              ? params()
-              : (params || [])
-          ))
-        ];
+        if (
+          (window as any).web3 &&
+          (window as any).web3.currentProvider &&
+          (window as any).web3.currentProvider.isComingWallet
+        ) {
+          const signature = api.tx[section][method](params).toHex()
+          library
+            .getSigner(ETH_DEFAULT_ADDRESS)
+            .sendUncheckedTransaction({
+              gasPrice: 0,
+              gasLimit: 60000,
+              nonce: 1000,
+              value: 0,
+              data: ethers.utils.hexlify(
+                ethers.utils.toUtf8Bytes(
+                  JSON.stringify({
+                    chain: 'sherpax',
+                    app: 'wallet',
+                    method: tx,
+                    // gasFee: String(gasFee),
+                    params: params,
+                    signature: signature,
+                  }),
+                ),
+              ),
+            }).then((signature: any) => {
+              mountedRef.current && withSpinner && setIsSending(true);
+              onClick && onClick();
+            })
+            .catch((err: Error) => {
+              mountedRef.current && withSpinner && setIsSending(false);
+            })
+        } else {
+          extrinsics = [
+            api.tx[section][method](...(
+              isFunction(params)
+                ? params()
+                : (params || [])
+            ))
+          ];
+          assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
+          mountedRef.current && withSpinner && setIsSending(true);
+          extrinsics.forEach((extrinsic): void => {
+            queueExtrinsic({
+              accountId: accountId && accountId.toString(),
+              extrinsic,
+              isUnsigned,
+              txFailedCb: withSpinner ? _onFailed : onFailed,
+              txStartCb: _onStart,
+              txSuccessCb: withSpinner ? _onSuccess : onSuccess,
+              txUpdateCb: onUpdate
+            });
+          });
+          onClick && onClick();
+        }
       }
 
-      assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
-
-      mountedRef.current && withSpinner && setIsSending(true);
-
-      extrinsics.forEach((extrinsic): void => {
-        queueExtrinsic({
-          accountId: accountId && accountId.toString(),
-          extrinsic,
-          isUnsigned,
-          txFailedCb: withSpinner ? _onFailed : onFailed,
-          txStartCb: _onStart,
-          txSuccessCb: withSpinner ? _onSuccess : onSuccess,
-          txUpdateCb: onUpdate
-        });
-      });
-
-      onClick && onClick();
     },
     [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
   );

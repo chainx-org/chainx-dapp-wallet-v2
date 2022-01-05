@@ -51,7 +51,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
       className={className}
       summary={
         <Trans i18nKey='feesForSubmission'>
-          {t<string>('Transaction fee')} <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> ( 1microPCX=0.000001PCX )
+          {t<string>('Transaction fee')} <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> ( 1microKSX=0.000001KSX )
         </Trans>
       }
     />
