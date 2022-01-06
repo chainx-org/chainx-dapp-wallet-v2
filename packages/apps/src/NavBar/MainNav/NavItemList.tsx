@@ -10,7 +10,7 @@ import {useApi, useToggle} from '@polkadot/react-hooks';
 
 function NavItemList(): React.ReactElement {
   const {t} = useTranslation();
-  const {api} = useApi()
+  const {api,isApiReady} = useApi()
   const [isStakingOpen, , setToggleStaking] = useToggle();
   const [isGovernanceOpen, , setToggleGovernance] = useToggle();
   const [isDeveloperOpen, , setToggleDeveloper] = useToggle();
@@ -52,17 +52,19 @@ function NavItemList(): React.ReactElement {
 
   useEffect(() => {
     async function judgeNetwork() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 44) {
-        setUrl('http://sherpaxscan-pre.chainx.org/')
-      } else {
-        setUrl('http://sherpaxscan.chainx.org/')
+      if(isApiReady) {
+
+        const testOrMain = await api.rpc.system.properties();
+        const testOrMainNum = JSON.parse(testOrMain);
+        if (testOrMainNum.ss58Format === 44) {
+          setUrl('http://sherpaxscan-pre.chainx.org/')
+        } else {
+          setUrl('http://sherpaxscan.chainx.org/')
+        }
       }
     }
-
     judgeNetwork();
-  }, []);
+  }, [isApiReady]);
 
   return (
     <div className="left">

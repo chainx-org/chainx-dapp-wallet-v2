@@ -27,7 +27,6 @@ interface Props {
 function Fee(value): React.ReactElement<Props> {
   const preciseValue: BigNumber = new BigNumber(toPrecision(value, 18))
   const decimalsValue = preciseValue.toNumber().toFixed(8)
-  console.log('preciseValue',decimalsValue)
   return (
     <>
       <span className='ui--FormatBalance-postfix'>{decimalsValue}</span>
@@ -60,7 +59,6 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
     return null;
   }
   const fee = dispatchInfo.partialFee
-  console.log('dispatchInfo.partialFee',JSON.parse(JSON.stringify(dispatchInfo.partialFee)),Number(fee) )
   return (
     <Expander
       className={className}

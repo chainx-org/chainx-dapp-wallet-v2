@@ -24,15 +24,17 @@ export default function useWithdrawalsList(currentAccount = ''): Withdrawal[] {
 //   let withdrawalTimeId: any = null;
 
   async function fetchWithdrawals(currentAccount: string) {
-    const testOrMain = await api.rpc.system.properties();
-    const testOrMainNum = JSON.parse(testOrMain);
-    let withdrawalsList: any;
-    if (testOrMainNum.ss58Format === 44) {
-      withdrawalsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
-    } else {
-      withdrawalsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
+    if(isApiReady) {
+      const testOrMain = await api.rpc.system.properties();
+      const testOrMainNum = JSON.parse(testOrMain);
+      let withdrawalsList: any;
+      if (testOrMainNum.ss58Format === 44) {
+        withdrawalsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
+      } else {
+        withdrawalsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
+      }
+      setState(withdrawalsList.data.items);
     }
-    setState(withdrawalsList.data.items);
   }
 
   useEffect((): void => {

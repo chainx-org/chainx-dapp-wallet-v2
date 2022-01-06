@@ -17,16 +17,18 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
   // let transferTimeId: any = '';
 
   async function fetchTransfers(currentAccount: string) {
-    const testOrMain = await api.rpc.system.properties();
-    const testOrMainNum = JSON.parse(testOrMain);
-    let res: any;
-    if (testOrMainNum.ss58Format === 44) {
-      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
-    } else {
-      res = await axios.get(`https://multiscan-api.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
-      // let res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=5Escb2u24DLhTSJBkStrfQjQcdDe9XaP4wsa3EA9BGAhk8mu/transfers?page=0&page_size=10`);
+    if(isApiReady) {
+      const testOrMain = await api.rpc.system.properties();
+      const testOrMainNum = JSON.parse(testOrMain);
+      let res: any;
+      if (testOrMainNum.ss58Format === 44) {
+        res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
+      } else {
+        res = await axios.get(`https://multiscan-api.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
+        // let res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=5Escb2u24DLhTSJBkStrfQjQcdDe9XaP4wsa3EA9BGAhk8mu/transfers?page=0&page_size=10`);
+      }
+      setState(res.data.items);
     }
-    setState(res.data.items);
   }
 
   useEffect((): void => {
