@@ -121,7 +121,7 @@ const Wrapper = styled.div`
 
 function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const {api} = useApi()
+  const {api,isApiReady} = useApi()
   const [isEndpointsVisible, toggleEndpoints] = useToggle();
   const [url, setUrl] = useState<string>('')
   const [recordType, setRecordType] = useState(0);
@@ -144,17 +144,19 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
 
   useEffect(() => {
     async function judgeNetwork() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 44) {
-        setUrl('http://sherpaxscan-pre.chainx.org/')
-      } else {
-        setUrl('http://sherpaxscan.chainx.org/')
+      if(isApiReady) {
+
+        const testOrMain = await api.rpc.system.properties();
+        const testOrMainNum = JSON.parse(testOrMain);
+        if (testOrMainNum.ss58Format === 44) {
+          setUrl('http://sherpaxscan-pre.chainx.org/')
+        } else {
+          setUrl('http://sherpaxscan.chainx.org/')
+        }
       }
     }
-
     judgeNetwork();
-  }, []);
+  }, [isApiReady]);
 
   const nodeList = ([
     {nodeName: t<string>('Assets'), link: '/accounts', icon: 'users'},

@@ -11,6 +11,8 @@ import { Expander } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatBalance, isFunction } from '@polkadot/util';
 import { useTranslation } from './translate';
+import { BigNumber } from 'bignumber.js';
+import { toPrecision } from '../../page-accounts-chainx/src/Myview/toPrecision';
 
 interface Props {
   accountId?: string | null;
@@ -21,6 +23,17 @@ interface Props {
   tip?: BN;
 }
 
+
+function Fee(value): React.ReactElement<Props> {
+  const preciseValue: BigNumber = new BigNumber(toPrecision(value, 18))
+  const decimalsValue = preciseValue.toNumber().toFixed(8)
+  return (
+    <>
+      <span className='ui--FormatBalance-postfix'>{decimalsValue}</span>
+      <span className='ui--FormatBalance-unit'>{formatBalance.getDefaults().unit && formatBalance.getDefaults().unit !== 'Unit'? formatBalance.getDefaults().unit : 'KSX'}</span>
+    </>
+  );
+}
 function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -45,13 +58,13 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   if (!dispatchInfo || !extrinsic) {
     return null;
   }
-
+  const fee = dispatchInfo.partialFee
   return (
     <Expander
       className={className}
       summary={
         <Trans i18nKey='feesForSubmission'>
-          {t<string>('Transaction fee')} <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> ( 1microPCX=0.000001PCX )
+          {t<string>('Transaction fee')} <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> ({Fee(fee)})
         </Trans>
       }
     />
