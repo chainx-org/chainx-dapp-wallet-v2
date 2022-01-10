@@ -83,7 +83,7 @@ export default function ({ addr, applicant, assetId, balance, ext, height, id, s
       const testOrMainNum = JSON.parse(testOrMain);
 
       if (testOrMainNum.ss58Format === 42) {
-        setAccountUrl(`https://testnet-scan.chainx.org/accounts/${applicant}`)
+        setAccountUrl(`https://scan-pre.chainx.org/accounts/${applicant}`)
         setWithdrawalUr(`https://live.blockcypher.com/btc-testnet/address/${addr}`)
       } else {
         setAccountUrl(`https://scan-v2.chainx.org/accounts/${applicant}`)
