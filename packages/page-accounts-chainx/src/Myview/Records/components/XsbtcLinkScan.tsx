@@ -18,9 +18,9 @@ export default function ({ linkTo, status, length = 5 }) {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
       if (testOrMainNum.ss58Format === 44) {
-        setUrl(`https://sherpaxscan-pre.chainx.org/${status}/${linkTo}`)
+        setUrl(`https://scan-pre.sherpax.io/${status}/${linkTo}`)
       } else {
-        setUrl(`https://sherpaxscan.chainx.org/${status}/${linkTo}`)
+        setUrl(`https://scan.sherpax.io/${status}/${linkTo}`)
       }
     }
     fetchUrl()
