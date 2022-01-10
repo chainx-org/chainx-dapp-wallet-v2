@@ -57,9 +57,9 @@ function NavItemList(): React.ReactElement {
         const testOrMain = await api.rpc.system.properties();
         const testOrMainNum = JSON.parse(testOrMain);
         if (testOrMainNum.ss58Format === 44) {
-          setUrl('http://sherpaxscan-pre.chainx.org/')
+          setUrl('https://scan-pre.sherpax.io/')
         } else {
-          setUrl('http://sherpaxscan.chainx.org/')
+          setUrl('https://scan.sherpax.io/')
         }
       }
     }
