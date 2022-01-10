@@ -225,11 +225,16 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
                 title={t('Total Balance')}
                 value={allBalance}
               />
-              <AssetView
+              {/* <AssetView
                 key={Math.random()}
                 title={t('Voting Frozen')}
                 value={miscFrozen}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
+              /> */}
+              <AssetView
+                key={Math.random()}
+                title={t('Locked Frozen')}
+                value={miscFrozen}
               />
               {/* <AssetView
                 key={Math.random()}

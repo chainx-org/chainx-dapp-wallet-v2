@@ -295,6 +295,7 @@
   "Verify the password entered above.": "Verify the password entered above.",
   "Vote Amounts": "Vote Amounts",
   "Voting Frozen": "Voting Frozen",
+  "Locked Frozen": "Locked Frozen",
   "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.": "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.",
   "With the keep-alive option set, the account is protected against removal due to low balances.": "With the keep-alive option set, the account is protected against removal due to low balances.",
   "Withdraw": "Withdraw",

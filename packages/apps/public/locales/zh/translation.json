@@ -1168,6 +1168,7 @@
   "Voting Account": "投票账户",
   "Voting End": "投票结束",
   "Voting Frozen": "投票冻结",
+  "Locked Frozen": "锁定冻结",
   "Voting Round": "投票轮次",
   "Voting closed": "投票关闭",
   "Voting costs nothing other than the transaction fee and can be done from all accounts with a non-zero spendable balance.": "投票成本除交易费之外没有其他的，任何不是非零的账户都可以进行",
