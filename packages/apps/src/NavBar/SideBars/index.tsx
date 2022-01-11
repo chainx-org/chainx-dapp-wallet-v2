@@ -147,7 +147,7 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
       if (testOrMainNum.ss58Format === 42) {
-        setUrl('https://testnet-scan.chainx.org/')
+        setUrl('https://scan-pre.chainx.org/')
       } else {
         setUrl('https://scan.chainx.org/')
       }

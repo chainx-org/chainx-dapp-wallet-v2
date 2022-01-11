@@ -18,9 +18,9 @@ export default function ({ hash = '', length = 5 }) {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
       if (testOrMainNum.ss58Format === 42) {
-        setUrl(`https://testnet-scan.chainx.org/extrinsics/${hash}`)
+        setUrl(`https://scan-pre.chainx.org/#/extrinsicDetails/${hash}`)
       } else {
-        setUrl(`https://scan.chainx.org/extrinsics/${hash}`)
+        setUrl(`https://scan.chainx.org/#/extrinsicDetails/${hash}`)
       }
     }
 

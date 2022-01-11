@@ -60,10 +60,10 @@ export default function () {
       const testOrMainNum = JSON.parse(testOrMain);
       let res;
       if (testOrMainNum.ss58Format === 42) {
-        res = await axios.get('https://testnet-api.chainx.org/dex/kline/0/86400000');
+        res = await axios.get('https://api-v2-pre.chainx.org/dex/kline/0/86400000');
         dataList.push(...res.data.items)
       } else {
-        res = await axios.get('https://api-v2.chainx.cc/dex/kline/0/86400000');
+        res = await axios.get('https://api-v2.chainx.org/dex/kline/0/86400000');
         dataList.push(...res.data.items)
       }
 
