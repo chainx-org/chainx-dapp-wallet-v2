@@ -41,9 +41,9 @@ export default function useOrders(currentAccount = '', isLoading: boolean): Orde
 
       let historyOrdersList: any;
       if (testOrMainNum.ss58Format === 42) {
-        historyOrdersList = await axios.get(`https://testnet-api.chainx.org/accounts/${currentAccount}/deals?page=0&page_size=10`)
+        historyOrdersList = await axios.get(`https://api-v2-pre.chainx.org/accounts/${currentAccount}/deals?page=0&page_size=10`)
       } else {
-        historyOrdersList = await axios.get(`https://api-v2.chainx.cc/accounts/${currentAccount}/deals?page=0&page_size=10`)
+        historyOrdersList = await axios.get(`https://api-v2.chainx.org/accounts/${currentAccount}/deals?page=0&page_size=10`)
       }
       setState({
         NowOrders: nowOrdersList,
