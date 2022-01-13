@@ -11,6 +11,7 @@ import { InfiniteScroll, Loading } from 'antd-mobile'
 import { sleep } from 'antd-mobile/es/utils/sleep'
 import {useApi} from '@polkadot/react-hooks';
 import axios from 'axios';
+import getApiUrl from '../../../../../apps/src/initSettings';
 
 const Wrapper = styled.div`
   & > div.empty {
@@ -57,8 +58,8 @@ const LoadingWrapper = styled.div`
 `;
 let count = 0;
 export default function ({transfers}): React.ReactElement {
-  const {api} = useApi();
   const { t } = useTranslation();
+  const apiUrl = getApiUrl();
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true)
   const [data, setData] = useState<Transfer[]>([])
@@ -92,11 +93,9 @@ export default function ({transfers}): React.ReactElement {
     }
     await sleep(2000)
     count++
-    const testOrMain = await api.rpc.system.properties();
-    const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
-    if (testOrMainNum.ss58Format === 44) {
-      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=${count}&page_size=20`);
+    if (apiUrl.includes('mainnet')) {
+      res = await axios.get(`https://multiscan-api.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=${count}&page_size=20`);
     } else {
       res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/balanceTransfer?address=${currentAccount}&page=0&page_size=20`);
     }    

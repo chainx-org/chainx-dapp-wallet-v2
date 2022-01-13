@@ -11,6 +11,7 @@ import { sleep } from 'antd-mobile/es/utils/sleep'
 import {useApi} from '@polkadot/react-hooks';
 import axios from 'axios';
 import { Transfer } from '../../../../useXsbtcTransfer';
+import getApiUrl from '../../../../../../apps/src/initSettings';
 
 const Wrapper = styled.div`
   & > div.empty {
@@ -59,11 +60,11 @@ const LoadingWrapper = styled.div`
 let count = 0;
 export default function ({transfers}): React.ReactElement {
   const { t } = useTranslation();
+  const apiUrl = getApiUrl()
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true)
   const [data, setData] = useState<Transfer[]>([])
   const mounted = useIsMounted();
-  const {api} = useApi();
   const [all, setAll] = useState<number>()
   const { currentAccount } = useContext(AccountContext);
   
@@ -94,13 +95,11 @@ export default function ({transfers}): React.ReactElement {
     }
     await sleep(2000)
     count++
-    const testOrMain = await api.rpc.system.properties();
-    const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
-    if (testOrMainNum.ss58Format === 44) {
-      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/palletAssets/${currentAccount}/transfers?asset_id=1&page=${count}&page_size=20`);
-    } else {
+    if (apiUrl.includes('mainnet')) {
       res = await axios.get(`https://multiscan-api.coming.chat/sherpax/palletAssets/${currentAccount}/transfers?asset_id=1&page=${count}&page_size=20`);
+    } else {
+      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/palletAssets/${currentAccount}/transfers?asset_id=1&page=${count}&page_size=20`);
     }
     return res.data.items
   }
