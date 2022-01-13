@@ -9,6 +9,7 @@ import { InfiniteScroll, Loading } from 'antd-mobile'
 import { sleep } from 'antd-mobile/es/utils/sleep'
 import {useApi} from '@polkadot/react-hooks';
 import axios from 'axios';
+import getApiUrl from '../../../../../../apps/src/initSettings';
 interface Props{
   deposits: Deposit[];
 }
@@ -17,7 +18,7 @@ let count = 0;
 export default function ({deposits}: Props): React.ReactElement<Props> {
 
   const { t } = useTranslation();
-  const {api} = useApi();
+  const apiUrl = getApiUrl()
   const [hasMore, setHasMore] = useState(true)
   const [data, setData] = useState<Deposit[]>([])
   const [all, setAll] = useState<number>()
@@ -35,13 +36,11 @@ export default function ({deposits}: Props): React.ReactElement<Props> {
     }
     await sleep(2000)
     count++
-    const testOrMain = await api.rpc.system.properties();
-    const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
-    if (testOrMainNum.ss58Format === 44) {
-      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=${count}&page_size=20`);
-    } else {
+    if (apiUrl.includes('mainnet')) {
       res = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=${count}&page_size=20`);
+    } else {
+      res = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=${count}&page_size=20`);
     }
     return res.data.items
   }

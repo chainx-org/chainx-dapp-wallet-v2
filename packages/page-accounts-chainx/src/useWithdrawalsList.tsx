@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 
 import axios from 'axios';
 import {useApi} from '@polkadot/react-hooks';
+import getApiUrl from '../../apps/src/initSettings';
 
 export interface Withdrawal {
     addr: string,
@@ -19,19 +20,18 @@ export interface Withdrawal {
 }
 
 export default function useWithdrawalsList(currentAccount = ''): Withdrawal[] {
-    const {api, isApiReady} = useApi();
+    const {isApiReady} = useApi();
+    const apiUrl = getApiUrl();
     const [state, setState] = useState<Withdrawal[]>([]);
 //   let withdrawalTimeId: any = null;
 
   async function fetchWithdrawals(currentAccount: string) {
     if(isApiReady) {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
       let withdrawalsList: any;
-      if (testOrMainNum.ss58Format === 44) {
-        withdrawalsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
-      } else {
+      if (apiUrl.includes('mainnet')) {
         withdrawalsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
+      } else {
+        withdrawalsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/withdrawals?page=0&page_size=20`);
       }
       setState(withdrawalsList.data.items);
     }

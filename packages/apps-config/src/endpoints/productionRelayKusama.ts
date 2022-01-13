@@ -298,12 +298,12 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'sherpax',
-        homepage: 'https://chainx.org/',
+        homepage: 'https://sherpax.io/',
         isUnreachable: true,
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
         providers: {
-          ChainX: 'wss://sherpax.chainx.org'
+          ChainX: 'wss://mainnet.sherpax.io'
         }
       },
       {

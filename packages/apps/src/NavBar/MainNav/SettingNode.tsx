@@ -16,8 +16,8 @@ function SettingNode(): React.ReactElement {
   const stored = store.get('settings') as Record<string, unknown> || {};
 
   const nodeMap: {[key: string]: string} = {
+    'wss://mainnet.sherpax.io': 'SherpaX node',
     'wss://sherpax-testnet.chainx.org': t('Test Node'),
-    // 'wss://sherpax-mainnet.chainx.org': 'SherpaX node',
   }
 
   useEffect(() => {

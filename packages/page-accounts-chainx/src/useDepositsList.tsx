@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 
 import axios from 'axios';
 import {useApi} from '@polkadot/react-hooks';
+import getApiUrl from '../../apps/src/initSettings';
 
 export interface Deposit {
     accountId: string,
@@ -15,19 +16,18 @@ export interface Deposit {
 }
 
 export default function useDepositsList(currentAccount = ''): Deposit[] {
-  const {api, isApiReady} = useApi();
+  const {isApiReady} = useApi();
+  const apiUrl = getApiUrl();
   const [state, setState] = useState<Deposit[]>([]);
 //   let withdrawalTimeId: any = null;
 
   async function fetchDepositsList(currentAccount: string) {
     if(isApiReady) {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
       let depositsList: any;
-      if (testOrMainNum.ss58Format === 44) {
-        depositsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=0&page_size=20`);
-      } else {
+      if (apiUrl.includes('mainnet')){
         depositsList = await axios.get(`https://multiscan-api.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=0&page_size=20`);
+      } else {
+        depositsList = await axios.get(`https://multiscan-api-pre.coming.chat/sherpax/xgateway/${currentAccount}/deposits?page=0&page_size=20`);
       }
       setState(depositsList.data.items);
     }
