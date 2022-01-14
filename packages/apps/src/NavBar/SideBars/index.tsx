@@ -145,13 +145,10 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   useEffect(() => {
     async function judgeNetwork() {
       if(isApiReady) {
-
-        const testOrMain = await api.rpc.system.properties();
-        const testOrMainNum = JSON.parse(testOrMain);
-        if (testOrMainNum.ss58Format === 44) {
-          setUrl('https://scan-pre.sherpax.io/')
-        } else {
+        if (apiUrl.includes('mainnet')) {
           setUrl('https://scan.sherpax.io/')
+        } else {
+          setUrl('https://scan-pre.sherpax.io/')
         }
       }
     }
