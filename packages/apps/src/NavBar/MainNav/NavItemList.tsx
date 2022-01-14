@@ -7,10 +7,12 @@ import linkOut from '@polkadot/apps/NavBar/icons/Link out.svg';
 import Selector from '@polkadot/apps/NavBar/MainNav/Selector';
 import {useTranslation} from '@polkadot/apps/translate';
 import {useApi, useToggle} from '@polkadot/react-hooks';
+import getApiUrl from '../../initSettings';
 
 function NavItemList(): React.ReactElement {
   const {t} = useTranslation();
   const {api,isApiReady} = useApi()
+  const apiUrl = getApiUrl();
   const [isStakingOpen, , setToggleStaking] = useToggle();
   const [isGovernanceOpen, , setToggleGovernance] = useToggle();
   const [isDeveloperOpen, , setToggleDeveloper] = useToggle();
@@ -53,13 +55,10 @@ function NavItemList(): React.ReactElement {
   useEffect(() => {
     async function judgeNetwork() {
       if(isApiReady) {
-
-        const testOrMain = await api.rpc.system.properties();
-        const testOrMainNum = JSON.parse(testOrMain);
-        if (testOrMainNum.ss58Format === 44) {
-          setUrl('https://scan-pre.sherpax.io/')
-        } else {
+        if (apiUrl.includes('mainnet')) {
           setUrl('https://scan.sherpax.io/')
+        } else {
+          setUrl('https://scan-pre.sherpax.io/')
         }
       }
     }

@@ -3,10 +3,10 @@ import React, {useEffect, useState} from 'react';
 import LinkWrapper from './LinkWrapper';
 import link from './link.svg';
 import linkHighlight from './link-highlight.svg';
-import {useApi} from '@polkadot/react-hooks';
+import getApiUrl from '../../../../../apps/src/initSettings';
 
 export default function ({ linkTo, status, length = 5 }) {
-  const {api} = useApi()
+  const apiUrl = getApiUrl();
   let result = linkTo;
   const [url, setUrl] = useState<string>('')
   if (linkTo.length > 2 * length) {
@@ -15,12 +15,10 @@ export default function ({ linkTo, status, length = 5 }) {
   }
   useEffect(() => {  
     async function fetchUrl() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 44) {
-        setUrl(`https://scan-pre.sherpax.io/${status}/${linkTo}`)
-      } else {
+      if (apiUrl.includes('mainnet')) {
         setUrl(`https://scan.sherpax.io/${status}/${linkTo}`)
+      } else {
+        setUrl(`https://scan-pre.sherpax.io/${status}/${linkTo}`)
       }
     }
     fetchUrl()
