@@ -123,7 +123,7 @@ export default function ({address, onClose}: Props) {
   const [channel, setChannel] = useState('');
   const {api} = useApi();
   const apiUrl = getApiUrl();
-  const [hotAddress, setHotAddress] = useState<string>('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.');
+  const [hotAddress, setHotAddress] = useState<string>('');
   const addressHex = u8aToHex(
     new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
   ).replace(/^0x/, '');
@@ -133,6 +133,8 @@ export default function ({address, onClose}: Props) {
       if(apiUrl.includes('mainnet')) {
         const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
         setHotAddress(dividendRes.hotAddress.addr);
+      } else {
+        setHotAddress('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.')
       }
     }
     getHotAddress();
