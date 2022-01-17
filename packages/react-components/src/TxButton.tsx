@@ -15,6 +15,8 @@ import { useTranslation } from './translate';
 import {useWeb3React} from '@web3-react/core'
 import {Web3Provider} from '@ethersproject/providers'
 import {ethers} from 'ethers'
+import BigNumber from 'bignumber.js';
+import { AccountContext } from '../../react-components-chainx/src/AccountProvider';
 
 export const ETH_DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -81,6 +83,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       } else {
         const [section, method] = (tx || '').split('.');
         assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
+        const {currentAccount} = useContext(AccountContext)
         if (
           (window as any).web3 &&
           (window as any).web3.currentProvider &&
@@ -94,6 +97,11 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           const signatureXsBTC = section === 'xGatewayCommon' &&  api.tx[section][method](params[0], params[1], params[2], params[3]).toHex()
           const signatureTransfer = section === 'assets' &&  api.tx[section][method](params[0], params[1], params[2]).toHex()
           const fee = section === 'xGatewayCommon' ? '0.005' : '0.0918'
+          // api.tx[section][method](params).paymentInfo(currentAccount)
+          // .then(result => {
+          //   const {partialFee} = result.toJSON()
+          //   console.log(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 8)).toNumber())
+          // })
           library
             .getSigner(ETH_DEFAULT_ADDRESS)
             .sendUncheckedTransaction({
@@ -108,6 +116,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                     app: 'wallet',
                     method: section+"."+method,
                     gasFee: fee,
+                    coinType: section === 'balances' ? 'KSX' : 'X-sBTC',
                     params: section === 'balances' ? paramKsx : section === 'xGatewayCommon' ? paramXsBTC : paramTransfer,
                     signature: section === 'balances' ? signatureKsx : section === 'xGatewayCommon' ? signatureXsBTC : signatureTransfer,
                   }),
