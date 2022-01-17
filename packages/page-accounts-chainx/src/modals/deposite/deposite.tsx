@@ -11,6 +11,7 @@ import {u8aToHex, u8aToU8a, u8aWrapBytes} from '@polkadot/util';
 import ClipBoard from './ClipBoard';
 import infoIcon from './explan.svg';
 import {useApi} from '@polkadot/react-hooks';
+import getApiUrl from '../../../../apps/src/initSettings';
 
 interface Props {
   onClose: () => void;
@@ -118,22 +119,24 @@ const Wrapper = styled(Modal)`
 `;
 
 export default function ({address, onClose}: Props) {
-    const {t} = useTranslation();
-    const [channel, setChannel] = useState('');
-    const {api} = useApi();
-    const [hotAddress, setHotAddress] = useState<string>('');
-    const addressHex = u8aToHex(
-      new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
-    ).replace(/^0x/, '');
-  
-    useEffect((): void => {
-      async function getHotAddress() {
+  const {t} = useTranslation();
+  const [channel, setChannel] = useState('');
+  const {api} = useApi();
+  const apiUrl = getApiUrl();
+  const [hotAddress, setHotAddress] = useState<string>('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.');
+  const addressHex = u8aToHex(
+    new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
+  ).replace(/^0x/, '');
+
+  useEffect((): void => {
+    async function getHotAddress() {
+      if(apiUrl.includes('mainnet')) {
         const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
         setHotAddress(dividendRes.hotAddress.addr);
       }
-  
-      getHotAddress();
-    }, []);
+    }
+    getHotAddress();
+  }, []);
 
   return (
     <Wrapper
