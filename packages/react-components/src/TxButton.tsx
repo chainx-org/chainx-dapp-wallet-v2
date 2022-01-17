@@ -86,7 +86,14 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           (window as any).web3.currentProvider &&
           (window as any).web3.currentProvider.isComingWallet
         ) {
-          const signature = api.tx[section][method](params).toHex()
+          const amount = Number(params[1])
+          const paramKsx = section === 'balances' && [params[0],String(amount)]
+          const paramXsBTC = section === 'xGatewayCommon' &&  [params[0], String(params[1]), params[2], params[3]]
+          const paramTransfer = section === 'assets' &&  [String(params[0]) ,params[1],String(params[2])]
+          const signatureKsx = section === 'balances' &&  api.tx[section][method](params[0], params[1]).toHex()
+          const signatureXsBTC = section === 'xGatewayCommon' &&  api.tx[section][method](params[0], params[1], params[2], params[3]).toHex()
+          const signatureTransfer = section === 'assets' &&  api.tx[section][method](params[0], params[1], params[2]).toHex()
+          const fee = section === 'xGatewayCommon' ? '0.005' : '0.0918'
           library
             .getSigner(ETH_DEFAULT_ADDRESS)
             .sendUncheckedTransaction({
@@ -99,10 +106,10 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                   JSON.stringify({
                     chain: 'sherpax',
                     app: 'wallet',
-                    method: tx,
-                    // gasFee: String(gasFee),
-                    params: params,
-                    signature: signature,
+                    method: section+"."+method,
+                    gasFee: fee,
+                    params: section === 'balances' ? paramKsx : section === 'xGatewayCommon' ? paramXsBTC : paramTransfer,
+                    signature: section === 'balances' ? signatureKsx : section === 'xGatewayCommon' ? signatureXsBTC : signatureTransfer,
                   }),
                 ),
               ),
@@ -111,6 +118,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
               onClick && onClick();
             })
             .catch((err: Error) => {
+              console.log('err',err)
               mountedRef.current && withSpinner && setIsSending(false);
             })
         } else {
