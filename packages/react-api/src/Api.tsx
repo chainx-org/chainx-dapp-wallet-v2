@@ -182,7 +182,7 @@ async function loadOnReady(api: ApiPromise, injectedPromise: Promise<InjectedExt
   TokenUnit.setAbbr(tokenSymbol[0].toString());
 
   // finally load the keyring
-  isKeyringLoaded() && keyring.loadAll({
+  isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,
