@@ -25,12 +25,19 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const { queueExtrinsic } = useContext(StatusContext);
+  const {currentAccount} = useContext(AccountContext)
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const needsAccount = !isUnsigned && !accountId;
   const context = useWeb3React<Web3Provider>()
   const {library} = context
-
+  const [fee, setFee] = useState<number>(0)
+  const [section, method] = (tx || '').split('.');
+  api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
+    .then(result => {
+      const {partialFee} = result.toJSON()
+      setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 18)).toNumber())
+  })
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
@@ -83,25 +90,16 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       } else {
         const [section, method] = (tx || '').split('.');
         assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
-        const {currentAccount} = useContext(AccountContext)
         if (
           (window as any).web3 &&
           (window as any).web3.currentProvider &&
           (window as any).web3.currentProvider.isComingWallet
         ) {
-          const amount = Number(params[1])
-          const paramKsx = section === 'balances' && [params[0],String(amount)]
-          const paramXsBTC = section === 'xGatewayCommon' &&  [params[0], String(params[1]), params[2], params[3]]
-          const paramTransfer = section === 'assets' &&  [String(params[0]) ,params[1],String(params[2])]
-          const signatureKsx = section === 'balances' &&  api.tx[section][method](params[0], params[1]).toHex()
-          const signatureXsBTC = section === 'xGatewayCommon' &&  api.tx[section][method](params[0], params[1], params[2], params[3]).toHex()
-          const signatureTransfer = section === 'assets' &&  api.tx[section][method](params[0], params[1], params[2]).toHex()
-          const fee = section === 'xGatewayCommon' ? '0.005' : '0.0918'
-          // api.tx[section][method](params).paymentInfo(currentAccount)
-          // .then(result => {
-          //   const {partialFee} = result.toJSON()
-          //   console.log(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 8)).toNumber())
-          // })
+          const param = (params as any[])?.map((item)=>{
+            return String(item)
+          })
+          const signature = api.tx[section][method](...params as any[]).toHex()
+  
           library
             .getSigner(ETH_DEFAULT_ADDRESS)
             .sendUncheckedTransaction({
@@ -116,8 +114,8 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                     app: 'wallet',
                     method: section+"."+method,
                     gasFee: fee,
-                    params: section === 'balances' ? paramKsx : section === 'xGatewayCommon' ? paramXsBTC : paramTransfer,
-                    signature: section === 'balances' ? signatureKsx : section === 'xGatewayCommon' ? signatureXsBTC : signatureTransfer,
+                    params: param,
+                    signature: signature,
                   }),
                 ),
               ),
