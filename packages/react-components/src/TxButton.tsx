@@ -33,17 +33,19 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const {library} = context
   const [fee, setFee] = useState<number>(0)
   const [section, method] = (tx || '').split('.');
-  if (
-    (window as any).web3 &&
-    (window as any).web3.currentProvider &&
-    (window as any).web3.currentProvider.isComingWallet
-  ) {
-    api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
-      .then(result => {
-        const {partialFee} = result.toJSON()
-        setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 18)).toNumber())
-    })
-  }
+  useEffect(()=>{
+    if (
+      (window as any).web3 &&
+      (window as any).web3.currentProvider &&
+      (window as any).web3.currentProvider.isComingWallet) 
+      {
+        api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
+        .then(result => {
+          const {partialFee} = result.toJSON()
+          setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 18)).toNumber())
+        })
+      }
+  },[])
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
@@ -119,7 +121,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                     chain: 'sherpax',
                     app: 'wallet',
                     method: section+"."+method,
-                    gasFee: fee,
+                    gasFee: String(fee),
                     params: param,
                     signature: signature,
                   }),
