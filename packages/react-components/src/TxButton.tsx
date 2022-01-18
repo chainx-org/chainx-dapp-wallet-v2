@@ -25,19 +25,27 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const { queueExtrinsic } = useContext(StatusContext);
-  const {currentAccount} = useContext(AccountContext)
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
+  const {currentAccount} = useContext(AccountContext)
   const needsAccount = !isUnsigned && !accountId;
   const context = useWeb3React<Web3Provider>()
   const {library} = context
   const [fee, setFee] = useState<number>(0)
   const [section, method] = (tx || '').split('.');
-  api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
-    .then(result => {
-      const {partialFee} = result.toJSON()
-      setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 18)).toNumber())
-  })
+  useEffect(()=>{
+    if (
+      (window as any).web3 &&
+      (window as any).web3.currentProvider &&
+      (window as any).web3.currentProvider.isComingWallet
+      ) {
+        api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
+        .then(result => {
+          const {partialFee} = result.toJSON()
+          setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 18)).toNumber())
+        })
+      }
+  },[])
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
