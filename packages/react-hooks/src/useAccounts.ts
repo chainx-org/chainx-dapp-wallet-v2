@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 
 import { useIsMountedRef } from './useIsMountedRef';
+import { useApi } from './useApi';
 
 interface UseAccounts {
   allAccounts: string[];
@@ -14,6 +15,8 @@ interface UseAccounts {
 
 export function useAccounts (): UseAccounts {
   const mountedRef = useIsMountedRef();
+  const {isApiReady} = useApi();
+
   const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false, isAccount: () => false });
 
   useEffect((): () => void => {
@@ -37,18 +40,18 @@ export function useAccounts (): UseAccounts {
       (window as any).web3 &&
       (window as any).web3.currentProvider &&
       (window as any).web3.currentProvider.isComingWallet &&
-      (window as any).web3.comingUserInfo
+      (window as any).web3.comingUserInfo && isApiReady
     ) {
       const account = JSON.parse((window as any).web3.comingUserInfo).address
       const name = JSON.parse((window as any).web3.comingUserInfo).name
-      const publicKey = keyring.decodeAddress(account)
-      const encodedAddress = keyring.encodeAddress(publicKey, 44)
-      setState({allAccounts:[encodedAddress],hasAccounts: [encodedAddress].length !== 0, isAccount:(address: string): boolean => [encodedAddress].includes(address)});
+      // const publicKey = keyring.decodeAddress(account)
+      // const encodedAddress = keyring.encodeAddress(publicKey, 44)
+      setState({allAccounts:[account],hasAccounts: [account].length !== 0, isAccount:(address: string): boolean => [account].includes(address)});
     }
   }, [
     (window as any).web3 &&
       (window as any).web3.currentProvider &&
-      (window as any).web3.currentProvider.isComingWallet,
+      (window as any).web3.currentProvider.isComingWallet && isApiReady
   ])
 
   return state;
