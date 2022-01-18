@@ -22,7 +22,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic, queueAction } = useContext(StatusContext);
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const {currentAccount} = useContext(AccountContext)
@@ -125,13 +125,21 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                   }),
                 ),
               ),
-            }).then((signature: any) => {
-              mountedRef.current && withSpinner && setIsSending(true);
-              onClick && onClick();
+            }).then((data: any) => {
+              mountedRef.current && setIsStarted(true);
+              queueAction({
+                action: t<string>('transfer'),
+                message: 'success',
+                status: 'success'
+              })
             })
-            .catch((err: Error) => {
-              console.log('err',err)
-              mountedRef.current && withSpinner && setIsSending(false);
+            .catch((err) => {
+              mountedRef.current && setIsStarted(true);
+              queueAction({
+                action: t<string>('transfer'),
+                message: err,
+                status: 'error'
+              })
             })
         } else {
           extrinsics = [
