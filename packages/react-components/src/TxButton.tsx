@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxButtonProps as Props } from './types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
@@ -24,7 +24,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic, queueAction } = useContext(StatusContext);
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const {currentAccount} = useContext(AccountContext)
@@ -46,6 +46,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
         })
       }
   },[])
+
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
@@ -127,13 +128,21 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                   }),
                 ),
               ),
-            }).then((signature: any) => {
-              mountedRef.current && withSpinner && setIsSending(true);
-              onClick && onClick();
+            }).then((data: any) => {
+              mountedRef.current && setIsStarted(true);
+              queueAction({
+                action: t<string>('transfer'),
+                message: 'success',
+                status: 'success'
+              })
             })
-            .catch((err: Error) => {
-              console.log('err',err)
-              mountedRef.current && withSpinner && setIsSending(false);
+            .catch((err) => {
+              mountedRef.current && setIsStarted(true);
+              queueAction({
+                action: t<string>('transfer'),
+                message: err,
+                status: 'error'
+              })
             })
         } else {
           extrinsics = [
@@ -143,6 +152,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                 : (params || [])
             ))
           ];
+          console.log('extrinsics')
           assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
           mountedRef.current && withSpinner && setIsSending(true);
           extrinsics.forEach((extrinsic): void => {
