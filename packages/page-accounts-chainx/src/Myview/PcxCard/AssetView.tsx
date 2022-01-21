@@ -34,17 +34,17 @@ const HelpValue = styled.span`
     border-radius: 10px;
     @media screen and (min-width:376px) and (max-width: 414px){
       bottom: 26px;
-      right: -80px;
+      left: -120px;
       &:after {
-        left: 70% !important;
+        left: 39% !important;
       }
     }
     @media screen and (max-width: 376px){
       bottom: 26px;
-      // right: -58px;
-      // &:after {
-      //   left: 78% !important;
-      // }
+      left: -120px;
+      &:after {
+        left: 39% !important;
+      }
     }
     &:after {
       border-left: 5px solid transparent;
