@@ -197,7 +197,8 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
       <InnerWrapper>
         <header>
           <Logo/>
-          {isApiReady? <AccountInfo/>: <div>{currentAccount}</div>}
+          {/* {isApiReady? <AccountInfo/>: <div>{currentAccount}</div>} */}
+          {isApiReady? <AccountInfo/>: <div></div>}
         </header>
         <section className='free' key='free'>
           <AssetView

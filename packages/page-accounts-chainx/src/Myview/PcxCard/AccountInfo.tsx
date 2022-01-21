@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: right;
-  min-height: 72px;
+  // min-height: 72px;
   @media screen and (max-width:540px){
     justify-content: center;
     text-align: left;

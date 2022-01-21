@@ -19,6 +19,7 @@ import {SortedAccount} from '@polkadot/app-accounts-chainx/types';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import {AccountId, ProxyDefinition, ProxyType} from '@polkadot/types/interfaces';
 import BN from 'bn.js';
+import keyring from '@polkadot/ui-keyring';
 
 interface Props {
   setStoredValue: string | ((value: string) => void) | undefined;
@@ -32,12 +33,13 @@ const STORE_FAVS = 'accounts:favorites';
 
 function AccountList({storedValue, className = '', onClose, onStatusChange, setStoredValue}: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const {allAccounts} = useAccounts();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
+  const [sortedCCAccounts, setSortedCCAccounts] = useState<SortedAccount[]>([]);
   const [sortedAddresses, setSortedAddresses] = useState<string[]>([])
   let SortedAccounts: SortedAccount[] = [];
 
@@ -51,21 +53,45 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
   });
 
   useEffect((): void => {
-    const accountsAfterSort = sortAccounts(allAccounts, []);
-    accountsAfterSort.map((account, index) => {
-      SortedAccounts.push(account);
-    });
-    setSortedAccounts(SortedAccounts);
-    setSortedAddresses([...allAccounts])
+    if (
+      (window as any).web3 &&
+      (window as any).web3.currentProvider &&
+      (window as any).web3.currentProvider.isComingWallet &&
+      (window as any).web3.comingUserInfo && isApiReady
+    ) {
+      const accounts = JSON.parse((window as any).web3.comingUserInfo).address
+      const name = JSON.parse((window as any).web3.comingUserInfo).name
+      const publicKey = keyring.decodeAddress(accounts)  
+      const CCaccount = [{
+        account: {
+          address: accounts,
+          meta: {
+            genesisHash: "",
+            name: name,
+            tags: [],
+            whenCreated: 0
+          },
+          publicKey: publicKey,
+        },
+        children: [],
+        isFavorite: favorites.includes(accounts)
+      }]
+      setSortedCCAccounts(CCaccount)
+      setSortedAddresses([...allAccounts])
+    } else {
+      const accountsAfterSort = sortAccounts(allAccounts, []);
+      accountsAfterSort.map((account, index) => {
+        SortedAccounts.push(account);
+      });
+      setSortedAccounts(SortedAccounts);
+      setSortedAddresses([...allAccounts])
+    }
   }, [allAccounts, favorites]);
-
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
-
   return (
     <Modal>
       <Wrapper className={className}>
-
         {isCreateOpen && (
           <Create
             onClose={_toggleCreate}
@@ -78,8 +104,33 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
             onStatusChange={onStatusChange}
           />
         )}
-
-        <>
+        <> {  (window as any).web3 &&
+              (window as any).web3.currentProvider &&
+              (window as any).web3.currentProvider.isComingWallet &&
+              (window as any).web3.comingUserInfo ?
+              <>
+                <div className={'overviewTab'}>
+                  <div>
+                    <p>{t('Current Accounts')}</p>
+                  </div>
+                </div>
+               <Table>
+               {sortedCCAccounts && sortedCCAccounts.map(({account, isFavorite}, index): React.ReactNode => (
+                 <Account
+                   account={account}
+                   address={account.address}
+                   isAccountChecked={storedValue === account.address}
+                   isFavorite={isFavorite}
+                   key={account.address}
+                   setStoredValue={setStoredValue}
+                   toggleFavorite={toggleFavorite}
+                   proxy={proxies?.[index]}
+                 />
+               ))}
+             </Table>
+            </>
+           :
+          <>
           <div className={'overviewTab'}>
             <div>
               <p>{t('Choose Account')}</p>
@@ -97,7 +148,6 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
               />
             </div>
           </div>
-
           <Table>
             {sortedAccounts.map(({account, isFavorite}, index): React.ReactNode => (
               <Account
@@ -112,6 +162,8 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
               />
             ))}
           </Table>
+          </>
+          }
           <img className="close-btn" src={modalCloseIcon} onClick={onClose}/>
         </>
         <Modal.Actions onCancel={onClose}></Modal.Actions>
