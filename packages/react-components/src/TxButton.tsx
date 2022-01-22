@@ -75,6 +75,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
   const _onSend = useCallback(
     (): void => {
+      try {
       let extrinsics: SubmittableExtrinsic<'promise'>[];
       if (propsExtrinsic) {
         extrinsics = Array.isArray(propsExtrinsic)
@@ -165,6 +166,14 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           onClick && onClick();
         }
       }
+    } catch (err) {
+      console.log('err',err)
+      queueAction({
+        action: t<string>('transfer'),
+        message: 'address error',
+        status: 'error'
+      })
+    }
     },
     [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
   );
