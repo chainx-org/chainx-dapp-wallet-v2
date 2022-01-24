@@ -45,7 +45,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   if (!dispatchInfo) {
     return null;
   }
-
+  console.log('extrinsic',extrinsic)
   return (
     <Expander
       className={className}

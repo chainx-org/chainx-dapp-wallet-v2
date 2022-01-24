@@ -21,10 +21,11 @@ const Wrapper = styled.span`
 interface Props {
   id: string,
   children: string,
-  className: string
+  className: string,
+  onClick?: () => void,
 }
 
-export default function ClipBoard({ children, className, id }: Props): React.ReactElement<Props> {
+export default function ClipBoard({ children, className, id, onClick }: Props): React.ReactElement<Props> {
   useEffect(() => {
     const clipBoard = new ClipboardJS('.clipboard');
 
@@ -41,7 +42,7 @@ export default function ClipBoard({ children, className, id }: Props): React.Rea
         id={uid}>
         {children}
       </span>
-      <i className='clipboard'
+      <i className='clipboard' onClick={onClick}
         data-clipboard-target={`#${uid}`}>
         <img alt='Copy'
           src={copyIcon} />
