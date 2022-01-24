@@ -3,8 +3,8 @@
 
 
 
-import React, {Dispatch, useEffect, useState} from 'react';
-import { Modal } from '@polkadot/react-components';
+import React, {Dispatch, useContext, useEffect, useState} from 'react';
+import { Modal, StatusContext } from '@polkadot/react-components';
 import {useTranslation} from '../../translate';
 import styled from 'styled-components';
 import {u8aToHex, u8aToU8a, u8aWrapBytes} from '@polkadot/util';
@@ -124,6 +124,7 @@ export default function ({address, onClose}: Props) {
     const {api} = useApi();
     const apiUrl = getApiUrl();
     const [hotAddress, setHotAddress] = useState<string>('');
+    const { queueAction } = useContext(StatusContext);
     const addressHex = u8aToHex(
       new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
     ).replace(/^0x/, '');
@@ -140,6 +141,13 @@ export default function ({address, onClose}: Props) {
       getHotAddress();
     }, []);
 
+    function _onCopy() {
+      queueAction({
+        action: t('clipboard'),
+        message: t('copied'),
+        status: 'queued'
+      })
+    }
   return (
     <Wrapper
         header={t('Top Up')}
@@ -155,7 +163,7 @@ export default function ({address, onClose}: Props) {
           <h3>
             <span className="title">OP_RETURN</span>
           </h3>
-          <ClipBoard className='hex' id=''>{addressHex}</ClipBoard>
+          <ClipBoard className='hex' id='' onClick={_onCopy}>{addressHex}</ClipBoard>
         </section>
         <h2 className='step-2'>
           <span className='step'>{t('The Second Step')}</span>
@@ -179,7 +187,7 @@ export default function ({address, onClose}: Props) {
         <section className='show-code'>
           <h3 style={{marginBottom: 0}}>
             <span className='title'>{t('Trust hot multi-signature address')}</span>
-            <ClipBoard className={'addr'} id=''>{hotAddress}</ClipBoard>
+            <ClipBoard className={'addr'} id='' onClick={_onCopy}>{hotAddress}</ClipBoard>
           </h3>
         </section>
       </main>
