@@ -17,7 +17,9 @@ import {Web3Provider} from '@ethersproject/providers'
 import {ethers} from 'ethers'
 import BigNumber from 'bignumber.js';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
+
 export const ETH_DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -35,15 +37,15 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
     if (
       (window as any).web3 &&
       (window as any).web3.currentProvider &&
-      (window as any).web3.currentProvider.isComingWallet
+      (window as any).web3.currentProvider.isComingWallet && params && (params as any[])[0] !== null
     ) {
       api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
       .then(result => {
         const {partialFee} = result.toJSON()
-        setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 8)).toNumber())
+        setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 10)).toNumber())
       })
     }
-  },[])
+  },[params])
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
@@ -100,13 +102,12 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
         if (
           (window as any).web3 &&
           (window as any).web3.currentProvider &&
-          (window as any).web3.currentProvider.isComingWallet
+          (window as any).web3.currentProvider.isComingWallet && library
         ) {
           const param = (params as any[])?.map((item)=>{
             return String(item)
           })
           const signature = api.tx[section][method](...params as any[]).toHex()
-  
           library
             .getSigner(ETH_DEFAULT_ADDRESS)
             .sendUncheckedTransaction({
@@ -117,10 +118,10 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
               data: ethers.utils.hexlify(
                 ethers.utils.toUtf8Bytes(
                   JSON.stringify({
-                    chain: 'sherpax',
+                    chain: 'chainx',
                     app: 'wallet',
                     method: section+"."+method,
-                    gasFee: fee,
+                    gasFee: String(fee),
                     params: param,
                     signature: signature,
                   }),

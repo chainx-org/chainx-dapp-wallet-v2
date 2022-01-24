@@ -44,9 +44,9 @@ export function useAccounts (): UseAccounts {
     ) {
       const account = JSON.parse((window as any).web3.comingUserInfo).address
       const name = JSON.parse((window as any).web3.comingUserInfo).name
-      // const publicKey = keyring.decodeAddress(account)
-      // const encodedAddress = keyring.encodeAddress(publicKey, 44)
-      setState({allAccounts:[account],hasAccounts: [account].length !== 0, isAccount:(address: string): boolean => [account].includes(address)});
+      const publicKey = keyring.decodeAddress(account)
+      const encodedAddress = keyring.encodeAddress(publicKey, 44)
+      setState({allAccounts:[encodedAddress],hasAccounts: [encodedAddress].length !== 0, isAccount:(address: string): boolean => [encodedAddress].includes(address)});
     }
   }, [
     (window as any).web3 &&
