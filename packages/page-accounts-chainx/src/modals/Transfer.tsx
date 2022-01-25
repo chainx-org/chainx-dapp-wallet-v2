@@ -230,7 +230,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
           label={t<string>('Transfer')}
           onStart={onClose}
           onSuccess={() => {
-            setN? setN(Math.random()): {};
+            setN(Math.random())
           }}
           params={
             canToggleAll && isAll

@@ -135,6 +135,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                 message: 'success',
                 status: 'success'
               })
+              setTimeout(onSuccess,5000)
             })
             .catch((err) => {
               mountedRef.current && setIsStarted(true);
