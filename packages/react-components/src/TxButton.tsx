@@ -135,7 +135,8 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                 action: t<string>('transfer'),
                 message: 'success',
                 status: 'success'
-              })
+              });
+              setTimeout(onSuccess,5000)
             })
             .catch((err) => {
               mountedRef.current && setIsStarted(true);
@@ -153,7 +154,6 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                 : (params || [])
             ))
           ];
-          console.log('extrinsics')
           assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
           mountedRef.current && withSpinner && setIsSending(true);
           extrinsics.forEach((extrinsic): void => {
