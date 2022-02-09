@@ -39,7 +39,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
   const accountInfo = useCall<AccountInfo>(api.query.system.account, [senderId]);
 
   useEffect((): void => {
-    if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
+    if (balances && balances.accountId.eq(senderId) && recipientId && recipientId.length===48 && senderId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
           api.tx.balances
