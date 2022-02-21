@@ -33,17 +33,23 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const {library} = context
   const [fee, setFee] = useState<number>(0)
   const [section, method] = (tx || '').split('.');
+  console.log('params',params)
   useEffect(()=>{
     if (
       (window as any).web3 &&
       (window as any).web3.currentProvider &&
       (window as any).web3.currentProvider.isComingWallet && params && (params as any[])[0] !== null
     ) {
-      api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
-      .then(result => {
-        const {partialFee} = result.toJSON()
-        setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 10)).toNumber())
-      })
+      try {
+        api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
+        .then(result => {
+          const {partialFee} = result.toJSON()
+          setFee(new BigNumber(partialFee as number).dividedBy(Math.pow(10, 8)).toNumber())
+        })
+        .catch(console.error)
+      } catch (error) {
+        console.log(error)
+      }
     }
   },[params])
   useEffect((): void => {
