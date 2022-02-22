@@ -33,7 +33,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const {library} = context
   const [fee, setFee] = useState<number>(0)
   const [section, method] = (tx || '').split('.');
-  console.log('params',params)
+
   useEffect(()=>{
     if (
       (window as any).web3 &&
@@ -51,7 +51,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
         console.log(error)
       }
     }
-  },[params])
+  },[params,fee])
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
@@ -182,7 +182,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       })
     }
     },
-    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
+    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef, fee]
   );
 
   if (onSendRef) {
