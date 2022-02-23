@@ -44,12 +44,11 @@ interface LogoProps{
 function Logo({logo, name, tokenName}: LogoProps) {
   return (
     <Wrapper>
-      <img alt='logo'
-        src={logo} />
-      <section className='info'>
+      <img alt='logo' src={logo} />
+      <div className='info'>
         <Title>{name}</Title>
         <Desc>{tokenName}</Desc>
-      </section>
+      </div>
     </Wrapper>
   );
 };

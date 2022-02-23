@@ -12,6 +12,7 @@ import ClipBoard from './ClipBoard';
 import infoIcon from './explan.svg';
 import {useApi} from '@polkadot/react-hooks';
 import getApiUrl from '../../../../apps/src/initSettings';
+import Button from '../../../../react-components/src/Button';
 
 interface Props {
   onClose: () => void;
@@ -148,6 +149,10 @@ export default function ({address, onClose}: Props) {
         status: 'queued'
       })
     }
+
+    function TopUpLink() {
+      location.href = `https://www.coming.chat/transfer?cointype=sBTC&address=${hotAddress}&opreturn=${addressHex}`
+    }
   return (
     <Wrapper
         header={t('Top Up')}
@@ -192,7 +197,19 @@ export default function ({address, onClose}: Props) {
         </section>
       </main>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}></Modal.Actions>
+      <Modal.Actions onCancel={onClose}>
+        {
+          (window as any).web3 &&
+          (window as any).web3.currentProvider &&
+          (window as any).web3.currentProvider.isComingWallet && apiUrl.includes('mainnet.sherpax') &&
+          <Button
+            className={''}
+            onClick={TopUpLink}
+            icon='sign-in-alt'
+            label={t('Top Up')}
+          />
+        }  
+      </Modal.Actions>
     </Wrapper>
   );
 }

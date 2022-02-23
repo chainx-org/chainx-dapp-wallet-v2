@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Xbtc from './XbtcCard';
+import CrossChain from './CrossChain';
 import styled from 'styled-components';
 // import MiningChart from '@polkadot/app-accounts-chainx/Myview/Assets/components/MiningRevenueChart/MiningChart';
 
@@ -45,7 +46,8 @@ export default function (): React.ReactElement {
   return (
     <Wrapper>
       <div className='first-line'>
-        <Xbtc />
+        {/* <Xbtc /> */}
+        <CrossChain />
       </div>
       {/* <MiningChart /> */}
     </Wrapper>

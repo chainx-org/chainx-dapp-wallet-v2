@@ -21,7 +21,7 @@ const Wrapper = styled.section`
 `;
 
 const Wrappers = styled.div`
-  height: 570px;
+  height: 700px;
   > ul {
     display: flex;
     justify-content: space-around;
@@ -56,7 +56,7 @@ const Wrappers = styled.div`
     flex: 1;
     margin: 0 -16px;
     border-top: 1px solid #eee;
-    height: 540px;
+    height: 700px;
     overflow-y: auto;
   }
 `;

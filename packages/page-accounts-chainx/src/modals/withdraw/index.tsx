@@ -134,6 +134,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
         <Modal.Columns className='mob'>
           <Modal.Column>
             <InputSBTCBalance
+              CrossToken={'sBTC'}
               autoFocus
               // help={t('The number of withdrawals')}
               label={t('The number of withdrawals')}
@@ -149,6 +150,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
             <div className='finalWithdrawAmount'>
               <div className='final'>{finalWithdraw>0?finalWithdraw:0}</div>
               <InputSBTCBalance
+                CrossToken={'sBTC'}
                 defaultValue={0}
                 help={<p>{t<string>('Service Fee')} {minfee} sBTC</p>}
                 isDisabled

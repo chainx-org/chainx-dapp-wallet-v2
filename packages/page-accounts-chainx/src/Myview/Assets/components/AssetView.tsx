@@ -8,12 +8,10 @@ import {useTranslation} from '@polkadot/app-accounts/translate';
 import BigNumber from 'bignumber.js';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
-import {isPaste} from '@polkadot/react-components/Input';
-
 
 export const AssetDetail = styled.div`
   display: flex;
-  margin-top: 14px;
+  margin-top: 10px;
   div.infoView {
     width: 16%;
     @media screen and (max-width:767px) {
@@ -36,15 +34,6 @@ export const AssetDetail = styled.div`
     div {
       flex-direction: column;
       margin-right: 0px;
-      width: 100%;
-      div {
-        width: 100%;
-      }
-    }
-  }
-  @media screen and (min-width:767px) and (max-width:980px) {
-    div {
-      flex-direction: column;
       width: 100%;
       div {
         width: 100%;
