@@ -136,7 +136,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
             }).then((data: any) => {
               mountedRef.current && setIsStarted(true);
               queueAction({
-                action: t<string>('transfer'),
+                action: t<string>('transaction'),
                 message: 'success',
                 status: 'success'
               })
@@ -144,7 +144,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
             .catch((err) => {
               mountedRef.current && setIsStarted(true);
               queueAction({
-                action: t<string>('transfer'),
+                action: t<string>('transaction'),
                 message: err,
                 status: 'error'
               })
@@ -176,7 +176,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
     } catch (err) {
       console.log('err',err)
       queueAction({
-        action: t<string>('transfer'),
+        action: t<string>('transaction'),
         message: 'address error',
         status: 'error'
       })
