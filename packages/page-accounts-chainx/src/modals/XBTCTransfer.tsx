@@ -113,7 +113,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
             setN(Math.random());
           }}
           params={
-            [recipientId, 1, Number(amount) * Math.pow(10, 8)]
+            [recipientId, 1, Math.round(Number(amount) * Math.pow(10, 8))]
           }
           tx={'xAssets.transfer'}
         />
