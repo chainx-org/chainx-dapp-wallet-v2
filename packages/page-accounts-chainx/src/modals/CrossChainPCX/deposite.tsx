@@ -161,7 +161,7 @@ export default function ({address, onClose}: Props) {
       <Modal.Content>
       <main className='content'>
         <h2>
-          <span className='step'>{t('The First Step')}{'Transfer PCX to the destination address, you will receive the corresponding number of X-PCX'}</span>
+          <span className='step'>{'Transfer PCX to the destination address, you will receive the corresponding number of X-PCX'}</span>
         </h2>
         <section className='show-code'>
           <h3>
@@ -172,11 +172,11 @@ export default function ({address, onClose}: Props) {
         {/* <p className='input'>{t('Recharge OP_RETURN trust\'s hot multi-sign address with a wallet that supports OP_RETURN information')}</p> */}
         <p className='input'>{'We recommend that you use chainxdapp or comingapp to transfer the PCX'}</p>
         <ul className={'info'}>
-          <li>
-            <img alt='info' src={infoIcon}/>
+          {/* <li> */}
+            {/* <img alt='info' src={infoIcon}/> */}
             {/* <span>{t('The top-up amount must be greater than 0.001 sBTC')}</span> */}
-            <span>{'The top-up amount must be greater than 0.001'}</span>
-          </li>
+            {/* <span>{'The top-up amount must be greater than 0.001'}</span> */}
+          {/* </li> */}
           <li>
             <img alt='info' src={infoIcon}/>
             {/* <span>{t('The sBTC will arrive in 1~2 hours ')}</span> */}
