@@ -70,11 +70,11 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
   const currentAccount = useContext(AccountContext);
 
   const [usable, setUsable] = useState<number>()
-  const [reservedDexSpot, setReservedDexSpot] = useState<boolean>(false)
-  const [reservedWithdrawal, setReservedWithdrawal] = useState<number>()
+  // const [reservedDexSpot, setReservedDexSpot] = useState<boolean>(false)
+  // const [reservedWithdrawal, setReservedWithdrawal] = useState<number>()
   const [allBalance, setAllBalance] = useState<number>()
 
-  const defaultValue = JSON.parse(window.localStorage.getItem('sbtcInfo')) || {
+  const defaultValue = JSON.parse(window.localStorage.getItem('pcxInfo')) || {
     balance: 0,
     extra: null,
     isFrozen: false,
@@ -85,14 +85,14 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
   useEffect(() => {
     if(defaultValue){
       setUsable(new BigNumber(defaultValue.balance).toNumber())
-      setReservedWithdrawal(new BigNumber(defaultValue.locked).toNumber())
-      setReservedDexSpot(defaultValue.isFrozen)
+      // setReservedWithdrawal(new BigNumber(defaultValue.locked).toNumber())
+      // setReservedDexSpot(defaultValue.isFrozen)
       setAllBalance(defaultValue?.balance)
     } else{
       if(assetsInfo) {
         setUsable(new BigNumber(assetsInfo.balance).toNumber())
-        setReservedWithdrawal(new BigNumber(assetsInfo.locked).toNumber())
-        setReservedDexSpot(assetsInfo.isFrozen)
+        // setReservedWithdrawal(new BigNumber(assetsInfo.locked).toNumber())
+        // setReservedDexSpot(assetsInfo.isFrozen)
         setAllBalance(assetsInfo.balance)  
       }
     }
@@ -101,31 +101,31 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
   const pcxAssets = [
     {
         assetName: 'Total Balance',
-        assetFee: reservedWithdrawal,
+        assetFee: allBalance,
         assetPrecision: 8
     },
-    {
-        assetName: 'Staking Frozen',
-        assetFee: reservedWithdrawal,
-        assetPrecision: 8
-    },
-    {
-        assetName: 'Redeem Frozen',
-        assetFee: reservedWithdrawal,
-        assetPrecision: 8
-    },
-    {
-        assetName: 'Staking Rewards',
-        assetFee: reservedWithdrawal,
-        assetPrecision: 8
-    },
+    // {
+    //     assetName: 'Staking Frozen',
+    //     assetFee: reservedWithdrawal,
+    //     assetPrecision: 8
+    // },
+    // {
+    //     assetName: 'Redeem Frozen',
+    //     assetFee: reservedWithdrawal,
+    //     assetPrecision: 8
+    // },
+    // {
+    //     assetName: 'Staking Rewards',
+    //     assetFee: reservedWithdrawal,
+    //     assetPrecision: 8
+    // },
   ]
   return (
     <div>
       <AssetLine>
         <Frees
           asset='Transferrable Balance'
-          free={reservedWithdrawal ? 0 : reservedWithdrawal}
+          free={usable}
           precision={8}
         />
       </AssetLine>

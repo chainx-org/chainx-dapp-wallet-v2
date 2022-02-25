@@ -54,38 +54,38 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
   const {t} = useTranslation();
   const {api,isApiReady} = useApi();
   const [amount, setAmount] = useState<number | undefined>(0);
-  const [memo, setMemo] = useState<string | null | undefined>();
+  // const [memo, setMemo] = useState<string | null | undefined>();
   const [accountId, setAccount] = useState<string | null | undefined>();
-  const [withdrawAddress, setWithdrawAddress] = useState<string | null | undefined>();
+  // const [withdrawAddress, setWithdrawAddress] = useState<string | null | undefined>();
   const [disabled, setDisabled] = useState(false);
-  const [addressErrMsg, setAddressErrMsg] = useState('');
-  const [minWithdraw, setMinWithdraw] = useState<number>(0.0075)
-  const [minfee, setMinFee] = useState<number>(0.005)
+  // const [addressErrMsg, setAddressErrMsg] = useState('');
+  // const [minWithdraw, setMinWithdraw] = useState<number>(0.0075)
+  const [minfee, setMinFee] = useState<number>(0.1)
   const [finalWithdraw, setFinalWithdraw] = useState<number>(0)
-  useEffect(() => {
-    if (!withdrawAddress) {
-      setAddressErrMsg('必填');
-      setDisabled(true);
-    }
-      // else if (!['1', '3'].includes(withdrawAddress[0])) {
-      //   setAddressErrMsg('提现的BTC地址必须以1或3开头');
-      //   setDisabled(true);
-    // }
-    else {
-      setAddressErrMsg('');
-      setDisabled(false);
-    }
-  }, [withdrawAddress]);
+  // useEffect(() => {
+  //   if (!withdrawAddress) {
+  //     setAddressErrMsg('必填');
+  //     setDisabled(true);
+  //   }
+  //     // else if (!['1', '3'].includes(withdrawAddress[0])) {
+  //     //   setAddressErrMsg('提现的BTC地址必须以1或3开头');
+  //     //   setDisabled(true);
+  //   // }
+  //   else {
+  //     setAddressErrMsg('');
+  //     setDisabled(false);
+  //   }
+  // }, [withdrawAddress]);
 
-  useEffect((): void => {
-    async function getMinWithdraw() {
-      const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
-      let resFee = res.toJSON()
-      setMinWithdraw(Number(resFee.minimalWithdrawal) / Math.pow(10, 8))
-      setMinFee(Number(resFee.fee) / Math.pow(10, 8));
-    }
-    getMinWithdraw();
-  }, [isApiReady]);
+  // useEffect((): void => {
+  //   async function getMinWithdraw() {
+  //     const res = await api.rpc.xgatewaycommon.withdrawalLimit(1)
+  //     let resFee = res.toJSON()
+  //     // setMinWithdraw(Number(resFee.minimalWithdrawal) / Math.pow(10, 8))
+  //     // setMinFee(Number(resFee.fee) / Math.pow(10, 8));
+  //   }
+  //   getMinWithdraw();
+  // }, [isApiReady]);
   
   useEffect((): void => {
     const WithdrawAmount = new BigNumber(Number(amount) / Math.pow(10, 18))
@@ -117,8 +117,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
             <p>{t('Withdrawal Account')}</p>
           </Modal.Column> */}
         </Modal.Columns>
-
-        <Modal.Columns className='mob'>
+        {/* <Modal.Columns className='mob'>
           <Modal.Column>
             <Input
               help={t('the actual account you wish to withdraw')}
@@ -127,10 +126,10 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
             />
           </Modal.Column>
           <Modal.Column className='mobs'>
-            {/* <p>{t('PCX withdraw address')}</p> */}
+            <p>{t('PCX withdraw address')}</p>
             <span style={{display: (disabled === true) ? "block" : "none"}}>{t('Required')}</span>
           </Modal.Column>
-        </Modal.Columns>
+        </Modal.Columns> */}
         <Modal.Columns className='mob'>
           <Modal.Column>
             <InputSBTCBalance
@@ -141,9 +140,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setAmount}
             />
           </Modal.Column>
-          <Modal.Column className='mobs'>
+          {/* <Modal.Column className='mobs'>
             <p>{t('Minimum withdrawal amount is')} {minWithdraw}</p>
-          </Modal.Column>
+          </Modal.Column> */}
         </Modal.Columns>
         <Modal.Columns className='mob'>
           <Modal.Column>
@@ -162,7 +161,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
             <p>{t('Service Fee')} {minfee} PCX</p>
           </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns className='mob'>
+        {/* <Modal.Columns className='mob'>
           <Modal.Column>
             <Input
               autoFocus
@@ -171,7 +170,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setMemo}
             />
           </Modal.Column>
-        </Modal.Columns>
+        </Modal.Columns> */}
 
       </Modal.Content>
 
@@ -181,9 +180,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           icon='sign-in-alt'
           label={t('Withdrawals')}
           onStart={onClose}
-          params={['1', Number(amount) / Math.pow(10, 10), withdrawAddress, memo ? memo.trim() : '']}
-          tx='xGatewayCommon.withdraw'
-          isDisabled={disabled}
+          params={[Number(amount) / Math.pow(10, 10),{BackForeign: 2}]}
+          tx='assetsBridge.teleport'
+          isDisabled={Number(amount) === 0}
           onSuccess={() => {
             setN(Math.random());
           }}

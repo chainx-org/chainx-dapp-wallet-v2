@@ -8,9 +8,9 @@ import Transfer from '../../../modals/CrossChainPCX/PCXTransfer';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import Button from '@polkadot/react-components-chainx/Button';
-import useSbtcAssets from '@polkadot/app-accounts-chainx/Myview/useSbtcAssets';
 import CrossAssetCard from '../components/CrossAssetCard';
 import CrossAssetView from '../components/CrossAssetView';
+import usePCXAssets from '../../usePCXAssets';
 
 export default function (): React.ReactElement {
   const {isApiReady} = useApi();
@@ -21,7 +21,8 @@ export default function (): React.ReactElement {
   const [isWithdraw, toggleWithdraw] = useToggle();
   const [n, setN] = useState(0);
   const {hasAccounts, allAccounts} = useAccounts()
-  const currentAccountInfo = useSbtcAssets(currentAccount, n)
+  const currentAccountInfo = usePCXAssets(currentAccount, n)
+  // console.log('pcx',currentAccountInfo)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
   const buttonGroup = (
     <div style={{display: 'flex', alignItems: 'center', height: '100%'}}>
