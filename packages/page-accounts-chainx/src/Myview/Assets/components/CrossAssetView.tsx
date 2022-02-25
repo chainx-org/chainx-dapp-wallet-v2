@@ -143,9 +143,9 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
           })
         }
         </div>
-        <div className='infoViews infoview'>
-           <CrossStaking />
-        </div>
+        {/* <div className='infoViews infoview'>
+          <CrossStaking />
+        </div> */}
       </AssetDetail>
     </div>
   );

@@ -121,26 +121,26 @@ const Wrapper = styled(Modal)`
 
 export default function ({address, onClose}: Props) {
     const {t} = useTranslation();
-    const [channel, setChannel] = useState('');
-    const {api} = useApi();
-    const apiUrl = getApiUrl();
-    const [hotAddress, setHotAddress] = useState<string>('');
+    // const [channel, setChannel] = useState('');
+    // const {api} = useApi();
+    // const apiUrl = getApiUrl();
+    // const [hotAddress, setHotAddress] = useState<string>('');
     const { queueAction } = useContext(StatusContext);
-    const addressHex = u8aToHex(
-      new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
-    ).replace(/^0x/, '');
-  
-    useEffect((): void => {
-      async function getHotAddress() {
-        if(apiUrl.includes('mainnet')) {
-          const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
-          setHotAddress(dividendRes.hotAddress.addr);
-        } else {
-          setHotAddress('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.');
-        }
-      }
-      getHotAddress();
-    }, []);
+    // const addressHex = u8aToHex(
+    //   new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
+    // ).replace(/^0x/, '');
+    const addressHex = '5Rdq5HiDWdMbc5zbVwTzaVN6fc2EPVFUF1e4u4CmjasgKAAW'
+    // useEffect((): void => {
+    //   async function getHotAddress() {
+    //     if(apiUrl.includes('mainnet')) {
+    //       const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
+    //       setHotAddress(dividendRes.hotAddress.addr);
+    //     } else {
+    //       setHotAddress('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.');
+    //     }
+    //   }
+    //   getHotAddress();
+    // }, []);
 
     function _onCopy() {
       queueAction({
@@ -150,9 +150,9 @@ export default function ({address, onClose}: Props) {
       })
     }
 
-    function TopUpLink() {
-      location.href = `https://www.coming.chat/transfer?cointype=sBTC&address=${hotAddress}&opreturn=${addressHex}`
-    }
+    // function TopUpLink() {
+    //   location.href = `https://www.coming.chat/transfer?cointype=sBTC&address=${hotAddress}&opreturn=${addressHex}`
+    // }
 
     function WalletLink() {
       location.href = 'https://dapps.chainx.org'
@@ -193,7 +193,7 @@ export default function ({address, onClose}: Props) {
       </main>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
-        {
+        {/* {
           (window as any).web3 &&
           (window as any).web3.currentProvider &&
           (window as any).web3.currentProvider.isComingWallet && apiUrl.includes('mainnet.sherpax') &&
@@ -203,7 +203,7 @@ export default function ({address, onClose}: Props) {
             icon='sign-in-alt'
             label={t('Top Up')}
           />
-        }  
+        }   */}
         <Button
             className={''}
             onClick={WalletLink}
