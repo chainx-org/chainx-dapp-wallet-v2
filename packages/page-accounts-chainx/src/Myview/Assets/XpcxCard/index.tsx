@@ -22,7 +22,7 @@ export default function (): React.ReactElement {
   const [n, setN] = useState(0);
   const {hasAccounts, allAccounts} = useAccounts()
   const currentAccountInfo = usePCXAssets(currentAccount, n)
-  // console.log('pcx',currentAccountInfo)
+  console.log('pcx',currentAccountInfo)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
   const buttonGroup = (
     <div style={{display: 'flex', alignItems: 'center', height: '100%'}}>
