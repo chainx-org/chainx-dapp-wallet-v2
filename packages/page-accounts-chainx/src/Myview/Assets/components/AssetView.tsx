@@ -2,7 +2,7 @@ import {SbtcAssetsInfo} from '@polkadot/react-hooks-chainx/types';
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Free from './Free';
-import Frees from './Frees';
+// import Frees from './Frees';
 import InfoView from './InfoView';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import BigNumber from 'bignumber.js';
@@ -122,19 +122,19 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
 
   return (
     <div>
-      <AssetLine>
+      {/* <AssetLine>
         <Frees
           asset='Balance'
           free={reservedDexSpot ? 0 : usable}
           precision={8}
         />
-      </AssetLine>
+      </AssetLine> */}
       <AssetDetail>
         <div className='infoView'>
-          <AssetLine>
+          {/* <AssetLine>
             <InfoView info='Bitcoin(Signet)'
                       title={t('Chain')}/>
-          </AssetLine>
+          </AssetLine> */}
           {/* <AssetLine>
             <Free
               asset={t('DEX Reserved')}
@@ -142,6 +142,13 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
               precision={8}
             />
           </AssetLine> */}
+          <AssetLine>
+            <Free
+              asset={t('Balance')}
+              free={reservedDexSpot ? 0 : usable}
+              precision={8}
+            />
+          </AssetLine>
         </div>
         <div className='infoViews'>
           <AssetLine>

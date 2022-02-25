@@ -182,7 +182,7 @@ export default function ({address, onClose}: Props) {
           </li>
           <li>
             <img alt='info' src={infoIcon}/>
-            <span>{t('The X-sBTC will arrive in 1~2 hours ')}</span>
+            <span>{t('The sBTC will arrive in 1~2 hours ')}</span>
           </li>
           {/* <li>
             <img alt='info' src={infoIcon}/>

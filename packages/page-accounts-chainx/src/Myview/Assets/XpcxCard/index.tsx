@@ -76,7 +76,7 @@ export default function (): React.ReactElement {
   );
 
   return (
-    <CrossAssetCard buttonGroup={buttonGroup} logo={XpcxLogo} logoName='PCX' tokenName='ChainX(Source Chain)' >
+    <CrossAssetCard buttonGroup={buttonGroup} logo={XpcxLogo} logoName='PCX' tokenName='Source Chain - ChainX' >
       <div className='details'>
         <DetailWrapper>
           <AssetLine>

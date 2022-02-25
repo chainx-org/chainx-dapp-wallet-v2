@@ -75,7 +75,7 @@ export default function (): React.ReactElement {
   );
 
   return (
-    <CrossAssetCard buttonGroup={buttonGroup} logo={sbtcLogo} logoName='X-sBTC' tokenName='Interchain BTC' >
+    <CrossAssetCard buttonGroup={buttonGroup} logo={sbtcLogo} logoName='sBTC' tokenName='Source Chain - Bitcoin Signet' >
       <div className='details'>
         <DetailWrapper>
           <AssetLine>

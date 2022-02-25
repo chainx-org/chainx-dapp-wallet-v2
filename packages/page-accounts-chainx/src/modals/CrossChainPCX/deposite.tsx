@@ -186,7 +186,7 @@ export default function ({address, onClose}: Props) {
           </li>
           <li>
             <img alt='info' src={infoIcon}/>
-            {/* <span>{t('The X-sBTC will arrive in 1~2 hours ')}</span> */}
+            {/* <span>{t('The sBTC will arrive in 1~2 hours ')}</span> */}
             <span>{'The X-PCX will arrive in 10~20 mintues'}</span>
           </li>
         </ul>
@@ -205,17 +205,17 @@ export default function ({address, onClose}: Props) {
           />
         }   */}
         <Button
-            className={''}
-            onClick={WalletLink}
-            icon='sign-in-alt'
-            label={t('ChainX wallet')}
+          className={''}
+          onClick={WalletLink}
+          icon='sign-in-alt'
+          label={t('ChainX wallet')}
         />
         <Button
-            className={''}
-            onClick={ComingLink}
-            icon='sign-in-alt'
-            label={t('Coming App')}
-          />
+          className={''}
+          onClick={ComingLink}
+          icon='sign-in-alt'
+          label={t('Coming App')}
+        />
       </Modal.Actions>
     </Wrapper>
   );

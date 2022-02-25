@@ -18,9 +18,9 @@ const Value = styled.p`
   font-size: 18px;
   line-height: 18px;
   color: #000000;
-  span {
-    opacity: 0.32;
-  }
+  // span {
+  //   opacity: 0.32;
+  // }
 `;
 
 type Props = {

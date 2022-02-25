@@ -2,42 +2,42 @@ import {SbtcAssetsInfo} from '@polkadot/react-hooks-chainx/types';
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Free from './Free';
-import Frees from './Frees';
+// import Frees from './Frees';
+import InfoView from './InfoView';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import BigNumber from 'bignumber.js';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
-import CrossStaking from './CrossStaking';
 
 export const AssetDetail = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  @media screen and (max-width: 1200px) {
-    flex-direction: column;
-  }
-  div.infoViews {
-    display: flex;
-    align-items: baseline;
-  }
+  margin-top: 10px;
   div.infoView {
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-  div.infoview {
-    @media screen and (max-width: 400px) {
-        flex-wrap: wrap;
-        button {
-            margin-bottom: 10px;
-        }
+    width: 16%;
+    @media screen and (max-width:767px) {
+      width: 40%;
     }
   }
-  div.AssetFee {
+  div.infoViews {
+    width: 50%;
+  }
+  div {
     display: flex;
-    margin: 0 26px 8px 0;
-    @media screen and (max-width: 600px) {
-        width: 40%;
+    flex-direction: row;
+    margin-right: 26px;
+    div {
+      margin-bottom: 10px;
+      width: 80%;
+    }
+  }
+  @media screen and (max-width:767px) {
+    div {
+      flex-direction: column;
+      margin-right: 0px;
+      width: 100%;
+      div {
+        width: 100%;
+      }
     }
   }
 `;
@@ -48,6 +48,7 @@ export const AssetLine = styled.div`
     display: flex;
     flex-direction: column;
   }
+
 `;
 
 type Props = {
@@ -61,11 +62,12 @@ interface XbtcFreeInfo {
   extra: null,
   isFrozen: boolean,
   sufficient: boolean,
-  locked: number
+  // locked: number
 }
 
 export default function ({assetsInfo}: Props): React.ReactElement<Props> {
   const {isApiReady} = useApi();
+
   const {t} = useTranslation();
   const currentAccount = useContext(AccountContext);
 
@@ -79,8 +81,28 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
     extra: null,
     isFrozen: false,
     sufficient: false,
-    locked: 0
+    // locked: 0
   }
+  // const [defaultXbtc, setDefaultXbtc] = useState<SbtcAssetsInfo>(defaultValue)
+  // const [defaultXbtcValue, setDefaultXbtcValue] = useState<XbtcFreeInfo>({
+  //   balance: defaultValue.balance,
+  //   extra: defaultValue.extra,
+  //   isFrozen: defaultValue.isFrozen,
+  //   sufficient: defaultValue.sufficient,
+  //   locked: defaultValue.locked
+  // });
+  // useEffect(() => {
+  //   setDefaultXbtc(defaultValue);
+  //   if (defaultXbtc) {
+  //     setDefaultXbtcValue({
+  //       balance: defaultXbtc.balance,
+  //       extra: defaultXbtc.extra,
+  //       isFrozen: defaultXbtc.isFrozen,
+  //       sufficient: defaultXbtc.sufficient,
+  //       locked: defaultValue.locked
+  //     });
+  //   }
+  // }, [currentAccount, isApiReady, assetsInfo]);
 
   useEffect(() => {
     if(defaultValue){
@@ -98,54 +120,52 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
     }
   }, [currentAccount, defaultValue, isApiReady, assetsInfo])
 
-  const pcxAssets = [
-    {
-        assetName: 'Total Balance',
-        assetFee: allBalance,
-        assetPrecision: 8
-    },
-    // {
-    //     assetName: 'Staking Frozen',
-    //     assetFee: reservedWithdrawal,
-    //     assetPrecision: 8
-    // },
-    // {
-    //     assetName: 'Redeem Frozen',
-    //     assetFee: reservedWithdrawal,
-    //     assetPrecision: 8
-    // },
-    // {
-    //     assetName: 'Staking Rewards',
-    //     assetFee: reservedWithdrawal,
-    //     assetPrecision: 8
-    // },
-  ]
   return (
     <div>
-      <AssetLine>
+      {/* <AssetLine>
         <Frees
-          asset='Transferrable Balance'
-          free={usable}
+          asset='Balance'
+          free={reservedDexSpot ? 0 : usable}
           precision={8}
         />
-      </AssetLine>
+      </AssetLine> */}
       <AssetDetail>
-        <div className='infoViews infoView'>
-        {
-          pcxAssets.map((item)=>{
-            return <AssetLine className='AssetFee' key={item.assetName}>
-              <Free className='AssetFee'
-                asset={t(`${item.assetName}`)}
-                free={item.assetFee}
-                precision={item.assetPrecision}
-              />
-            </AssetLine>
-          })
-        }
+        <div className='infoView'>
+          {/* <AssetLine>
+            <InfoView info='Bitcoin(Signet)'
+                      title={t('Chain')}/>
+          </AssetLine> */}
+          {/* <AssetLine>
+            <Free
+              asset={t('DEX Reserved')}
+              free={reservedDexSpot}
+              precision={8}
+            />
+          </AssetLine> */}
+          <AssetLine>
+            <Free
+              asset={t('Balance')}
+              free={usable}
+              precision={8}
+            />
+          </AssetLine>
         </div>
-        {/* <div className='infoViews infoview'>
-          <CrossStaking />
-        </div> */}
+        <div className='infoViews'>
+          {/* <AssetLine>
+            <Free
+              asset={t('Withdrawal Reserved')}
+              free={reservedWithdrawal}
+              precision={8}
+            />
+          </AssetLine> */}
+          <AssetLine>
+            <Free
+              asset={t('Total Balance')}
+              free={allBalance}
+              precision={8}
+            />
+          </AssetLine>
+        </div>
       </AssetDetail>
     </div>
   );
