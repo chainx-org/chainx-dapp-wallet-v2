@@ -18,20 +18,21 @@ const Value = styled.p`
   font-size: 18px;
   line-height: 18px;
   color: #000000;
-  span {
-    opacity: 0.32;
-  }
+  // span {
+  //   opacity: 0.32;
+  // }
 `;
 
 type Props = {
+  className?: string,
   asset: string | undefined,
   free: number,
   precision: number
 }
 
-export default function ({ asset, free, precision }: Props): React.ReactElement<Props> {
+export default function ({ className = '', asset, free, precision }: Props): React.ReactElement<Props> {
   return (
-    <div>
+    <div className={`${className}`}>
       <Title>{asset}</Title>
       <Value>
         <span>{free > 0 ? Number(toPrecision(free, precision)) : 0}</span>

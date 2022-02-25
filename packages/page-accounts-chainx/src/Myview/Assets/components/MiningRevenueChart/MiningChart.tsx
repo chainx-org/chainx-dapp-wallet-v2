@@ -148,9 +148,7 @@ export default function (): React.ReactElement {
             (
               <Detail color={color}
                 data={data}
-                type={type} 
-                key={color}
-              />
+                type={type} />
             ))
         }
       </div>

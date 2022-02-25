@@ -58,7 +58,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
   const accountInfo = useCall<AccountInfo>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
-    if (balances && balances.accountId.eq(senderId) && recipientId && recipientId.length===48 && senderId && isFunction(api.rpc.payment?.queryInfo)) {
+    if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
           api.tx.balances
@@ -230,7 +230,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
           label={t<string>('Transfer')}
           onStart={onClose}
           onSuccess={() => {
-            setN(Math.random())
+            setN(Math.random());
           }}
           params={
             canToggleAll && isAll

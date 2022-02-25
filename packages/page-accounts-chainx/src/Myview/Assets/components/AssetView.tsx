@@ -2,18 +2,16 @@ import {SbtcAssetsInfo} from '@polkadot/react-hooks-chainx/types';
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Free from './Free';
-import Frees from './Frees';
+// import Frees from './Frees';
 import InfoView from './InfoView';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import BigNumber from 'bignumber.js';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
 import {useApi} from '@polkadot/react-hooks';
-import {isPaste} from '@polkadot/react-components/Input';
-
 
 export const AssetDetail = styled.div`
   display: flex;
-  margin-top: 14px;
+  margin-top: 10px;
   div.infoView {
     width: 16%;
     @media screen and (max-width:767px) {
@@ -36,15 +34,6 @@ export const AssetDetail = styled.div`
     div {
       flex-direction: column;
       margin-right: 0px;
-      width: 100%;
-      div {
-        width: 100%;
-      }
-    }
-  }
-  @media screen and (min-width:767px) and (max-width:980px) {
-    div {
-      flex-direction: column;
       width: 100%;
       div {
         width: 100%;
@@ -133,19 +122,19 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
 
   return (
     <div>
-      <AssetLine>
+      {/* <AssetLine>
         <Frees
           asset='Balance'
           free={reservedDexSpot ? 0 : usable}
           precision={8}
         />
-      </AssetLine>
+      </AssetLine> */}
       <AssetDetail>
         <div className='infoView'>
-          <AssetLine>
+          {/* <AssetLine>
             <InfoView info='Bitcoin(Signet)'
                       title={t('Chain')}/>
-          </AssetLine>
+          </AssetLine> */}
           {/* <AssetLine>
             <Free
               asset={t('DEX Reserved')}
@@ -153,6 +142,13 @@ export default function ({assetsInfo}: Props): React.ReactElement<Props> {
               precision={8}
             />
           </AssetLine> */}
+          <AssetLine>
+            <Free
+              asset={t('Balance')}
+              free={reservedDexSpot ? 0 : usable}
+              precision={8}
+            />
+          </AssetLine>
         </div>
         <div className='infoViews'>
           <AssetLine>

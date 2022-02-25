@@ -27,14 +27,13 @@ const HelpValue = styled.span`
     padding: 16px 20px;
     position: absolute;
     bottom: 26px;
-    right: -144px;;
+    right: -144px;
     background: rgba(255,255,255,1);
     border: 1px solid #EFEFEF;
     box-shadow: 0 4px 12px 0 rgba(0,0,0,0.12);
     border-radius: 10px;
     @media screen and (min-width:376px) and (max-width: 414px){
       bottom: 26px;
-      // right: -80px;
       left: -120px;
       &:after {
         left: 39% !important;
@@ -42,7 +41,6 @@ const HelpValue = styled.span`
     }
     @media screen and (max-width: 376px){
       bottom: 26px;
-      // right: -58px;
       left: -120px;
       &:after {
         left: 39% !important;
