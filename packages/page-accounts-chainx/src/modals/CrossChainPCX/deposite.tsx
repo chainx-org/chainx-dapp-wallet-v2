@@ -125,6 +125,7 @@ export default function ({address, onClose}: Props) {
     // const {api} = useApi();
     // const apiUrl = getApiUrl();
     // const [hotAddress, setHotAddress] = useState<string>('');
+    const [, setN] = useState(0)
     const { queueAction } = useContext(StatusContext);
     // const addressHex = u8aToHex(
     //   new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
@@ -153,14 +154,6 @@ export default function ({address, onClose}: Props) {
     // function TopUpLink() {
     //   location.href = `https://www.coming.chat/transfer?cointype=sBTC&address=${hotAddress}&opreturn=${addressHex}`
     // }
-
-    function WalletLink() {
-      location.href = 'https://dapps.chainx.org'
-    }
-
-    function ComingLink() {
-        location.href = 'https://www.comingchat.com/'
-    }
   return (
     <Wrapper
         header={t('Top Up')}
@@ -204,18 +197,22 @@ export default function ({address, onClose}: Props) {
             label={t('Top Up')}
           />
         }   */}
-        <Button
-          className={''}
-          onClick={WalletLink}
-          icon='sign-in-alt'
-          label={t('ChainX wallet')}
-        />
-        <Button
-          className={''}
-          onClick={ComingLink}
-          icon='sign-in-alt'
-          label={t('Coming App')}
-        />
+        <a href='https://dapps.chainx.org' target='_blank'>
+          <Button
+            className={''}
+            onClick={()=>setN(Math.random())}
+            icon='sign-in-alt'
+            label={t('ChainX wallet')}
+          />
+        </a>
+        <a href='https://www.comingchat.com/download' target='_blank'>
+          <Button
+            className={''}
+            onClick={()=>setN(Math.random())}
+            icon='sign-in-alt'
+            label={t('Coming App')}
+          />
+        </a>
       </Modal.Actions>
     </Wrapper>
   );
