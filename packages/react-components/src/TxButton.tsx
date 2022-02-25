@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxButtonProps as Props } from './types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
@@ -37,8 +37,8 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
     if (
       (window as any).web3 &&
       (window as any).web3.currentProvider &&
-      (window as any).web3.currentProvider.isComingWallet) 
-      {
+      (window as any).web3.currentProvider.isComingWallet
+      ) {
         api.tx[section][method](...params as any[]).paymentInfo(currentAccount)
         .then(result => {
           const {partialFee} = result.toJSON()
@@ -46,6 +46,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
         })
       }
   },[])
+
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
@@ -76,8 +77,8 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   );
 
   const _onSend = useCallback(
-    (): void => { 
-      try {
+    (): void => {
+    try {
       let extrinsics: SubmittableExtrinsic<'promise'>[];
       if (propsExtrinsic) {
         extrinsics = Array.isArray(propsExtrinsic)
@@ -134,7 +135,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
                 action: t<string>('transfer'),
                 message: 'success',
                 status: 'success'
-              })
+              });
               setTimeout(onSuccess,5000)
             })
             .catch((err) => {
@@ -169,14 +170,14 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           onClick && onClick();
         }
       }
-    } catch(err) {
-      console.log('err',err)
-      queueAction({
-        action: t<string>('transfer'),
-        message: 'address error',
-        status: 'error'
-      })
-    }
+      } catch(err){
+        console.log('err',err)
+        queueAction({
+          action: t<string>('transfer'),
+          message: 'address error',
+          status: 'error'
+        })
+      }
     },
     [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
   );

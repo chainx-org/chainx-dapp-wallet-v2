@@ -1,7 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {Dispatch, useEffect, useState} from 'react';
+
+
+import React, {Dispatch, useContext, useEffect, useState} from 'react';
 import { Modal, StatusContext } from '@polkadot/react-components';
 import {useTranslation} from '../../translate';
 import styled from 'styled-components';
@@ -10,7 +12,7 @@ import ClipBoard from './ClipBoard';
 import infoIcon from './explan.svg';
 import {useApi} from '@polkadot/react-hooks';
 import getApiUrl from '../../../../apps/src/initSettings';
-import { useContext } from 'react';
+import Button from '../../../../react-components/src/Button';
 
 interface Props {
   onClose: () => void;
@@ -118,34 +120,39 @@ const Wrapper = styled(Modal)`
 `;
 
 export default function ({address, onClose}: Props) {
-  const {t} = useTranslation();
-  const [channel, setChannel] = useState('');
-  const {api} = useApi();
-  const apiUrl = getApiUrl();
-  const [hotAddress, setHotAddress] = useState<string>('');
-  const { queueAction } = useContext(StatusContext);
-  const addressHex = u8aToHex(
-    new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
-  ).replace(/^0x/, '');
-
-  useEffect((): void => {
-    async function getHotAddress() {
-      if(apiUrl.includes('mainnet')) {
-        const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
-        setHotAddress(dividendRes.hotAddress.addr);
-      } else {
-        setHotAddress('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.')
+    const {t} = useTranslation();
+    const [channel, setChannel] = useState('');
+    const {api} = useApi();
+    const apiUrl = getApiUrl();
+    const [hotAddress, setHotAddress] = useState<string>('');
+    const { queueAction } = useContext(StatusContext);
+    const addressHex = u8aToHex(
+      new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
+    ).replace(/^0x/, '');
+  
+    useEffect((): void => {
+      async function getHotAddress() {
+        if(apiUrl.includes('mainnet')) {
+          const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
+          setHotAddress(dividendRes.hotAddress.addr);
+        } else {
+          setHotAddress('Please select [SherpaX Node] as Selected Network for sBTC cross-chain.');
+        }
       }
+      getHotAddress();
+    }, []);
+
+    function _onCopy() {
+      queueAction({
+        action: t('clipboard'),
+        message: t('copied'),
+        status: 'queued'
+      })
     }
-    getHotAddress();
-  }, []);
-  function _onCopy() {
-    queueAction({
-      action: t('clipboard'),
-      message: t('copied'),
-      status: 'queued'
-    })
-  }
+
+    function TopUpLink() {
+      location.href = `https://www.coming.chat/transfer?cointype=sBTC&address=${hotAddress}&opreturn=${addressHex}`
+    }
   return (
     <Wrapper
         header={t('Top Up')}
@@ -175,7 +182,7 @@ export default function ({address, onClose}: Props) {
           </li>
           <li>
             <img alt='info' src={infoIcon}/>
-            <span>{t('The X-sBTC will arrive in 1~2 hours ')}</span>
+            <span>{t('The sBTC will arrive in 1~2 hours ')}</span>
           </li>
           {/* <li>
             <img alt='info' src={infoIcon}/>
@@ -190,7 +197,19 @@ export default function ({address, onClose}: Props) {
         </section>
       </main>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}></Modal.Actions>
+      <Modal.Actions onCancel={onClose}>
+        {
+          (window as any).web3 &&
+          (window as any).web3.currentProvider &&
+          (window as any).web3.currentProvider.isComingWallet && apiUrl.includes('mainnet.sherpax') &&
+          <Button
+            className={''}
+            onClick={TopUpLink}
+            icon='sign-in-alt'
+            label={t('Top Up')}
+          />
+        }  
+      </Modal.Actions>
     </Wrapper>
   );
 }

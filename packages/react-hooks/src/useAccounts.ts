@@ -4,7 +4,6 @@
 import { useContext, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import {useApi} from '@polkadot/react-hooks';
-
 import { useIsMountedRef } from './useIsMountedRef';
 import { AccountContext } from '../../react-components-chainx/src/AccountProvider';
 
