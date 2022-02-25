@@ -61,7 +61,7 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
 
 
   const transferrable = <div>
-    <span className='label' style={{
+    <span className='label web3ComingChat' style={{
       marginRight: "8px"
     }}>{t<string>('Switchable Amount')}</span>
     <FormatBalance value={unamount}></FormatBalance>

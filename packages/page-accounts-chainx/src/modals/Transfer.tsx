@@ -86,6 +86,7 @@ function Transfer({className = '', onClose, recipientId: propRecipientId, sender
           <Modal.Columns>
             <Modal.Column>
               <InputAddress
+                className='ComingChatWeb3'
                 defaultValue={propSenderId}
                 help={t<string>('The account you will send funds from.')}
                 isDisabled={!!propSenderId}

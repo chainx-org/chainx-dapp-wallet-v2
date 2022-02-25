@@ -26,6 +26,15 @@ const Wrapper = styled(Modal)`
       }
     }
   }
+  @media screen and (max-width:480px){
+    .mob {
+      flex-direction: column;
+      align-items: inherit;
+      .mobs {
+        padding-left: 2rem;
+      }
+    }
+  }
 `;
 
 function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Props> {
@@ -67,7 +76,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               label={t('Withdrawal Account')}
               labelExtra={
                 <div>
-                  {t('You can withdrawal')} {Number(btc) / Math.pow(10, 8)} X-BTC
+                 <span className="web3ComingChat">{t('You can withdrawal')}</span>  {Number(btc) / Math.pow(10, 8)} X-BTC
                 </div>
               }
               onChange={setAccount}
@@ -79,7 +88,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           </Modal.Column> */}
         </Modal.Columns>
 
-        <Modal.Columns>
+        <Modal.Columns className='mob'>
           <Modal.Column>
             <Input
               help={t('the actual account you wish to withdraw')}
@@ -87,7 +96,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               onChange={setWithdrawAddress}
             />
           </Modal.Column>
-          <Modal.Column>
+          <Modal.Column className='mobs'>
             {/* <p>{t('BTC withdraw address')}</p> */}
             <span style={{display: (disabled === true) ? "block" : "none"}}>{t('Required')}</span>
           </Modal.Column>
