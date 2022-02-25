@@ -27,7 +27,7 @@ function usePCXAssets(account: string, n = 0): SbtcAssetsInfo {
         if(api.query.assets) {
           const asset = await api.query.assets.account(2, account)
         //   const assetLock = await api.query.xGatewayRecords.locks(account, 2)
-          console.log('x-pcx',asset.toJSON())
+        //   console.log('x-pcx',asset.toJSON())
           // setValue(asset)
           let current = {
             balance: asset.balance,
@@ -38,7 +38,7 @@ function usePCXAssets(account: string, n = 0): SbtcAssetsInfo {
           } as SbtcAssetsInfo;
           current = Object.assign(current, {
             account: account,
-            assetName: 'sBTC',
+            assetName: 'pcx',
             // locked: assetLock.toJSON() !== null ? assetLock.toJSON() : 0
           });
           setValue(JSON.stringify(current));
