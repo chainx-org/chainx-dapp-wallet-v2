@@ -42,6 +42,7 @@ interface Props {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
+  CrossToken?: string;
 }
 
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
@@ -68,9 +69,9 @@ function getRegex(isDecimal: boolean): RegExp {
   );
 }
 
-function getSiOptions(): { text: string; value: string }[] {
+function getSiOptions(CrossToken: string): { text: string; value: string }[] {
   return [{
-    text: "sBTC",
+    text: CrossToken,
     value: "-"
   }]
 }
@@ -163,7 +164,7 @@ function getValues(value: BN | string = BN_ZERO, si: SiDef | null, bitLength: Bi
     : getValuesFromString(value, si, bitLength, isZeroable, maxValue);
 }
 
-function InputNumber({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue, CrossToken }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -272,7 +273,7 @@ function InputNumber({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, class
           dropdownClassName='ui--SiDropdown'
           isButton
           onChange={_onSelectSiUnit}
-          options={getSiOptions()}
+          options={getSiOptions(CrossToken)}
         />
       )}
       {children}

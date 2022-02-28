@@ -33,6 +33,7 @@ interface Props {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
+  CrossToken?: string;
 }
 
 const BN_TEN_THOUSAND = new BN(10_000);
@@ -67,7 +68,7 @@ function reformat (value: string | BN, isDisabled?: boolean): string {
   return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
 }
 
-function InputXBTCBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputXBTCBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax, CrossToken }: Props): React.ReactElement<Props> {
   const defaultValue = useMemo(
     () => inDefault ? reformat(inDefault, isDisabled) : undefined,
     [inDefault, isDisabled]
@@ -97,6 +98,7 @@ function InputXBTCBalance ({ autoFocus, children, className = '', defaultValue: 
       withEllipsis={withEllipsis}
       withLabel={withLabel}
       withMax={withMax}
+      CrossToken={CrossToken}
     >
       {children}
     </InputNumber>
