@@ -206,7 +206,7 @@ export default function ({address, onClose}: Props) {
             className={''}
             onClick={TopUpLink}
             icon='sign-in-alt'
-            label={t('Top Up')}
+            label={t('Continue by COMING')}
           />
         }  
       </Modal.Actions>
