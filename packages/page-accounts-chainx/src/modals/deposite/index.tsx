@@ -1,27 +1,25 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-
-
-import React, {Dispatch, useEffect, useState} from 'react';
-import { Modal } from '@polkadot/react-components';
-import {useTranslation} from '../../translate';
-import styled from 'styled-components';
-import {u8aToHex} from '@polkadot/util';
-import ClipBoard from './ClipBoard';
-import infoIcon from './explan.svg';
-import {useApi} from '@polkadot/react-hooks';
+import React, { Dispatch, useEffect, useState } from "react";
+import { Modal } from "@polkadot/react-components";
+import { useTranslation } from "../../translate";
+import styled from "styled-components";
+import { u8aToHex } from "@polkadot/util";
+import ClipBoard from "./ClipBoard";
+import infoIcon from "./explan.svg";
+import { useApi } from "@polkadot/react-hooks";
 
 interface Props {
   onClose: () => void;
-  address: string
+  address: string;
   btc: string | undefined | null;
-  account: string | undefined,
-  setN: Dispatch<number>
+  account: string | undefined;
+  setN: Dispatch<number>;
 }
 
 const Wrapper = styled(Modal)`
-  @media screen and (min-width:540px) {
+  @media screen and (min-width: 540px) {
     min-width: 500px;
     max-width: 600px;
   }
@@ -119,66 +117,72 @@ const Wrapper = styled(Modal)`
   }
 `;
 
-export default function ({address, onClose}: Props) {
-    const {t} = useTranslation();
-    const [channel, setChannel] = useState('');
-    const {api} = useApi();
-    const [hotAddress, setHotAddress] = useState<string>('');
-    const addressHex = u8aToHex(
-      new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
-    ).replace(/^0x/, '');
-  
-    useEffect((): void => {
-      async function getHotAddress() {
-        const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo();
-        setHotAddress(dividendRes.hotAddress.addr);
-      }
-  
-      getHotAddress();
-    }, []);
+export default function ({ address, onClose }: Props) {
+  const { t } = useTranslation();
+  const [channel, setChannel] = useState("");
+  const { api } = useApi();
+  const [hotAddress, setHotAddress] = useState<string>("");
+  const addressHex = u8aToHex(new TextEncoder("utf-8").encode(`${address}${channel ? "@" + channel : ""}`)).replace(
+    /^0x/,
+    ""
+  );
+
+  useEffect((): void => {
+    async function getHotAddress() {
+      const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo();
+      setHotAddress(dividendRes.hotAddress.addr);
+    }
+
+    getHotAddress();
+  }, []);
 
   return (
-    <Wrapper
-        header={t('Top Up')}
-      >
+    <Wrapper header={t("Top Up")}>
       <Modal.Content>
-      <main className='content'>
-        <h2>
-          <span className='step'>{t('The First Step')}</span>
-          <span className='text'>{t('get OP_RETURN')}</span>
-        </h2>
-        <p className={'op-return'}>{t('Get the information for the 16-OP_RETURN address')}</p>
-        <section className='show-code'>
-          <h3>
-            <span className="title">OP_RETURN</span>
-          </h3>
-          <ClipBoard className='hex' id=''>{addressHex}</ClipBoard>
-        </section>
-        <h2 className='step-2'>
-          <span className='step'>{t('The Second Step')}</span>
-          <span className='text'>{t('start a cross-chain top-up')}</span>
-        </h2>
-        <p className='input'>{t('Recharge OP_RETURN trust\'s hot multi-sign address with a wallet that supports OP_RETURN information')}</p>
-        <ul className={'info'}>
-          <li>
-            <img alt='info' src={infoIcon}/>
-            <span>{t('The top-up amount must be greater than 0.001 BTC')}</span>
-          </li>
-          <li>
-            <img alt='info' src={infoIcon}/>
-            <span>{t('Currently, only cross-chain top-up initiated by BTC addresses starting with 1 and 3 is supported')}</span>
-          </li>
-        </ul>
-        <section className='show-code'>
-          <h3 style={{marginBottom: 0}}>
-            <span className='title'>{t('Trust hot multi-signature address')}</span>
-            <ClipBoard className={'addr'} id=''>{hotAddress}</ClipBoard>
-          </h3>
-        </section>
-      </main>
+        <main className="content">
+          <h2>
+            <span className="step">{t("The First Step")}</span>
+            <span className="text">{t("get OP_RETURN")}</span>
+          </h2>
+          <p className={"op-return"}>{t("Get the information for the 16-OP_RETURN address")}</p>
+          <section className="show-code">
+            <h3>
+              <span className="title">OP_RETURN</span>
+            </h3>
+            <ClipBoard className="hex" id="">
+              {addressHex}
+            </ClipBoard>
+          </section>
+          <h2 className="step-2">
+            <span className="step">{t("The Second Step")}</span>
+            <span className="text">{t("start a cross-chain top-up")}</span>
+          </h2>
+          <p className="input">
+            {t("Recharge OP_RETURN trust's hot multi-sign address with a wallet that supports OP_RETURN information")}
+          </p>
+          <ul className={"info"}>
+            <li>
+              <img alt="info" src={infoIcon} />
+              <span>{t("The top-up amount must be greater than 0.001 BTC")}</span>
+            </li>
+            <li>
+              <img alt="info" src={infoIcon} />
+              <span>
+                {t("Currently, only cross-chain top-up initiated by BTC addresses starting with 1 and 3 is supported")}
+              </span>
+            </li>
+          </ul>
+          <section className="show-code">
+            <h3 style={{ marginBottom: 0 }}>
+              <span className="title">{t("Trust hot multi-signature address")}</span>
+              <ClipBoard className={"addr"} id="">
+                {hotAddress}
+              </ClipBoard>
+            </h3>
+          </section>
+        </main>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}></Modal.Actions>
     </Wrapper>
   );
 }
-
