@@ -61,7 +61,7 @@ function AccountList({storedValue, className = '', onClose, onStatusChange, setS
     ) {
       const accounts = JSON.parse((window as any).web3.comingUserInfo).address
       const name = JSON.parse((window as any).web3.comingUserInfo).name
-      const publicKey = keyring.decodeAddress(accounts)  
+      const publicKey = keyring.decodeAddress(accounts)
       const CCaccount = [{
         account: {
           address: accounts,
