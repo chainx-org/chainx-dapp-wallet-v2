@@ -59,9 +59,11 @@ export default function (): React.ReactElement {
       <Button
         className="btnLists primaryBtn"
         onClick={toggleDeposite}
-        isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
+        // isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
+        isDisabled
       >
-        {t('Top Up')}
+        {/*{t('Top Up')}*/}
+        {t('Top Up(updating)')}
       </Button>
       <Button
         className="btnLists defaultBtn"
