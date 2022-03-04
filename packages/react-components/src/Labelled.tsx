@@ -46,6 +46,22 @@ function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, 
 }
 
 export default React.memo(styled(Labelled)`
+  @media only screen and (max-width: 500px) {
+    &.ComingChatWeb3 {
+      &.ui--Labelled {
+        &:not(.isSmall) {
+          &:not(.isOuter) {
+            > label {
+              width: 6.6rem;
+              overflow: hidden;
+              text-overflow:ellipsis;
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+    }
+  }
   &.ui--Labelled {
     display: block;
     position: relative;
@@ -104,6 +120,11 @@ export default React.memo(styled(Labelled)`
         font-weight: 400;
         right: 1.75rem;
         text-align: right;
+        @media only screen and (max-width: 500px) {
+          .web3ComingChat {
+            display: none;
+          }
+        }
       }
 
       > .ui--Labelled-content {

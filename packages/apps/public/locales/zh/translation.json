@@ -1053,6 +1053,7 @@
   "To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.": "为了确保最佳的资金安全使用相同的stash/controller 账户是强烈不建议的，但不是禁止。",
   "Token": "币种",
   "Top Up": "跨链充值",
+  "Top Up(updating)": "跨链充值（升级中）",
   "Total": "总共",
   "Total Balance": "总余额",
   "Total Interests": "全部利息",

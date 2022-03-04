@@ -25,7 +25,7 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
   const [amount, setAmount] = useState<BN | undefined>();
 
   const transferrable = <div>
-    <span className='label' style={{
+    <span className='label web3ComingChat' style={{
       marginRight: "8px"
     }}>{t<string>('The amount of ticket revocable')}</span>
     <FormatBalance value={unamount}></FormatBalance>
