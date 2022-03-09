@@ -68,9 +68,10 @@ export default function (): React.ReactElement {
       <Button
         className="btnLists defaultBtn"
         onClick={toggleWithdraw}
-        isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
+        // isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
+        isDisabled
       >
-        {t('Withdrawals')}
+        {t('Withdrawals(updating)')}
       </Button>
       <Button
         className="btnLists defaultBtn"
