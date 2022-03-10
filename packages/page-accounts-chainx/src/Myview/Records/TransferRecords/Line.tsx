@@ -28,21 +28,21 @@ export default function ({ transfer }: any) {
       ref={wrapper}>
       <header>
         <span> PCX </span>
-        <span>{moment(new Date(transfer.indexer.blockTime)).format('YYYY/MM/DD')}</span>
+        <span>{moment.unix(transfer.blockTime).format('YYYY/MM/DD')}</span>
       </header>
       <main>
-        <span>{toPrecision(transfer.data[2], 8)}</span>
-        <span>{transfer.data[1] === currentAccount? t('In') : t('Out')}</span>
+        <span>{toPrecision(transfer.balance, 8)}</span>
+        <span>{transfer.to === currentAccount? t('In') : t('Out')}</span>
       </main>
       {isApiReady && api.rpc.system.properties() && open ? (
         <Detail>
           <li>
             <Label>{t('Tx ID')}</Label>
-            <Hash hash={transfer.extrinsicHash} />
+            <Hash hash={transfer['extrinsic_idx']} />
           </li>
           <li>
             <Label>{t('Address')}</Label>
-            <Address address={transfer.data[1]} />
+            <Address address={transfer.to} />
           </li>
           {/* <li className="memo"> */}
           {/*  <Label>{}</Label> */}
