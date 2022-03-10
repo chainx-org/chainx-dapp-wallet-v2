@@ -110,7 +110,6 @@ function CurrentList({ favorites, hasQueries, isIntentions, next, stakingOvervie
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
-  const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
   const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries as any);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [withIdentity, setWithIdentity] = useState(false);
@@ -151,15 +150,13 @@ function CurrentList({ favorites, hasQueries, isIntentions, next, stakingOvervie
           key={address}
           lastBlock={byAuthor[address]}
           nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
-          onlineCount={recentlyOnline?.[address]?.blockCount}
-          onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
           validatorInfo={targets.find(item => item.account === address)}
           withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, targets, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, targets, nameFilter, nominatedBy, toggleFavorite, withIdentity]
   );
 
   return (

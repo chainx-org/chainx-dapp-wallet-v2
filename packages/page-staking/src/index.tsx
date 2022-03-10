@@ -52,7 +52,7 @@ function getSortList(validatorInfoList: ValidatorInfo[]) {
 
 function StakingApp({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const { hasAccounts, allAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
@@ -66,8 +66,8 @@ function StakingApp({ basePath, className = '' }: Props): React.ReactElement<Pro
       const validator = JSON.stringify(val)
       setvalidators(validator)
     }
-    getNowHeighted()
-  },[n])
+    isApiReady && getNowHeighted()
+  },[n, isApiReady])
 
   let validatorInfoList: ValidatorInfo[] = JSON.parse(isJSON(validators) ? validators : '[]');
   validatorInfoList = getSortList(validatorInfoList)
