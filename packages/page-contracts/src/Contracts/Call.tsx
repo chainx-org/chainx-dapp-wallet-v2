@@ -12,7 +12,7 @@ import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, 
 import { ContractPromise } from '@polkadot/api-contract';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
 import Outcome from './Outcome';
@@ -29,7 +29,7 @@ interface Props {
   onClose: () => void;
 }
 
-const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).subn(1);
+const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -53,7 +53,12 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.exec(message, { gasLimit: weight.weight, value: message.isPayable ? value : 0 }, ...params);
+        return contract.tx[message.method]({
+          gasLimit: weight.weight,
+          value: message.isPayable
+            ? value
+            : 0
+        }, ...params);
       } catch (error) {
         return null;
       }
@@ -64,11 +69,15 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     if (!accountId || !message || !dbParams || !dbValue) return;
 
     contract
-      .read(message, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams)
-      .send(accountId)
-      .then(({ gasConsumed, result }) => setEstimatedWeight(
+      .query[message.method](accountId, {
+      gasLimit: -1,
+      value: message.isPayable
+        ? dbValue
+        : 0
+    }, ...dbParams)
+      .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasConsumed
+          ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
@@ -106,7 +115,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   );
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
-  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || !message.isMutating);
+  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
     <Modal

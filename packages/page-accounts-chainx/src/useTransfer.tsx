@@ -12,12 +12,12 @@ interface Transfer {
 }
 
 export default function useTransfer(currentAccount = ''): Transfer[] {
-  const api = useApi();
+  const {api, isApiReady} = useApi();
   const [state, setState] = useState<Transfer[]>([]);
   let transferTimeId: any = '';
 
   async function fetchTransfers(currentAccount: string) {
-    const testOrMain = await api.api.rpc.system.properties();
+    const testOrMain = await api.rpc.system.properties();
     const testOrMainNum = JSON.parse(testOrMain);
     let res: any;
     if (testOrMainNum.ss58Format === 42) {
@@ -30,10 +30,11 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
   }
 
   useEffect((): void => {
-    fetchTransfers(currentAccount);
-  }, []);
+    isApiReady && api && fetchTransfers(currentAccount);
+  }, [isApiReady, api]);
 
   useEffect(() => {
+    if (!isApiReady || !api) { return }
     if(transferTimeId){
       window.clearInterval(transferTimeId);
     }
@@ -44,7 +45,7 @@ export default function useTransfer(currentAccount = ''): Transfer[] {
     }, 5000);
 
     return () => window.clearInterval(transferTimeId);
-  }, [currentAccount]);
+  }, [currentAccount, isApiReady, api]);
 
   return state;
 }

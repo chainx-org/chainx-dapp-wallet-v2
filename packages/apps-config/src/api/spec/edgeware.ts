@@ -4,10 +4,10 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import { Beresheet } from '@edgeware/node-types';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-export default {
-  ...Beresheet.types,
-  // chain-specific overrides
-  RefCount: 'u32'
-};
+import { spec } from '@edgeware/node-types';
+
+const edgeware = spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
+
+export default edgeware;

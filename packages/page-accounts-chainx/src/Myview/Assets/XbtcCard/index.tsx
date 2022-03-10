@@ -44,8 +44,7 @@ export default function (): React.ReactElement {
           onClose={toggleWithdraw}
           setN={setN}
         />
-      )
-      }
+      )}
       {isTransferOpen && (
         <Transfer
           key='modal-transfer'

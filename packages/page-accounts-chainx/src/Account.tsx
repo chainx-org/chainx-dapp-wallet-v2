@@ -34,9 +34,9 @@ interface Props {
 
 function Account({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
-  const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
+  const {api, isApiReady} = useApi();
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
+  const recoveryInfo = useCall<RecoveryConfig | null>(api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>): RecoveryConfig | null =>
       opt.unwrapOr(null)
   });
@@ -62,14 +62,14 @@ function Account({ address, className, filter, isFavorite, toggleFavorite }: Pro
   useEffect((): void => {
     const { identity, nickname } = info || {};
 
-    if (api.api.query.identity && api.api.query.identity.identityOf) {
+    if (isApiReady && api && api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
         setAccName(identity.display);
       }
     } else if (nickname) {
       setAccName(nickname);
     }
-  }, [info]);
+  }, [info, isApiReady, api]);
 
   useEffect((): void => {
     const account = keyring.getAccount(address);
@@ -364,7 +364,7 @@ function Account({ address, className, filter, isFavorite, toggleFavorite }: Pro
             vertical
           >
             <Menu.Item
-              disabled={!api.api.tx.identity?.setIdentity}
+              disabled={!api.tx.identity?.setIdentity}
               onClick={toggleIdentity}
             >
               {t('Set on-chain identity')}

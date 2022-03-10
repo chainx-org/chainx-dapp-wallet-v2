@@ -3,8 +3,7 @@
 
 import type { CallState } from '../types';
 
-import { Subscription } from 'rxjs';
-import { interval } from 'rxjs/observable/interval';
+import { Subscription, interval } from 'rxjs';
 
 const interval$ = interval(500);
 

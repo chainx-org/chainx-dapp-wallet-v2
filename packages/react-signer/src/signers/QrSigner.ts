@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
-import type { SignerPayloadJSON } from '@polkadot/types/types';
+import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 import type { QrState } from '../types';
 
 import { registry } from '@polkadot/react-api';
@@ -10,8 +10,10 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 export default class QrSigner implements Signer {
   readonly #setState: (state: QrState) => void;
+  readonly #registry: Registry;
 
-  constructor (setState: (state: QrState) => void) {
+  constructor (registry: Registry, setState: (state: QrState) => void) {
+    this.#registry = registry;
     this.#setState = setState;
   }
 

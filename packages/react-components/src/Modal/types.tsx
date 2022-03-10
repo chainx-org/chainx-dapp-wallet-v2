@@ -6,6 +6,7 @@ import React from 'react';
 export interface ColumnProps {
   children: React.ReactNode;
   className?: string;
+  hint?: React.ReactNode;
 }
 
 export interface ModalProps {
@@ -14,6 +15,7 @@ export interface ModalProps {
   header?: React.ReactNode;
   open?: boolean;
   [index: string]: any;
+  onCancel?: () => void;
 }
 
 export interface ActionsProps {

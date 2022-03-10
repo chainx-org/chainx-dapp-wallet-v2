@@ -33,7 +33,7 @@ export default function usePcxFree(address = '',n = 0): PcxFreeInfo {
       }
     }
 
-    fetchPcxFree();
+    isApiReady && fetchPcxFree();
   }, [currentAccount, n, isApiReady]);
 
   return <PcxFreeInfo>state;

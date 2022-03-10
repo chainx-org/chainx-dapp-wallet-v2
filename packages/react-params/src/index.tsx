@@ -6,8 +6,9 @@ import type { I18nProps } from '@polkadot/react-components/types';
 import type { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue } from './types';
 
 import React from 'react';
-import { registry as defaultRegistry } from '@polkadot/react-api';
+import { api, registry as defaultRegistry } from '@polkadot/react-api';
 import { ErrorBoundary } from '@polkadot/react-components';
+import { stringify } from '@polkadot/util';
 
 import Holder from './Holder';
 import ParamComp from './ParamComp';
@@ -40,10 +41,8 @@ class Params extends React.PureComponent<Props, State> {
     params: null
   };
 
-  public static getDerivedStateFromProps ({ isDisabled, params, registry = defaultRegistry, values }: Props, prevState: State): Pick<State, never> | null {
-    const isSame = JSON.stringify(prevState.params) === JSON.stringify(params);
-
-    if (isDisabled || isSame) {
+  public static getDerivedStateFromProps ({ isDisabled, params, registry = api.registry, values }: Props, prevState: State): Pick<State, never> | null {
+    if (isDisabled || stringify(prevState.params) === stringify(params)) {
       return null;
     }
 

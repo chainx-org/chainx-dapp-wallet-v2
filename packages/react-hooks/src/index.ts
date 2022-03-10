@@ -19,6 +19,7 @@ export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useLoadingDelay } from './useLoadingDelay';
+export { useLedger } from './useLedger';
 export { useMembers } from './useMembers';
 export { useModal } from './useModal';
 export { useNonEmptyString } from './useNonEmptyString';

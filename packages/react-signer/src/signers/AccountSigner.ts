@@ -3,7 +3,7 @@
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
-import type { SignerPayloadJSON } from '@polkadot/types/types';
+import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
 
@@ -13,9 +13,11 @@ let id = 0;
 
 export default class AccountSigner implements Signer {
   readonly #keyringPair: KeyringPair;
+  readonly #registry: Registry;
 
-  constructor (keyringPair: KeyringPair) {
+  constructor (registry: Registry, keyringPair: KeyringPair) {
     this.#keyringPair = keyringPair;
+    this.#registry = registry;
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {

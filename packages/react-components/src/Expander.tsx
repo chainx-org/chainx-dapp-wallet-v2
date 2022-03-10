@@ -13,7 +13,7 @@ import { useTranslation } from './translate';
 import Icon from './Icon';
 
 interface Meta {
-  documentation: Text[];
+  docs: Text[];
 }
 
 export interface Props {
@@ -43,11 +43,11 @@ function splitParts (value: string): string[] {
 }
 
 function formatMeta (meta?: Meta): React.ReactNode | null {
-  if (!meta || !meta.documentation.length) {
+  if (!meta || !meta.docs.length) {
     return null;
   }
 
-  const strings = meta.documentation.map((doc) => doc.toString().trim());
+  const strings = meta.docs.map((doc) => doc.toString().trim());
   const firstEmpty = strings.findIndex((doc) => !doc.length);
   const combined = (
     firstEmpty === -1

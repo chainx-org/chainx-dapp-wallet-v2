@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import networks from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 import { assert } from '@polkadot/util';
 
 const chainNetwork = {
@@ -15,11 +15,14 @@ const chainNetwork = {
   standardAccount: "*25519",
   symbols: ["PCX"],
   website: "https://chainx.org",
+  hasLedgerSupport: true,
+  isIgnored: false,
+  isTestnet: false,
 }
-networks.push(chainNetwork)
+selectableNetworks.push(chainNetwork)
 
 function getGenesis (name: string): string {
-  const network = networks.find(({ network }) => network === name);
+  const network = selectableNetworks.find(({ network }) => network === name);
   assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
 
   return network.genesisHash[0];

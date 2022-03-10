@@ -15,7 +15,7 @@ interface XbtcAssetInfo {
 }
 
 function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
-  const {api} = useApi();
+  const {api, isApiReady} = useApi();
   const [state, setState] = useState<XbtcAssetInfo>({
     Locked: '0',
     Reserved: '0',
@@ -72,8 +72,8 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
       setState(current);
     }
 
-    getAssets(account);
-  }, [account, n]);
+    isApiReady && getAssets(account);
+  }, [account, n, isApiReady]);
 
   return state;
 }

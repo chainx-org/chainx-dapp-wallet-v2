@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {useApi, useToggle} from '@polkadot/react-hooks';
 import {Icon} from '@polkadot/react-components';
@@ -121,7 +121,7 @@ const Wrapper = styled.div`
 
 function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const {api} = useApi()
+  const {api, isApiReady} = useApi()
   const [isEndpointsVisible, toggleEndpoints] = useToggle();
   const [url, setUrl] = useState<string>('')
   const [recordType, setRecordType] = useState(0);
@@ -134,6 +134,16 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
     'wss://testnet.chainx.org': t('Test Node'),
   }
 
+  const judgeNetwork = useCallback(async () => {
+    const testOrMain = await api.rpc.system.properties();
+    const testOrMainNum = JSON.parse(testOrMain);
+    if (testOrMainNum.ss58Format === 42) {
+      setUrl('https://scan-pre.chainx.org/')
+    } else {
+      setUrl('https://scan.chainx.org/')
+    }
+  }, [])
+
   useEffect(() => {
     if (Object.keys(nodeMap).includes(apiUrl)) {
       setNetInfo(nodeMap[apiUrl])
@@ -143,18 +153,8 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   }, [apiUrl, stored])
 
   useEffect(() => {
-    async function judgeNetwork() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 42) {
-        setUrl('https://scan-pre.chainx.org/')
-      } else {
-        setUrl('https://scan.chainx.org/')
-      }
-    }
-
-    judgeNetwork();
-  }, []);
+    isApiReady && api && judgeNetwork();
+  }, [isApiReady, api]);
 
   const nodeList = ([
     {nodeName: t<string>('Assets'), link: '/accounts', icon: 'users'},

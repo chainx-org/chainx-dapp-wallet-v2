@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Wrapper = styled(Modal)`
- 
+
   @media screen and (min-width:540px) {
     min-width: 500px;
     max-width: 600px;
@@ -120,21 +120,21 @@ const Wrapper = styled(Modal)`
 export default function ({address, onClose}: Props) {
     const {t} = useTranslation();
     const [channel, setChannel] = useState('');
-    const {api} = useApi();
+    const {api, isApiReady} = useApi();
     const [hotAddress, setHotAddress] = useState<string>('');
     const { queueAction } = useContext(StatusContext);
     const addressHex = u8aToHex(
       new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
     ).replace(/^0x/, '');
-  
+
     useEffect((): void => {
       async function getHotAddress() {
         const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo();
         setHotAddress(dividendRes.hotAddress.addr);
       }
-  
-      getHotAddress();
-    }, []);
+
+      isApiReady && getHotAddress();
+    }, [isApiReady]);
 
     function _onCopy() {
       queueAction({

@@ -18,7 +18,7 @@ export default function useStaking(address = '',n = 0) {
       if (address === '') {
         return;
       }
- 
+
       const res = await api.rpc.xstaking.getNominationByAccount(
         address
       );
@@ -48,12 +48,12 @@ export default function useStaking(address = '',n = 0) {
       const allChunkes: number = allRedreem.reduce((total, value) => {
         return total + Number(value);
       }, 0)
-      
+
       setValue(allChunkes)
       setState(allChunkes);
     }
 
-    fetchPcxFree();
+    isApiReady && fetchPcxFree();
   }, [currentAccount, n, isApiReady]);
 
   return state;
