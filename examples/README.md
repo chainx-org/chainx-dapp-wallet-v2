@@ -57,29 +57,31 @@ await api.isReady
   - a. Parse the parameters of this transaction to get the sender, beneficiary address destin, received amount, asset type, remarks
   - b. If the recipient's destin is the address of interest, confirm the credit (processing the business)
 - After 150 blocks, the transaction is finally confirmed to be unchangeable
+
 ```javascript
-const { ApiBase, HttpProvider, WsProvider } = require('chainx.js');
+const {ApiPromise, WsProvider} = require ('@polkadot/api')
 
+let api
 (async () => {
-  //...
-  // connect websocket
-  await api.isReady;
-  const transferCallIndex = Buffer.from(api.tx.xAssets.transfer.callIndex).toString('hex');
-
-  let latestHeight = null;
-  let unsubscribeNewHead = null
-  function getUnSubscribeNewHeadFunction() {
-     return unsubscribeNewHead
-  }
-  async function updateHeight() {
-    const api = await getApi()
-     unsubscribeNewHead = await api.rpc.chain.subscribeNewHeads(header => {
-    latestHeight = header.number.toNumber()
-    //console.log('latestHeight', latestHeight)
+  const provider = new WsProvider('wss://testnet3.chainx.org')
+  api = new ApiPromise(({provider}))
+  api.on('connected', () => {
+    console.log('connect wss')
   })
-  }
-  // Gets all transactions in the current block
-  async function getTransfers(blockNumber) {
+  api.on('disconnected', () => {})
+  api.on('error', (error) => {})
+  api.on('ready', () => {
+    console.log('connect ready')
+  })
+
+  await api.isReady
+
+  const transferCallIndex = Buffer.from(api.tx.balances.transfer.callIndex).toString('hex')
+
+  //Gets all transactions for the block
+  async function getTransfers() {
+    //Gets the current latest block height
+    const blockNumber = await api.derive.chain.bestNumber()
     const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
     const block = await api.rpc.chain.getBlock(blockHash);
     const estrinsics = block.block.extrinsics;
@@ -113,16 +115,10 @@ const { ApiBase, HttpProvider, WsProvider } = require('chainx.js');
     }
     return transfers;
   }
+  const transfers = await getTransfers()
 
-  //Update the chunk height
-  updateHeight()
-  console.log("Get the latest in-block transactions:" + latestHeight )
-  //Get the latest in-block transactions
-  const transfers = await getTransfers(latestHeight);
-
-  console.log(JSON.stringify(transfers));
-  // to-do something： Process business logic, retrieve transactions in blocks, senders, payees, confirm credits
-})();
+  // to-do  Process business logic, retrieve transactions in blocks, senders, payees, confirm credits
+})()
 ```
 
 ### The type of transaction involving changes in the funds in the account
@@ -140,73 +136,84 @@ https://github.com/chainx-org/ChainX/wiki/%E6%89%8B%E7%BB%AD%E8%B4%B9%E6%A8%A1%E
 ### Address generation and validation documentation links
 - Address generation
 ```javascript
-const { Account } = require('chainx.js');
+const { Keyring } = require('@polkadot/keyring');
+const { mnemonicGenerate, cryptoWaitReady, signatureVerify } = require('@polkadot/util-crypto');
+const { stringToU8a, u8aToHex } = require('@polkadot/util');
 
-const account1 = Account.generate();
+const keyring = new Keyring({ type: 'sr25519', ss58Format: 2 });
 
-const publicKey1 = account1.publicKey(); // publicKey
-console.log('publicKey1: ', publicKey1);
+// generate random mnemonic
+const mnemonic = mnemonicGenerate();
 
-const privateKey1 = account1.privateKey(); // privateKey
-console.log('privateKey1: ', privateKey1);
+(async () => {
+  await cryptoWaitReady();
 
-const address1 = account1.address(); // address
-console.log('address1: ', address1);
+  //create & add the pair to the keyring with the type and some additional
+  const pair = keyring.addFromUri(mnemonic, { name: 'test' }, 'sr25519');
 
-const mnemonic = Account.newMnemonic(); // Random mnemonics
-console.log('mnemonic: ', mnemonic);
+  //address: xxx
+  console.log('address: ', pair.address)
+  // name: test
+  console.log('name: ', pair.meta.name)
 
-const account2 = Account.from(mnemonic); // Generate an account from mnemonics
+  //adjust the default ss58Format for Chainx mainnet
+  keyring.setSS58Format(44);
+  console.log('chainx mainnet: ', pair.address)
 
-const address2 = Account.encodeAddress(account2.publicKey()); // Generate an address from the public key
-console.log('address2: ', address2);
+  //adjust the default ss58Format for Chainx mainnet
+  keyring.setSS58Format(42);
+  console.log('chainx testnet: ', pair.address)
 
-const publicKey2 = Account.decodeAddress(address2); // Get the generated public key from the address
-console.log('publicKey2: ', publicKey2);
+  //get publicKey, Uint8Array
+  console.log(pair.publicKey);
 
-Account.setNet('testnet'); // Set to TestNet
-const address3 = Account.encodeAddress(publicKey2); // Testnet address
-console.log('address3:', address3);
+  //get publicKey by decode address, Uint8Array
+  console.log(keyring.decodeAddress(pair.address));
 
-Account.setNet('mainnet'); // Set to the home network
-const address4 = Account.encodeAddress(publicKey2); // Mainnet address
-console.log('address4:', address4);
+  //get publicKey by encode address
+  console.log(keyring.encodeAddress(pair.publicKey, 44));
+  console.log(keyring.encodeAddress(pair.publicKey, 42));
 
-const account3 = Account.from(privateKey1); // Generate an account from the private key
-console.log('address:', account3.address()); // address
-```
+  // create the message, actual signature and verify
+  const message = stringToU8a('this is our message');
+  const signature = pair.sign(message);
+  const isValid1 = pair.verify(message, signature, pair.publicKey);
+  // output the result
+  console.log(`${u8aToHex(signature)} is ${isValid1 ? 'valid' : 'invalid'}`);
 
-- Address legitimacy check
-```javascript
-const { Account } = require('chainx.js');
-Account.isAddressValid('xxx')  //return true , Indicates that the address is legitimate
+  //verify the message using pair's address
+  const { isValid } = signatureVerify(message, signature, pair.address);
+  // output the result
+  console.log(`${u8aToHex(signature)} is ${isValid ? 'valid' : 'invalid'}`);
+
+})()
 ```
 
 ### Top-up processing logical document links
 ```javascript
-const { ApiBase, HttpProvider, WsProvider } = require('chainx.js');
-(async () => {
-  // ...
-  // connect websocket
-  // const api = new ApiBase(new WsProvider('wss://w1.chainx.org.cn/ws'))
-  await api.isReady;
-  const transferCallIndex = Buffer.from(api.tx.xAssets.transfer.callIndex).toString('hex');
-  //The latest block height
-  let latestHeight = null;
-  let unsubscribeNewHead = null
+const {ApiPromise, WsProvider} = require ('@polkadot/api')
 
-  function getUnSubscribeNewHeadFunction() {
-     return unsubscribeNewHead
-  }
-  async function updateHeight() {
-    const api = await getApi()
-     unsubscribeNewHead = await api.rpc.chain.subscribeNewHeads(header => {
-    latestHeight = header.number.toNumber()
-    //console.log('latestHeight', latestHeight)
+let api
+(async () => {
+  const provider = new WsProvider('wss://testnet3.chainx.org')
+  api = new ApiPromise(({provider}))
+  api.on('connected', () => {
+    console.log('connect wss')
   })
-  }
-  // Gets all transactions in the current block
-  async function getTransfers(blockNumber) {
+  api.on('disconnected', () => {})
+  api.on('error', (error) => {})
+  api.on('ready', () => {
+    console.log('connect ready')
+  })
+
+  await api.isReady
+
+  const transferCallIndex = Buffer.from(api.tx.balances.transfer.callIndex).toString('hex')
+
+  //Gets all transactions for the block
+  async function getTransfers() {
+    //Gets the current latest block height
+    const blockNumber = await api.derive.chain.bestNumber()
     const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
     const block = await api.rpc.chain.getBlock(blockHash);
     const estrinsics = block.block.extrinsics;
@@ -223,6 +230,7 @@ const { ApiBase, HttpProvider, WsProvider } = require('chainx.js');
             return o;
           });
         result = events[events.length - 1].method;
+
         transfers.push({
           index: i,
           blockHash: blockHash.toHex(),
@@ -239,89 +247,49 @@ const { ApiBase, HttpProvider, WsProvider } = require('chainx.js');
     }
     return transfers;
   }
-  //update chunks
-  updateHeight()
-  console.log("最新区块高度:" + latestHeight )
-  //Get the latest in-block transactions
-  const transfers = await getTransfers(latestHeight);
-  console.log(JSON.stringify(transfers));
+  const transfers = await getTransfers()
+
   // to-do  Process business logic, retrieve transactions in blocks, senders, payees, confirm credits
-  })();
+})()
 ```
 
 ### Transaction construction and offline signing documents
 - Transaction construction
 ```javascript
-const Chainx = require('chainx.js').default;
+const {ApiPromise, WsProvider} = require ('@polkadot/api')
 
+let api
 (async () => {
-  //...
-  // connect websocket
-  // 等待异步的初始化
-  await api.isRpcReady();
+  const provider = new WsProvider('wss://testnet3.chainx.org')
+  api = new ApiPromise(({provider}))
+  api.on('connected', () => {
+    console.log('connect wss')
+  })
+  api.on('disconnected', () => {})
+  api.on('error', (error) => {})
+  api.on('ready', () => {
+    console.log('connect ready')
+  })
 
-  // Query the assets of an account
-  const bobAssets = await api.asset.getAssetsByAccount('5DtoAAhWgWSthkcj7JfDcF2fGKEWg91QmgMx37D6tFBAc6Qg', 0, 10);
+  await api.isReady
 
-  console.log('bobAssets: ', JSON.stringify(bobAssets));
+  // get account balance
+  const accountAsset = await api.query.system.account(address);
+  console.log('accountAsset: ', accountAsset.toJSON());
 
-  // Constructing trading parameters (synchronization)
-
-  const extrinsic = api.asset.transfer('5DtoAAhWgWSthkcj7JfDcF2fGKEWg91QmgMx37D6tFBAc6Qg', 'PCX', '1000', '转账 PCX');
-
-  // View the method hash
+  const extrinsic = api.tx.balances.transfer(address, amount)
   console.log('Function: ', extrinsic.method.toHex());
-
-  //Signing and sending transactions, 0x0000000000000000000000000000000000000000000000000000000000000000 is the private key used for signing
-  extrinsic.signAndSend('0x0000000000000000000000000000000000000000000000000000000000000000', (error, response) => {
+  // Sign and send transactions 0x0000000000000000000000000000000000000000000000000000000000000000 is the private key used for signing
+  await extrinsic.signAndSend('0x0000000000000000000000000000000000000000000000000000000000000000', (error, response) => {
     if (error) {
       console.log(error);
     } else if (response.status === 'Finalized') {
       if (response.result === 'ExtrinsicSuccess') {
-        console.log('交易成功');
+        console.log('The transaction was successful');
       }
     }
-  });
-})();
-```
-
-- Offline signature
-```javascript
-const Chainx = require('chainx.js').default;
-const nacl = require('tweetnacl');
-
-// The signing process
-async function ed25519Sign(message) {
-  // The 32-bit private key of the signature account
-  const privateKey = Buffer.from('5858582020202020202020202020202020202020202020202020202020202020', 'hex');
-  // Sign using the ed25519 algorithm. tweetnacl, This signature uses a 64-bit secretKey，it is effectively equal to privateKey + publicKey。By this method nacl.sign.keyPair.fromSeed，The secretKey can be obtained from the privateKey。
-  return nacl.sign.detached(message, nacl.sign.keyPair.fromSeed(privateKey).secretKey);
-}
-
-(async () => {
-  //...
-  //connect websocket
-
-  await api.isRpcReady();
-  const address = '5CjVPmj6Bm3TVUwfY5ph3PE2daxPHp1G3YZQnrXc8GDjstwT';
-  // Vote to raise interest
-  const extrinsic = api.stake.voteClaim(address);
-  // Get the number of transactions on that account
-  const nonce = await extrinsic.getNonce(address);
-  // Get the original text to be signed
-  // Parameters can be passed in： extrinsic.encodeMessage(address, { nonce, acceleration = 1, blockHash = genesisHash, era = '0x00' })
-  const encoded = extrinsic.encodeMessage(address, { nonce, acceleration: 10 });
-  // Offline signing
-  const signature = await ed25519Sign(encoded);
-  // Inject signatures
-  extrinsic.appendSignature(signature);
-  // Data sent to the chain
-  // console.log(extrinsic.toHex())
-  // Send extrinsic
-  extrinsic.send((error, result) => {
-    console.log(error, result);
-  });
-})();
+  })
+})()
 ```
 
 ### Official app wallets
