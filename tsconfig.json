@@ -2,7 +2,10 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
   "exclude": [
     "build/**/*",
-    "**/build/**/*"
+    "**/build/**/*",
+    "node_modules",
+    "packages",
+    "packages/apps/build/*"
   ],
   "compilerOptions": {
     "jsx": "react",
@@ -250,6 +253,7 @@
       ]
     },
     "skipLibCheck": true,
+    "strict": false,
     "typeRoots": [
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
