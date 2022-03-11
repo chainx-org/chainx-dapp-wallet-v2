@@ -160,7 +160,7 @@ const mnemonic = mnemonicGenerate();
   keyring.setSS58Format(44);
   console.log('chainx mainnet: ', pair.address)
 
-  //adjust the default ss58Format for Chainx mainnet
+  //adjust the default ss58Format for Chainx testnet
   keyring.setSS58Format(42);
   console.log('chainx testnet: ', pair.address)
 
