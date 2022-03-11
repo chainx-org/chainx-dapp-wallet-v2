@@ -130,8 +130,8 @@ function Sidebars ({ className = '', onClose, isCollapsed }: Props): React.React
   const stored = store.get('settings') as Record<string, unknown> || {};
 
   const nodeMap: {[key: string]: string} = {
-    'wss://mainnet.chainx.org/ws': 'ChainX node A',
-    'wss://testnet.chainx.org': t('Test Node'),
+    'wss://mainnet.chainx.org': 'ChainX node A',
+    'wss://testnet3.chainx.org': t('Test Node'),
   }
 
   const judgeNetwork = useCallback(async () => {

@@ -29,7 +29,7 @@ yarn add @polkadot/api @polkadot/keyring @polkadot/util @polkadot/util-crypto
 ```javascript
 let api: ApiPromise
 
-const provider = new WsProvider('wss://mainnet.chainx.org/ws')
+const provider = new WsProvider('wss://mainnet.chainx.org')
 api = new ApiPromise(({provider}))
 api.on('connected', () => {
   console.log('conntect wss')

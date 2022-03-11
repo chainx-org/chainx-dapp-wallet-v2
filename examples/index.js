@@ -2,7 +2,7 @@ const {ApiPromise, WsProvider} = require ('@polkadot/api')
 
 let api
 (async () => {
-  const provider = new WsProvider('wss://mainnet.chainx.org/ws')
+  const provider = new WsProvider('wss://mainnet.chainx.org')
   api = new ApiPromise(({provider}))
   api.on('connected', () => {
     console.log('connect wss')
