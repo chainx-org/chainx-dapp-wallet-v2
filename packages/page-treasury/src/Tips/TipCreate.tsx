@@ -106,7 +106,6 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
               icon='plus'
               isDisabled={!accountId || (isMember && !hasValue) || !hasReason}
               label={t<string>('Propose')}
-              onSuccess={refresh}
               params={
                 isMember
                   ? [reason, beneficiary, value]

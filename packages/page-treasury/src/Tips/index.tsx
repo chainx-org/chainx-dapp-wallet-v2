@@ -68,12 +68,12 @@ function TipsEntry ({ className, hashes, isMember, members }: Props): React.Reac
           label={t<string>('Median Tip Selected')}
         />
       </Button.Group>
-      <Tips className="tipscroll"
+      <Tips
+        className="tipscroll"
         defaultId={defaultId}
         hashes={hashes}
         isMember={isMember}
         members={members}
-        onRefresh={trigger}
         onSelectTip={_selectTip}
       />
     </div>
