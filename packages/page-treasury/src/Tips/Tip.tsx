@@ -22,7 +22,6 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
-  onRefresh: () => void;
   onSelect: (hash: string, isSelected: boolean, value: BN) => void;
   onlyUntipped: boolean;
   tip: OpenTip | OpenTipTo225;
@@ -76,7 +75,7 @@ function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): T
   };
 }
 
-function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onRefresh, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
 
@@ -151,7 +150,6 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               icon='times'
               isDisabled={!isFinder}
               label={t('Cancel')}
-              onSuccess={onRefresh}
               params={[hash]}
               tx='treasury.retractTip'
             />
@@ -173,7 +171,6 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               accountId={councilId}
               icon='times'
               label={t<string>('Close')}
-              onSuccess={onRefresh}
               params={[hash]}
               tx='treasury.closeTip'
             />

@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Hash } from '@polkadot/types/interfaces';
 import type { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -9,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
-import { GenericCall, getTypeDef } from '@polkadot/types';
-
+import { Enum, getTypeDef } from '@polkadot/types';
+import type { ExtrinsicSignature } from '@polkadot/types/interfaces';
 import Static from './Static';
 import { classes } from './util';
 import { useTranslation } from './translate';
@@ -19,11 +18,13 @@ export interface Props {
   children?: React.ReactNode;
   className?: string;
   labelHash?: React.ReactNode;
+  labelSignature?: React.ReactNode;
   mortality?: string;
   onError?: () => void;
   value: IExtrinsic | IMethod;
   withBorder?: boolean;
   withHash?: boolean;
+  withSignature?: boolean;
   tip?: BN;
 }
 
@@ -38,30 +39,57 @@ interface Value {
 }
 
 interface Extracted {
-  hash: Hash | null;
+  hash: string | null;
   params: Param[];
+  signature: string | null;
+  signatureType: string | null;
   values: Value[];
 }
 
-function Call ({ children, className = '', labelHash, mortality, onError, tip, value, withBorder, withHash }: Props): React.ReactElement<Props> {
+function isExtrinsic(value: IExtrinsic | IMethod): value is IExtrinsic {
+  return !!(value as IExtrinsic).signature;
+}
+
+// This is no doubt NOT the way to do things - however there is no other option
+function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  return (value as any)._raw?.signature?.multiSignature as ExtrinsicSignature;
+}
+
+function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean): Extracted {
+  const params = value.meta.args.map(({ name, type }): Param => ({
+    name: name.toString(),
+    type: getTypeDef(type.toString())
+  }));
+  const values = value.args.map((value): Value => ({
+    isValid: true,
+    value
+  }));
+  const hash = withHash
+    ? value.hash.toHex()
+    : null;
+  let signature: string | null = null;
+  let signatureType: string | null = null;
+
+  if (withSignature && isExtrinsic(value) && value.isSigned) {
+    const raw = getRawSignature(value);
+
+    signature = value.signature.toHex();
+    signatureType = raw instanceof Enum
+      ? raw.type
+      : null;
+  }
+
+  return { hash, params, signature, signatureType, values };
+}
+
+function Call ({ children, className = '', labelHash, labelSignature, mortality, onError, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ hash, params, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], values: [] });
+  const [{ hash, params, signature, signatureType, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], signature: null, signatureType: null, values: [] });
 
   useEffect((): void => {
-    const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): Param => ({
-      name: name.toString(),
-      type: getTypeDef(type.toString())
-    }));
-    const values = value.args.map((value): Value => ({
-      isValid: true,
-      value
-    }));
-    const hash = withHash
-      ? value.hash
-      : null;
-
-    setExtracted({ hash, params, values });
-  }, [value, withHash]);
+    setExtracted(extractState(value, withHash, withSignature));
+  }, [value, withHash, withSignature]);
 
   return (
     <div className={classes('ui--Extrinsic', className)}>
@@ -74,30 +102,35 @@ function Call ({ children, className = '', labelHash, mortality, onError, tip, v
       />
       {children}
       <div className='ui--Extrinsic--toplevel'>
+        { signature && (
+          <Static
+            className='hash'
+            label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
+            value={signature}
+            withCopy
+          />
+        )}
         {hash && (
           <Static
             className='hash'
             label={labelHash || t<string>('extrinsic hash')}
+            value={hash}
             withCopy
-          >
-            {hash.toHex()}
-          </Static>
+          />
         )}
         {mortality && (
           <Static
             className='mortality'
             label={t<string>('lifetime')}
-          >
-            {mortality}
-          </Static>
+            value={mortality}
+          />
         )}
         {tip?.gtn(0) && (
           <Static
             className='tip'
             label={t<string>('tip')}
-          >
-            <FormatBalance value={tip} />
-          </Static>
+            value={<FormatBalance value={tip} />}
+          />
         )}
       </div>
     </div>

@@ -1,10 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {useAccountInfo, useAccounts, useApi} from '@polkadot/react-hooks';
+import {useAccountInfo, useApi} from '@polkadot/react-hooks';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
-import {AssetsInfo} from '@polkadot/react-hooks-chainx/types';
-import {useReadChainStorage} from '@polkadot/react-hooks-chainx';
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,7 +65,7 @@ export default function (): React.ReactElement {
   }
 
   useEffect(() => {
-    getIdentity(currentAccount)
+    isApiReady && getIdentity(currentAccount)
   }, [currentAccount, isApiReady]);
 
   return (

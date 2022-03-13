@@ -3,8 +3,23 @@
 
 import type { TFunction } from 'i18next';
 import type { Option } from './types';
+import { selectableNetworks } from '@polkadot/networks';
 
-import known from '@polkadot/networks';
+// Definitions here are with the following values -
+//   info: the name of a logo as defined in ../logos, specifically in namedLogos
+//   text: The text you wish to display in the dropdown
+//   value: The actual ss5Format value (as registered)
+
+const networks = selectableNetworks && selectableNetworks.map(({ displayName, network, prefix }) => ({
+  info: network,
+  text: displayName,
+  value: prefix
+}))
+  .sort((a, b) =>
+    [0, 2, 42].includes(a.value) || [0, 2, 42].includes(b.value)
+      ? 0
+      : a.text.localeCompare(b.text)
+  );
 
 // Definitions here are with the following values -
 //   info: the name of a logo as defined in ../logos, specifically in namedLogos
@@ -18,10 +33,6 @@ export function createSs58 (t: TFunction): Option[] {
       text: t('ss58.default', 'Default for the connected node', { ns: 'apps-config' }),
       value: -1
     },
-    ...known.map(({ displayName, network, prefix }): Option => ({
-      info: network,
-      text: displayName,
-      value: prefix
-    }))
+    ...networks
   ];
 }

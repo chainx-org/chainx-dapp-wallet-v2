@@ -32,10 +32,10 @@ function SubTabs({subItems, basePath, name}: Props): React.ReactElement<Props>{
   return (
     <Wrapper>
       {subItems.map((item: subItem, index: number) =>
-        <>
+        <React.Fragment key={item.subName}>
         <SubTab {...item} basePath={basePath} name={name}/>
         {subItems.length - 1 !== index ? <div className='divideLine'/>: null}
-        </>
+        </React.Fragment>
       )}
     </Wrapper>
   )

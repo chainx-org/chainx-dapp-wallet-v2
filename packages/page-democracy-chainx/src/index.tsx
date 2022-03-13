@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {Route, Switch} from 'react-router';
 import {Tabs} from '@polkadot/react-components-chainx';
-import basicMd from './md/basic.md';
 import Execute from './Execute';
 import useDispatchCounter from './Execute/useCounter';
 import Council from '@polkadot/app-council/Overview';
@@ -13,8 +12,8 @@ import Overview from './Overview';
 import {useTranslation} from './translate';
 import Trustee from '../../page-trust/src/components/Block';
 import {useLocation} from 'react-router-dom';
-import {useApi, useCall, useIncrement, useIsMountedRef, useMembers} from '@polkadot/react-hooks';
-import {AccountId, Hash} from '@polkadot/types/interfaces';
+import {useApi, useCall, useMembers, useTipHashes} from '@polkadot/react-hooks';
+import {AccountId} from '@polkadot/types/interfaces';
 import {Option} from '@polkadot/types';
 import Motions from '@polkadot/app-council/Motions';
 import {DeriveCollectiveProposal} from '@polkadot/api-derive/types';
@@ -39,20 +38,7 @@ function DemocracyApp({basePath}: Props): React.ReactElement<Props> {
   const prime = useCall<AccountId | null>(api.query.council.prime, undefined, transformPrime) || null;
   const motions = useCall<DeriveCollectiveProposal[]>(api.derive.council.proposals);
   const { isMember, members } = useMembers();
-  const mountedRef = useIsMountedRef();
-  const [tipHashTrigger, triggerTipHashes] = useIncrement();
-  const [tipHashes, setTipHashes] = useState<string[] | null>(null);
-
-  useEffect((): void => {
-    if (tipHashTrigger && mountedRef.current) {
-      api.query.treasury.tips.keys().then((keys) =>
-        mountedRef.current && setTipHashes(
-        keys.map((key) => key.args[0].toHex())
-        )
-      ).catch(console.error);
-    }
-  }, [api, tipHashTrigger, mountedRef]);
-
+  const tipHashes = useTipHashes();
 
   const items = useMemo(() => [
     {
@@ -150,7 +136,6 @@ function DemocracyApp({basePath}: Props): React.ReactElement<Props> {
             hashes={tipHashes}
             isMember={isMember}
             members={members}
-            trigger={triggerTipHashes}
           />
         </Route>
         <Route path={`${basePath}/treasury`}>

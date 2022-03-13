@@ -27,7 +27,7 @@ interface Records {
 }
 
 export default function useRecords(currentAccount = ''): Records {
-  const api = useApi();
+  const {api, isApiReady} = useApi();
   const [state, setState] = useState<Records>({
     Deposits: [],
     Withdrawals: []
@@ -35,7 +35,7 @@ export default function useRecords(currentAccount = ''): Records {
   let withdrawalTimeId: any = null;
 
   async function fetchWithdrawals(currentAccount: string) {
-    const testOrMain = await api.api.rpc.system.properties();
+    const testOrMain = await api.rpc.system.properties();
     const testOrMainNum = JSON.parse(testOrMain);
     let depositsList: any;
     let withdrawalsList: any;
@@ -53,8 +53,8 @@ export default function useRecords(currentAccount = ''): Records {
   }
 
   useEffect((): void => {
-    fetchWithdrawals(currentAccount);
-  }, []);
+    isApiReady && fetchWithdrawals(currentAccount);
+  }, [isApiReady]);
 
   useEffect(() => {
     if(withdrawalTimeId){

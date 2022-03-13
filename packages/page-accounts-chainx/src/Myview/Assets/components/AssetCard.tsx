@@ -82,7 +82,7 @@ const Footer = styled.footer`
 export default function (props: { children?: ReactNode, buttonGroup?: ReactNode, logo?: any, footer?: ReactNode }) {
   const {logo} = props;
   const {t} = useTranslation();
-  const {api} = useApi();
+  const {api, isApiReady} = useApi();
   const [allInterests, setAllInterests] = useState<number>();
   const [usableInterests, setUsableInterests] = useState<number>();
   const [insufficientStake, setInsufficientStake] = useState<number>()
@@ -107,8 +107,8 @@ export default function (props: { children?: ReactNode, buttonGroup?: ReactNode,
     }
 
     // getDividend('5TqDq71XesuCt8YFrXz2MqF1QqpJKYrg5LtCte3KWB7oyEBB');
-    getDividend(currentAccount);
-  }, [currentAccount, n]);
+    isApiReady && getDividend(currentAccount);
+  }, [currentAccount, n, isApiReady]);
 
   return (
     <Card>

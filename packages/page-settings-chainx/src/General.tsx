@@ -5,9 +5,12 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
-import { isLedgerCapable } from '@polkadot/react-api';
+import { allNetworks } from '@polkadot/networks';
+import { useApi, useLedger } from '@polkadot/react-hooks';
 import { Button, Dropdown } from '@polkadot/react-components';
-import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
+import uiSettings from '@polkadot/ui-settings';
+import type { SettingsStruct } from '@polkadot/ui-settings/types';
+import { isUndefined } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
@@ -20,6 +23,8 @@ const ledgerConnOptions = uiSettings.availableLedgerConn;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api, isApiReady } = useApi();
+  const { isLedgerCapable } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState((): SettingsStruct => {
@@ -36,8 +41,28 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const prefixOptions = useMemo(
-    () => createSs58(t).map((o): Option | React.ReactNode => createOption(o, ['default'])),
-    [t]
+    (): (Option | React.ReactNode)[] => {
+      let ss58Format = api.registry.chainSS58;
+
+      if (isUndefined(ss58Format)) {
+        ss58Format = 44;
+      }
+
+      const network = allNetworks.find(({ prefix }) => prefix === ss58Format);
+
+      return createSs58(t).map((o) =>
+        createOption(o, ['default'], 'empty', (
+          o.value === -1
+            ? isApiReady
+            ? network
+              ? ` (${network.displayName}, ${ss58Format || 0})`
+              : ` (${ss58Format || 0})`
+            : undefined
+            : ` (${o.value})`
+        ))
+      );
+    },
+    [api, isApiReady, t]
   );
 
   const themeOptions = useMemo(
@@ -106,7 +131,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={iconOptions}
         />
       </div>
-      {isLedgerCapable() && (
+      {isLedgerCapable && (
         <div className='ui--row'>
           <Dropdown
             defaultValue={ledgerConn}

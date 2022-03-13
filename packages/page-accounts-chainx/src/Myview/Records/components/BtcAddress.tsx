@@ -19,9 +19,9 @@ export default function ({ address = '', length = 5 }) {
       const testOrMain = await api.rpc.system.properties();
       const testOrMainNum = JSON.parse(testOrMain);
       if (testOrMainNum.ss58Format === 42) {
-        setUrl(`https://scan-pre.chainx.org/#/addressDetails/${address}`)
+        setUrl(`https://scan-pre.chainx.org/account/${address}`)
       } else {
-        setUrl(`https://scan.chainx.org/#/addressDetails/${address}`)
+        setUrl(`https://scan.chainx.org/account/${address}`)
       }
     }
 

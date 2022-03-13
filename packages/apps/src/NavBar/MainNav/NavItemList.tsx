@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import chainxLogo from '@polkadot/apps/NavBar/icons/ChainX_logo.svg';
 import {Link} from 'react-router-dom';
 import {Icon} from '@polkadot/react-components';
@@ -9,7 +9,7 @@ import {useApi, useToggle} from '@polkadot/react-hooks';
 
 function NavItemList(): React.ReactElement {
   const {t} = useTranslation();
-  const {api} = useApi()
+  const {api, isApiReady} = useApi()
   const [isStakingOpen, , setToggleStaking] = useToggle();
   const [isGovernanceOpen, , setToggleGovernance] = useToggle();
   const [isDeveloperOpen, , setToggleDeveloper] = useToggle();
@@ -49,23 +49,23 @@ function NavItemList(): React.ReactElement {
     }
   };
 
-  useEffect(() => {
-    async function judgeNetwork() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 42) {
-        setUrl('https://scan-pre.chainx.org/')
-      } else {
-        setUrl('https://scan.chainx.org/')
-      }
+  const judgeNetwork = useCallback(async () => {
+    const testOrMain = await api.rpc.system.properties();
+    const testOrMainNum = JSON.parse(testOrMain);
+    if (testOrMainNum.ss58Format === 42) {
+      setUrl('https://scan-pre.chainx.org/')
+    } else {
+      setUrl('https://scan.chainx.org/')
     }
+  }, [])
 
-    judgeNetwork();
-  }, []);
+  useEffect(() => {
+    isApiReady && api && judgeNetwork()
+  }, [isApiReady, api]);
 
   return (
     <div className="left">
-      <img src={chainxLogo} alt=""/>
+      <img src={chainxLogo as string} alt=""/>
       <ul>
         <li className='assets media--500'>
           <Link to={'/accounts'}>{t('Assets')}</Link>

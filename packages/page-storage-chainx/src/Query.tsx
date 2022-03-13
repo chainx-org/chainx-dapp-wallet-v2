@@ -5,6 +5,7 @@ import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import type { Option, Raw } from '@polkadot/types';
+import type { Registry } from '@polkadot/types/types';
 import type { QueryTypes, StorageModuleQuery } from './types';
 
 import React, { useCallback, useMemo } from 'react';
@@ -14,6 +15,8 @@ import { Button, Labelled } from '@polkadot/react-components';
 import { withCallDiv } from '@polkadot/react-api/hoc';
 import valueToText from '@polkadot/react-params/valueToText';
 import { compactStripLength, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { getSiName } from '@polkadot/types/metadata/util';
+import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
@@ -50,8 +53,12 @@ function keyToName (isConst: boolean, _key: Uint8Array | QueryableStorageEntry<'
   return `${key.creator.section}.${key.creator.method}`;
 }
 
-function typeToString ({ creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
-  const _type = unwrapStorageType(type);
+function constTypeToString (registry: Registry, { meta }: ConstValue): string {
+  return getSiName(registry.lookup, meta.type);
+}
+
+function typeToString (registry: Registry, { creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
+  const _type = unwrapStorageType(registry, type);
 
   return modifier.isOptional
     ? `Option<${_type}>`
@@ -73,18 +80,18 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
   };
 }
 
-function getCachedComponent (query: QueryTypes): CacheInstance {
-  const { id, isConst, key, params = [] } = query as StorageModuleQuery;
+function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstance {
+  const { blockHash, id, isConst, key, params = [] } = query as StorageModuleQuery;
 
   if (!cache[id]) {
     let renderHelper;
     let type: string;
 
     if (isConst) {
-      const { meta, method, section } = key as unknown as ConstValue;
+      const { method, section } = key as unknown as ConstValue;
 
       renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
-      type = meta.type.toString();
+      type = constTypeToString(registry, key as unknown as ConstValue);
     } else {
       if (isU8a(key)) {
         // subscribe to the raw key here
@@ -100,22 +107,23 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
         const { creator: { meta: { type } } } = key;
         const allCount = type.isPlain
           ? 0
-          : type.isMap
-            ? 1
-            : 2;
+          : type.asMap.hashers.length;
+        const isEntries = values.length !== allCount;
 
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
-          params: values.length === allCount
-            ? [key, ...values]
-            : [key.entries, ...values],
+          params: isEntries
+            ? [key.entries, ...values]
+            : blockHash
+              ? [key.at, blockHash, ...values]
+              : [key, ...values],
           withIndicator: true
         });
       }
 
       type = key.creator && key.creator.meta
-        ? typeToString(key)
+        ? typeToString(registry, key)
         : 'Raw';
     }
 
@@ -133,15 +141,16 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
 }
 
 function Query ({ className = '', onRemove, value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const [{ Component }, callName, callType] = useMemo(
     () => [
-      getCachedComponent(value),
+      getCachedComponent(api.registry, value),
       keyToName(value.isConst, value.key),
       value.isConst
         ? (value.key as unknown as ConstValue).meta.type.toString()
         : isU8a(value.key)
           ? 'Raw'
-          : typeToString(value.key as QueryableStorageEntry<'promise'>)
+          : typeToString(api.registry, value.key as QueryableStorageEntry<'promise'>)
     ],
     [value]
   );

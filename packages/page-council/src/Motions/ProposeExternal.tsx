@@ -36,7 +36,6 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
 
   const threshold = Math.ceil((members.length || 0) * 0.75);
-  console.log('threshold', 0.75)
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
