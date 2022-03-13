@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export { createNamedHook } from './createNamedHook';
 export { useAccountId } from './useAccountId';
 export { useAccountInfo } from './useAccountInfo';
 export { useAccounts } from './useAccounts';
@@ -32,5 +33,8 @@ export { useRegistrars } from './useRegistrars';
 export { useStashIds } from './useStashIds';
 export { useSudo } from './useSudo';
 export { useToggle } from './useToggle';
+export { default as useTipHashes } from './useTipHashes';
 export { useVotingStatus } from './useVotingStatus';
 export { useWeight } from './useWeight';
+export { useEventTrigger } from './useEventTrigger'
+export { useMapKeys } from './useMapKeys'

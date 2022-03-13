@@ -10,13 +10,12 @@ import { useTranslation } from '../translate';
 
 interface Props {
   members: string[];
-  refresh: () => void;
 }
 
 const MAX_REASON_LEN = 128;
 const MIN_REASON_LEN = 5;
 
-function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
+function TipCreate ({ members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -107,7 +106,6 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
               icon='plus'
               isDisabled={!accountId || (isMember && !hasValue) || !hasReason}
               label={t<string>('Propose')}
-              onStart={toggleOpen}
               onSuccess={refresh}
               params={
                 isMember
