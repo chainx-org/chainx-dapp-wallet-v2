@@ -12,6 +12,7 @@ export { useBlockTime } from './useBlockTime';
 export { useCacheKey } from './useCacheKey';
 export { useCall } from './useCall';
 export { useContracts } from './useContracts';
+export { useDeriveAccountInfo } from './useDeriveAccountInfo';
 export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useFavorites } from './useFavorites';
