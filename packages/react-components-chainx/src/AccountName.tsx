@@ -10,7 +10,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
-import { useCall, useApi } from '@polkadot/react-hooks';
+import { useCall, useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { useReadChainStorage } from '@polkadot/react-hooks-chainx';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
@@ -70,7 +70,7 @@ function defaultOrAddr(defaultName = '', _address: AccountId | AccountIndex | Ad
   return [extracted, !isAddressExtracted, isAddressExtracted, false];
 }
 
-function extractName(address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
+function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
   const displayCached = displayCache.get(address);
 
   if (displayCached) {
@@ -106,7 +106,7 @@ function createIdElem(nameElem: React.ReactNode, color: 'green' | 'red' | 'gray'
   );
 }
 
-function extractIdentity(address: string, identity: DeriveAccountRegistration): React.ReactNode {
+function extractIdentity (address: string, identity: DeriveAccountRegistration): React.ReactNode {
   const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
   const isGood = judgements.some(([, judgement]) => judgement.isKnownGood || judgement.isReasonable);
   const isBad = judgements.some(([, judgement]) => judgement.isErroneous || judgement.isLowQuality);
@@ -119,12 +119,12 @@ function extractIdentity(address: string, identity: DeriveAccountRegistration): 
       : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
   );
   const elem = createIdElem(
-    <span className={`name${isGood ? ' isGood' : ''}`}>
+    <span className={`name${isGood && !isBad ? ' isGood' : ''}`}>
       <span className='top'>{displayParent || displayName}</span>
       {displayParent && <span className='sub'>{`/${displayName || ''}`}</span>}
     </span>,
-    isGood ? 'green' : (isBad ? 'red' : 'gray'),
-    identity.parent ? 'link' : (isGood ? 'check' : 'minus')
+    (isBad ? 'red' : (isGood ? 'green' : 'gray')),
+    identity.parent ? 'link' : (isGood && !isBad ? 'check' : 'minus')
   );
 
   displayCache.set(address, elem);
@@ -134,12 +134,14 @@ function extractIdentity(address: string, identity: DeriveAccountRegistration): 
 
 function AccountName({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
+  const info = useDeriveAccountInfo(value);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarToggle);
 
   const validatorData: string = useReadChainStorage('xStaking', 'validators', value);
-
+console.log('label', label)
+  console.log('override', override)
+  console.log('name', name)
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
@@ -161,11 +163,8 @@ function AccountName({ children, className = '', defaultName, label, onClick, ov
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
     }
-    if (isJSON(validatorData)) {
-      setName(`${JSON.parse(validatorData).referralId}`);
-    }
 
-  }, [api, defaultName, info, toggle, value, validatorData]);
+  }, [api, defaultName, info, toggle, value]);
 
   const _onNameEdit = useCallback(
     () => setName(defaultOrAddr(defaultName, (value || '').toString())),
