@@ -3744,6 +3744,7 @@ __metadata:
     html-webpack-plugin: ^4.5.2
     react: ^17.0.2
     react-dom: ^17.0.2
+    rxjs: ^7.4.0
     thread-loader: ^3.0.1
     tmp: ^0.2.1
     webpack: ^4.44.2
