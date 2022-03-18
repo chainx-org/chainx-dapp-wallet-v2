@@ -33,6 +33,7 @@ export { usePassword } from './usePassword';
 export { useRegistrars } from './useRegistrars';
 export { useStashIds } from './useStashIds';
 export { useSudo } from './useSudo';
+export { useTxBatch } from './useTxBatch';
 export { useToggle } from './useToggle';
 export { default as useTipHashes } from './useTipHashes';
 export { useVotingStatus } from './useVotingStatus';
