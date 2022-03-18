@@ -139,9 +139,6 @@ function AccountName({ children, className = '', defaultName, label, onClick, ov
   const toggleSidebar = useContext(AccountSidebarToggle);
 
   const validatorData: string = useReadChainStorage('xStaking', 'validators', value);
-console.log('label', label)
-  console.log('override', override)
-  console.log('name', name)
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
