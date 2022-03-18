@@ -174,7 +174,6 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
         }
       }
     } catch (err) {
-      console.log('err',err)
       queueAction({
         action: t<string>('transaction'),
         message: 'address error',
