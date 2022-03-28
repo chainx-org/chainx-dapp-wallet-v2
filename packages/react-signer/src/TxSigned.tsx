@@ -437,7 +437,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             isDisabled={!!currentItem.payload}
             label={
               isSubmit
-                ? 1111
+                ? t<string>('Sign And Submit')
                 : t<string>('Sign (no submission)')
             }
             onChange={setIsSubmit}
