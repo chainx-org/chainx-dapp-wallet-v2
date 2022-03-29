@@ -3747,6 +3747,7 @@ __metadata:
     rxjs: ^7.4.0
     thread-loader: ^3.0.1
     tmp: ^0.2.1
+    tslib: ^2.0.3
     webpack: ^4.44.2
   languageName: unknown
   linkType: soft
