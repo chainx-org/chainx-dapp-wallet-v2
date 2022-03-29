@@ -39,23 +39,23 @@ interface Props {
 }
 
 function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
-  if (!value) {
-    return null;
-  }
+  // if (!value) {
+  //   return null;
+  // }
 
   return (
     <div className={classes('ui--AddressMini', isHighlight ? 'isHighlight' : '', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
-      <div className='ui--AddressMini-icon'>
+      {value &&   <div className='ui--AddressMini-icon'>
         <IdentityIcon value={value as Uint8Array} />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
             {iconInfo}
           </div>
         )}
-      </div>
+      </div>}
       <div className='ui--AddressMini-info'>
         {withAddress && (
           <div className='ui--AddressMini-address'>

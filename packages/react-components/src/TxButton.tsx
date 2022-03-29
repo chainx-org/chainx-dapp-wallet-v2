@@ -14,6 +14,7 @@ import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
+  console.log('isDisabled' , isDisabled )
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
