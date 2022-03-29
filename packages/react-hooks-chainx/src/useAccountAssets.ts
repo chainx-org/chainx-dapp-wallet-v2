@@ -10,22 +10,24 @@ export default function useAccountAssets(accounts: string[]) {
     allAssets: [],
     isFinished: false
   });
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const allAssets: AssetsInfo[] = [];
 
 
   useEffect((): void => {
     async function getAssets(accounts: string[]) {
 
-
       accounts.map(async (account, index) => {
-        const res = await api.rpc.xassets.getAssetsByAccount(account);
-
-        let current: any = {};
+        // const res = await api.rpc.xassets.getAssetsByAccount(account);
+        const res = await api.query.xAssets.assetBalance(account, 1)
+        let current: any = {
+          Usable: '0'
+        };
         const userAssets = JSON.parse(res);
 
         Object.keys(userAssets).forEach((key: string) => {
-          current = userAssets[key] as AssetsInfo;
+          // current = userAssets[key] as AssetsInfo;
+          current = userAssets as AssetsInfo;
         });
 
         // get mining interests
@@ -59,8 +61,8 @@ export default function useAccountAssets(accounts: string[]) {
       setState({ allAssets: allAssets, isFinished: false });
     }
 
-    getAssets(accounts);
-  }, [mountedRef, (accounts.length > 0 ? accounts[0] : '33')]);
+    isApiReady && getAssets(accounts);
+  }, [mountedRef, (accounts.length > 0 ? accounts[0] : '33'), isApiReady]);
 
   return state;
 }
