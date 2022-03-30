@@ -7,6 +7,8 @@ import Identicon from '@polkadot/react-identicon';
 import { Table, Expander, AddressMini, Input, Modal, InputAddressMulti, QrNetworkSpecs } from '@polkadot/react-components';
 import { useTranslation } from '../../page-accounts-chainx/src/translate';
 import { TransactionData } from '@polkadot/ui-settings';
+import { FormatBalance } from '@polkadot/react-query';
+
 
 
 function transactionList({ basePath, className = '' }: Props): React.ReactElement<Props> {
@@ -69,7 +71,8 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
         for (let index = 0; index < value.length; index++) {
           for (let i = 0; i < arrayApply.length; i++) {
             if (value[index] === arrayApply[i].applicant) {
-              let total = Number((arrayApply[i].balance / Math.pow(10, 8)).toFixed(4))
+              // let feeAmount: number = Number((refee[0].fee / Math.pow(10, 8)).toFixed(3))
+              let total = Number(Number((Number(arrayApply[i].balance) +Number(fee))/ Math.pow(10, 8)).toFixed(4))
               standardData.push({ address: arrayApply[i].addr, amount: String(total) })
             }
           }
@@ -77,8 +80,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
         let totalLarge = 0;
         for (let i = 0; i < standardData.length; i++) {
           totalLarge += Number(standardData[i].amount)
-          let feeAmount: number = Number((refee[0].fee / Math.pow(10, 8)).toFixed(3))
-          let totall = Number(totalLarge + standardData.length * feeAmount).toFixed(4)
+          let totall = Number(totalLarge).toFixed(4)
           setTotalAmount(Number(totall))
         }
         setQrData(standardData)
@@ -98,133 +100,144 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
 
   return (
     <main className={`staking--App ${className}`}>
-       <div className='bar'>
-          <button className='myButton' onClick={refreshData}>Reload</button>
-          <button className='myButton' onClick={() => setVisible(true)}>send</button>
-          {visible &&
-            (<Modal
-              className='app--accounts-Modal'
-              header={t<string>('please select the withdrawal request')}
-              size='large'
-            >
-              <Modal.Content>
-                <Modal.Columns>
+      <div className='bar'>
+        <button className='myButton' onClick={refreshData}>Reload</button>
+        <button className='myButton' onClick={() => setVisible(true)}>Send</button>
+        {visible &&
+          (<Modal
+            style={{ background: '#f5f3f1' }}
+            className='app--accounts-Modal'
+            header={t<string>('Please select the withdrawal request')}
+            size='large'
+          >
+            <Modal.Content>
+              <Modal.Columns>
+                <Modal.Column>
+                  <InputAddressMulti
+                    available={addressValue}
+                    availableLabel={t<string>('Applying list')}
+                    onChange={getAccount}
+                    maxCount={10}
+                    valueLabel={t<string>('Ready to send a withdrawal request')}
+                  />
                   <Modal.Column>
-                    <InputAddressMulti
-                      available={addressValue}
-                      availableLabel={t<string>('applying list')}
-                      onChange={getAccount}
-                      maxCount={10}
-                      valueLabel={t<string>('Ready to send a withdrawal request')}
-                    />
-                    <Input
-                      label={t('Total amount')}
-                      value={totalAmount}
-                    />
+                    <Input label={t('Total amount')} value={totalAmount} />
+
                   </Modal.Column>
-                  <Modal.Column>
-                    <p>The official recommendation is to select no more than 10 request</p>
-                    <QrNetworkSpecs style={{ width: '200px', marginLeft: '50px', padding: '10px' }}
-                      className='settings--networkSpecs-qr'
-                      networkSpecs={qrData}
+
+                </Modal.Column>
+                <Modal.Column>
+                  <p>The official recommendation is to select no more than 10 request</p>
+                  <QrNetworkSpecs style={{ width: '200px', marginLeft: '50px', padding: '10px' }}
+                    className='settings--networkSpecs-qr'
+                    networkSpecs={qrData}
+                  />
+                  <p>Please scan this QR code using the Coming app</p>
+                </Modal.Column>
+              </Modal.Columns>
+              <Modal.Columns>
+              </Modal.Columns>
+              <Modal.Columns>
+              </Modal.Columns>
+            </Modal.Content>
+            <Modal.Actions onCancel={() => setVisible(false)} style={{ background: '#f5f3f1' }}>
+            </Modal.Actions>
+          </Modal>
+          )}
+      </div>
+      <div className='content'>
+        <Table>
+          <tr>
+            <td style={{ width: '747px', border: 0 }}><h2>applying list</h2></td>
+            <td className='same' style={{ width: '260px' }}>amount</td>
+            <td className='same' style={{ width: '417px' }}>destination</td>
+            <td className='same' style={{ width: '110px', border: 0 }}>block</td>
+          </tr>
+
+          {transList && transList.map((item: any) => {
+            return (
+              <tr className={className} key={item.id}>
+                <td className='address' style={{ border: 0 }}>
+                  <span>{item.id}</span>
+                  <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
+                  <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span>
+                </td>
+                <td className='textCenter'>
+                  {/* <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) +' '+ 'sBTC')} > */}
+                  <Expander summary={<FormatBalance withCurrency={false} value={(Number(item.balance) + Number(fee))} />}>
+                    <AddressMini
+                      children={
+                        <div style={{ textAlign: 'left' }}>
+                          <div style={{ paddingLeft: '25px' }}>
+                            fee  &nbsp;
+                            {fee && <span className='content'>
+                              {/* {String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
+                              <FormatBalance withCurrency={false} value={fee} />
+                            </span>}
+                          </div>
+                          <div style={{ marginLeft: '-25px' }}>
+                            withdrawal &nbsp;
+                            <span className='content'>
+                              <FormatBalance withCurrency={false} value={item.balance} />
+                            </span>
+                          </div>
+                        </div>}
                     />
-                    <p>Please scan this QR code using the Coming app</p>
-                  </Modal.Column>
-                </Modal.Columns>
-                <Modal.Columns>
-                </Modal.Columns>
-                <Modal.Columns>
-                </Modal.Columns>
-              </Modal.Content>
-              <Modal.Actions onCancel={() => setVisible(false)}>
-              </Modal.Actions>
-            </Modal>
-            )}
-        </div>      
-        <div className='content'>
-          <Table>
-            <tr>
-              <td style={{ width: '747px',border:0 }}><h2>applying list</h2></td>
-              <td className='same' style={{ width: '260px' }}>amount</td>
-              <td className='same' style={{ width: '417px' }}>destination</td>
-              <td className='same' style={{ width: '110px',border:0}}>block</td>
-            </tr>
-          
-            {transList && transList.map((item: any) => {
-              return (
-                <tr className={className} key={item.id}>
-                  <td className='address' style={{border:0}}>
-                    <span>{item.id}</span>
-                    <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                    <code style={{ letterSpacing: '0.13em', fontSize: '16px' }}><span>{item.applicant}</span></code>
-                  </td>
-                  <td className='textCenter'>
-                    <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) +' '+ 'sBTC')} >
-                      {/* <Expander summary={String((toPrecision(item.balance,8).toFixed(4)) + 'sBTC')}> */}
-                      <AddressMini
-                        children={
-                          <div style={{ textAlign: 'left' }}>
-                            <div style={{ paddingLeft: '30px' }}>
-                              fee  &nbsp;
-                              {fee && <span className='content'>{String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + 'sBTC')}</span>}
-                            </div>
-                            <div style={{ marginLeft: '-30px' }}>
-                              real amount &nbsp;
-                              {fee && <span className='content'>{String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + 'sBTC')}</span>}
-                            </div>
-                          </div>}
-                      />
-                    </Expander>
-                  </td>
-                  <td className='textCenter'>{item.addr}</td>
-                  <td className='textCenter'>{item.height}</td>
-                </tr>
-              )
-            })}
-          </Table>
-        </div>
-        <div className='content'>
-          <Table >
-            <tr>
-              <td style={{ width: '747px' ,border:0}}><h2>processing list</h2></td>
-              <td className='same' style={{ width: '260px' ,border:0}}>amount</td>
-              <td className='same' style={{ width: '417px',border:0 }}>destination</td>
-              <td className='same' style={{ width: '110px' ,border:0}}>block</td>
-            </tr>
-            {transactionList && transactionList.map((item: any) => {
-              return (
-                <tr className={className} key={item.id}>
-                  <td className='address'  style={{border:0}}>
-                    <span>{item.id}</span>
-                    <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                    <code style={{ letterSpacing: '0.13em', fontSize: '16px'}}><span>{item.applicant}</span></code>
-                  </td>
-                  <td className='textCenter'>
-                    <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) + ' '+'sBTC')} >
-                      <AddressMini
-                        children={
-                          <div style={{ textAlign: 'left' }}>
-                            <div style={{ paddingLeft: '30px' }}>
-                              fee  &nbsp;
-                              {fee && <span className='content'>{String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + 'sBTC')}</span>}
-                            </div>
-                            <div style={{ marginLeft: '-30px' }}>
-                              real amount &nbsp;
-                              {fee && <span className='content'>{String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + 'sBTC')}</span>}
-                            </div>
-                          </div>}
-                      />
-                    </Expander>
-                  </td>
-                  <td className='textCenter'>{item.addr}</td>
-                  <td className='textCenter'>{item.height}</td>
-                </tr>
-              )
-            })}
-          </Table>
-        </div>
-        {loading && <AccountLoading />}
-      
+                  </Expander>
+                </td>
+                <td className='textCenter'>{item.addr}</td>
+                <td className='textCenter'>{item.height}</td>
+              </tr>
+            )
+          })}
+        </Table>
+      </div>
+      <div className='content'>
+        <Table >
+          <tr>
+            <td style={{ width: '747px', border: 0 }}><h2>processing list</h2></td>
+            <td className='same' style={{ width: '260px'}}>amount</td>
+            <td className='same' style={{ width: '417px'}}>destination</td>
+            <td className='same' style={{ width: '110px'}}>block</td>
+          </tr>
+          {transactionList && transactionList.map((item: any) => {
+            return (
+              <tr className={className} key={item.id}>
+                <td className='address' style={{ border: 0 }}>
+                  <span>{item.id}</span>
+                  <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
+                  <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span>
+                </td>
+                <td className='textCenter'>
+                  <Expander summary={<FormatBalance withCurrency={false} value={(Number(item.balance) + Number(fee))} />}>
+                    <AddressMini
+                      children={
+                        <div style={{ textAlign: 'left' }}>
+                          <div style={{ paddingLeft: '25px' }}>
+                            fee  &nbsp;
+                            {fee && <span className='content'>
+                              <FormatBalance withCurrency={false} value={fee} />
+                            </span>}
+                          </div>
+                          <div style={{ marginLeft: '-25px' }}>
+                            withdrawal &nbsp;
+                            <span className='content'>
+                              <FormatBalance withCurrency={false} value={item.balance} />
+                            </span>
+                          </div>
+                        </div>}
+                    />
+                  </Expander>
+                </td>
+                <td className='textCenter'>{item.addr}</td>
+                <td className='textCenter'>{item.height}</td>
+              </tr>
+            )
+          })}
+        </Table>
+      </div>
+      {loading && <AccountLoading />}
+
     </main>
   );
 }
