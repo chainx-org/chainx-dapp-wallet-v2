@@ -98,8 +98,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
 
   return (
     <main className={`staking--App ${className}`}>
-      <div className='contentmain'>
-        <div className='bar'>
+       <div className='bar'>
           <button className='myButton' onClick={refreshData}>Reload</button>
           <button className='myButton' onClick={() => setVisible(true)}>send</button>
           {visible &&
@@ -138,11 +137,10 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                 </Modal.Columns>
               </Modal.Content>
               <Modal.Actions onCancel={() => setVisible(false)}>
-                {/* <Button className={""} icon="sign-in-alt" label={t("Coming App")} /> */}
               </Modal.Actions>
             </Modal>
             )}
-        </div>
+        </div>      
         <div className='content'>
           <Table>
             <tr>
@@ -160,8 +158,8 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                     <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
                     <code style={{ letterSpacing: '0.13em', fontSize: '16px' }}><span>{item.applicant}</span></code>
                   </td>
-                  <td style={{ textAlign: 'center',border:0}}>
-                    <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) + 'sBTC')} >
+                  <td className='textCenter'>
+                    <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) +' '+ 'sBTC')} >
                       {/* <Expander summary={String((toPrecision(item.balance,8).toFixed(4)) + 'sBTC')}> */}
                       <AddressMini
                         children={
@@ -178,14 +176,14 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                       />
                     </Expander>
                   </td>
-                  <td style={{border:0}}>{item.addr}</td>
-                  <td style={{border:0}}>{item.height}</td>
+                  <td className='textCenter'>{item.addr}</td>
+                  <td className='textCenter'>{item.height}</td>
                 </tr>
               )
             })}
           </Table>
         </div>
-        <div className='content' style={{ margin: '30px 0px 0px 0px' }}>
+        <div className='content'>
           <Table >
             <tr>
               <td style={{ width: '747px' ,border:0}}><h2>processing list</h2></td>
@@ -196,13 +194,13 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
             {transactionList && transactionList.map((item: any) => {
               return (
                 <tr className={className} key={item.id}>
-                  <td className='address'>
+                  <td className='address'  style={{border:0}}>
                     <span>{item.id}</span>
                     <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                    <code style={{ letterSpacing: '0.13em', fontSize: '16px'}}><span style={{opacity:0.6}}>{item.applicant}</span></code>
+                    <code style={{ letterSpacing: '0.13em', fontSize: '16px'}}><span>{item.applicant}</span></code>
                   </td>
-                  <td style={{ textAlign: 'center' }}>
-                    <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) + 'sBTC')} >
+                  <td className='textCenter'>
+                    <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) + ' '+'sBTC')} >
                       <AddressMini
                         children={
                           <div style={{ textAlign: 'left' }}>
@@ -218,23 +216,21 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                       />
                     </Expander>
                   </td>
-                  <td >{item.addr}</td>
-                  <td >{item.height}</td>
+                  <td className='textCenter'>{item.addr}</td>
+                  <td className='textCenter'>{item.height}</td>
                 </tr>
               )
             })}
           </Table>
         </div>
         {loading && <AccountLoading />}
-      </div>
+      
     </main>
   );
 }
 
 export default React.memo(styled(transactionList)(({ theme }: ThemeProps) => `
 .bar{
-  margin-left:2.5rem;
-  padding:1rem 0;
   .myButton {
     background-color:#F7941A;
     border-radius:0.25rem;
@@ -247,7 +243,7 @@ export default React.memo(styled(transactionList)(({ theme }: ThemeProps) => `
     padding:8px 24px;
     text-decoration:none;
     float:right;
-    margin:10px 30px 20px 0px;
+    margin:20px 30px 20px 0px;
   }
   .myButton:hover {
     background-color:#f88e0d;
@@ -257,16 +253,6 @@ export default React.memo(styled(transactionList)(({ theme }: ThemeProps) => `
     top:1px;
   }
 }
-.contentmain{
-  width:97.5%;
-  min-height:30rem;
-  background:#fff;
-  margin:0 auto;
-  border-radius:10px;
-  .bar{
-    margin:30px 0px 0px 0px;
-  }
- 
 .content{
   min-weight:1200px;
   width:100%;
@@ -274,12 +260,13 @@ export default React.memo(styled(transactionList)(({ theme }: ThemeProps) => `
   text-align:center;
   overflow-x:auto;
   Table{
-    width:97.5%;
+    width:96.5%;
     line-height:1.44rem;
     border-radius:2px;
     background:#fff;
     margin-bottom:10px;
     margin:0 auto;
+    z-index:0;
       tr{
         height:1.4285rem;
         line-height:1.4285rem;
@@ -297,7 +284,10 @@ export default React.memo(styled(transactionList)(({ theme }: ThemeProps) => `
         opacity: 0.6;
         font:400 1em -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
       }
-    }
+      .textCenter{
+        text-align:center;
+        border:0;
+      }
   }
 }
 `));
