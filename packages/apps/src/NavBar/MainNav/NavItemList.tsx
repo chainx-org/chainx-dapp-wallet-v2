@@ -7,12 +7,10 @@ import linkOut from '@polkadot/apps/NavBar/icons/Link out.svg';
 import Selector from '@polkadot/apps/NavBar/MainNav/Selector';
 import {useTranslation} from '@polkadot/apps/translate';
 import {useApi, useToggle} from '@polkadot/react-hooks';
-import getApiUrl from '../../initSettings';
 
 function NavItemList(): React.ReactElement {
   const {t} = useTranslation();
-  const {api,isApiReady} = useApi()
-  const apiUrl = getApiUrl();
+  const {api} = useApi()
   const [isStakingOpen, , setToggleStaking] = useToggle();
   const [isGovernanceOpen, , setToggleGovernance] = useToggle();
   const [isDeveloperOpen, , setToggleDeveloper] = useToggle();
@@ -33,7 +31,8 @@ function NavItemList(): React.ReactElement {
     {nodeName: 'Extrinsics', link: '/chainstate/extrinsics'},
     {nodeName: t<string>('RPC Calls'), link: '/chainstate/rpc'},
     {nodeName: t<string>('Sign and verify'), link: '/chainstate/signing'},
-    {nodeName: t<string>('Explorer'), link: '/chainstate/explorer'}
+    {nodeName: t<string>('Explorer'), link: '/chainstate/explorer'},
+    {nodeName: t<string>('Trustee'), link: '/transactionList'},
   ]);
 
   const toggleSelector = (value: 'staking' | 'governance' | 'developer') => {
@@ -54,16 +53,17 @@ function NavItemList(): React.ReactElement {
 
   useEffect(() => {
     async function judgeNetwork() {
-      if(isApiReady) {
-        if (apiUrl.includes('mainnet')) {
-          setUrl('https://scan.sherpax.io/')
-        } else {
-          setUrl('https://scan-pre.sherpax.io/')
-        }
+      const testOrMain = await api.rpc.system.properties();
+      const testOrMainNum = JSON.parse(testOrMain);
+      if (testOrMainNum.ss58Format === 42) {
+        setUrl('https://testnet-scan.chainx.org/')
+      } else {
+        setUrl('https://scan.chainx.org/')
       }
     }
+
     judgeNetwork();
-  }, [isApiReady]);
+  }, []);
 
   return (
     <div className="left">
@@ -72,9 +72,9 @@ function NavItemList(): React.ReactElement {
         <li className='assets media--500'>
           <Link to={'/accounts'}>{t('Assets')}</Link>
         </li>
-        {/* <li className='assets media--500'>
+        <li className='assets media--500'>
           <Link to={'/transactionList'}>{t('Transaction')}</Link>
-        </li> */}
+        </li>
         {/* <li className='staking media--600'
             onMouseEnter={() => toggleSelector('staking')}
             onMouseLeave={() => setToggleStaking(false)}

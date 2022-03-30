@@ -8,6 +8,7 @@ import AccountSidebar from '@polkadot/app-accounts-chainx/Sidebar';
 import { getSystemChainColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components-chainx/styles';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
+import {useLocation} from 'react-router-dom'
 import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
@@ -36,6 +37,9 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
     }
   }, [activatingConnector, connector])
 
+  const {pathname} = useLocation()
+  const hiddenHeaderList = ['']
+  const [showHeader, setShowHeader] = useState(true)
   const uiHighlight = useMemo(
     () => getSystemChainColor(systemChain, systemName),
     [systemChain, systemName]
@@ -55,13 +59,18 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
       activate(injected)
     }
   }, [(window as any).web3])
+
+  useEffect(()=>{
+    hiddenHeaderList.includes(window.location.hash)?setShowHeader(false) : setShowHeader(true)
+  },[pathname])
+
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight}/>
       <div className={`apps--Wrapper theme--${theme} ${className}`}>
         {/*<AccountAlert/>*/}
         {/*<NavBar/>*/}
-        {window.location.hash=='#/transactionList'?'':<NavBar/>}
+        {showHeader && <NavBar/>}
         <AccountSidebar>
           <Signer>
             <Content/>
