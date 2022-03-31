@@ -151,6 +151,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
             <td className='same' >amount</td>
             <td className='same'>destination</td>
             <td className='same'style={{ border: 0 }}>block</td>
+            <td className='same'>id</td>
           </tr>
 
           {transList && transList.map((item: any) => {
@@ -158,8 +159,6 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
               <tr className={className} key={item.id}>
                 <td className='address'>
                   <AddressSmall value={item.applicant} />
-                  {/* <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                  <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span> */}   
                 </td>
                 <td className='textCenter' style={{paddingLeft:'10px'}}>
                   {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
@@ -187,6 +186,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                 </td>
                 <td className='textCenter'>{item.addr}</td>
                 <td className='textCenter'>{item.height}</td>
+                <td className='textCenter'>{item.id}</td>
               </tr>
             )
           })}
@@ -199,6 +199,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
             <td className='same'>amount</td>
             <td className='same'>destination</td>
             <td className='same'>block</td>
+            <td className='same'>id</td>
           </tr>
           {transactionList && transactionList.map((item: any) => {
             return (
@@ -234,6 +235,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
               </td>
               <td className='textCenter'>{item.addr}</td>
               <td className='textCenter'>{item.height}</td>
+              <td className='textCenter'>{item.id}</td>
             </tr>
             )
           })}
