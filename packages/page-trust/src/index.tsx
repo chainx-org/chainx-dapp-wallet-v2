@@ -3,8 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useApi } from "@polkadot/react-hooks";
 import { AccountLoading } from '@polkadot/react-components-chainx';
-import Identicon from '@polkadot/react-identicon';
-import { Table, Expander, AddressMini, Input, Modal, InputAddressMulti, QrNetworkSpecs } from '@polkadot/react-components';
+import { Table, Expander, AddressMini, Input, Modal, InputAddressMulti, QrNetworkSpecs,AddressSmall } from '@polkadot/react-components';
 import { useTranslation } from '../../page-accounts-chainx/src/translate';
 import { TransactionData } from '@polkadot/ui-settings';
 import { FormatBalance } from '@polkadot/react-query';
@@ -72,7 +71,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
           for (let i = 0; i < arrayApply.length; i++) {
             if (value[index] === arrayApply[i].applicant) {
               // let feeAmount: number = Number((refee[0].fee / Math.pow(10, 8)).toFixed(3))
-              let total = Number(Number((Number(arrayApply[i].balance) +Number(fee))/ Math.pow(10, 8)).toFixed(4))
+              let total = Number(Number((Number(arrayApply[i].balance))/ Math.pow(10, 8)).toFixed(4))
               standardData.push({ address: arrayApply[i].addr, amount: String(total) })
             }
           }
@@ -121,7 +120,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                     valueLabel={t<string>('Ready to send a withdrawal request')}
                   />
                   <Modal.Column>
-                    <Input label={t('Total amount')} value={totalAmount} />
+                    <Input label={t('Total')} value={totalAmount} />
 
                   </Modal.Column>
 
@@ -148,19 +147,19 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
       <div className='content'>
         <Table>
           <tr>
-            <td style={{ width: '747px', border: 0 }}><h2>applying list</h2></td>
-            <td className='same' style={{ width: '260px' }}>amount</td>
-            <td className='same' style={{ width: '417px' }}>destination</td>
-            <td className='same' style={{ width: '110px', border: 0 }}>block</td>
+            <td style={{border: 0 }}><h2>applying list</h2></td>
+            <td className='same' >amount</td>
+            <td className='same'>destination</td>
+            <td className='same'style={{ border: 0 }}>block</td>
           </tr>
 
           {transList && transList.map((item: any) => {
             return (
               <tr className={className} key={item.id}>
-                <td className='address' style={{ border: 0 }}>
-                  <span>{item.id}</span>
-                  <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                  <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span>
+                <td className='address'>
+                  <AddressSmall value={item.applicant} />
+                  {/* <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
+                  <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span> */}   
                 </td>
                 <td className='textCenter'>
                   {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
@@ -168,15 +167,15 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                     <AddressMini
                       children={
                         <div style={{ textAlign: 'left' }}>
-                          <div style={{ paddingLeft: '25px' }}>
-                            fee  &nbsp;
+                          <div style={{ paddingLeft: '24px' }}>
+                           <span className='same'>fee</span>&nbsp;
                             {fee && <span className='content'>
                               {/* {String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
                               <FormatBalance withCurrency={false} label={Number(Number(fee)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                             </span>}
                           </div>
-                          <div style={{ marginLeft: '-25px' }}>
-                            withdrawal &nbsp;
+                          <div style={{ marginLeft: '-24px' }}>
+                          <span className='same'>withdrawal</span>&nbsp;
                             <span className='content'>
                               <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                               {/* {String(Number(Number(item.balance ) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
@@ -194,45 +193,48 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
         </Table>
       </div>
       <div className='content'>
-        <Table >
+        <Table>
           <tr>
-            <td style={{ width: '747px', border: 0 }}><h2>processing list</h2></td>
-            <td className='same' style={{ width: '260px'}}>amount</td>
-            <td className='same' style={{ width: '417px'}}>destination</td>
-            <td className='same' style={{ width: '110px'}}>block</td>
+            <td style={{ border: 0 }}><h2>processing list</h2></td>
+            <td className='same'>amount</td>
+            <td className='same'>destination</td>
+            <td className='same'>block</td>
           </tr>
           {transactionList && transactionList.map((item: any) => {
             return (
               <tr className={className} key={item.id}>
-                <td className='address' style={{ border: 0 }}>
-                  <span>{item.id}</span>
-                  <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                  <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span>
-                </td>
-                <td className='textCenter'>
-                  <Expander summary={<FormatBalance withCurrency={false} value={(Number(item.balance) + Number(fee))} />}>
-                    <AddressMini
-                      children={
-                        <div style={{ textAlign: 'left' }}>
-                          <div style={{ paddingLeft: '25px' }}>
-                            fee  &nbsp;
-                            {fee && <span className='content'>
-                              <FormatBalance withCurrency={false} value={fee} />
-                            </span>}
-                          </div>
-                          <div style={{ marginLeft: '-25px' }}>
-                            withdrawal &nbsp;
-                            <span className='content'>
-                              <FormatBalance withCurrency={false} value={item.balance} />
-                            </span>
-                          </div>
-                        </div>}
-                    />
-                  </Expander>
-                </td>
-                <td className='textCenter'>{item.addr}</td>
-                <td className='textCenter'>{item.height}</td>
-              </tr>
+              <td className='address'>
+                <AddressSmall value={item.applicant} />
+                {/* <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
+                <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span> */}   
+              </td>
+              <td className='textCenter'>
+                {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
+                <Expander summary={<FormatBalance withCurrency={false} label={(Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
+                  <AddressMini
+                    children={
+                      <div style={{ textAlign: 'left' }}>
+                        <div style={{ paddingLeft: '24px' }}>
+                        <span className='same'>fee</span>&nbsp;
+                          {fee && <span className='content'>
+                            {/* {String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
+                            <FormatBalance withCurrency={false} label={Number(Number(fee)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
+                          </span>}
+                        </div>
+                        <div style={{ marginLeft: '-24px' }}>
+                          <span className='same'> withdrawal</span>&nbsp;
+                          <span className='content'>
+                            <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
+                            {/* {String(Number(Number(item.balance ) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
+                          </span>
+                        </div>
+                      </div>}
+                  />
+                </Expander>
+              </td>
+              <td className='textCenter'>{item.addr}</td>
+              <td className='textCenter'>{item.height}</td>
+            </tr>
             )
           })}
         </Table>
