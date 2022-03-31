@@ -32,7 +32,7 @@ function NavItemList(): React.ReactElement {
     {nodeName: t<string>('RPC Calls'), link: '/chainstate/rpc'},
     {nodeName: t<string>('Sign and verify'), link: '/chainstate/signing'},
     {nodeName: t<string>('Explorer'), link: '/chainstate/explorer'},
-    {nodeName: t<string>('Trustee'), link: '/transactionList'},
+    {nodeName: t<string>('Trustee'), link: '/trustee'},
   ]);
 
   const toggleSelector = (value: 'staking' | 'governance' | 'developer') => {
@@ -72,9 +72,9 @@ function NavItemList(): React.ReactElement {
         <li className='assets media--500'>
           <Link to={'/accounts'}>{t('Assets')}</Link>
         </li>
-        <li className='assets media--500'>
+        {/* <li className='assets media--500'>
           <Link to={'/transactionList'}>{t('Transaction')}</Link>
-        </li>
+        </li> */}
         {/* <li className='staking media--600'
             onMouseEnter={() => toggleSelector('staking')}
             onMouseLeave={() => setToggleStaking(false)}
