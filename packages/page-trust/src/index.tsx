@@ -163,8 +163,8 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                   <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span>
                 </td>
                 <td className='textCenter'>
-                  {/* <Expander summary={String(Number(item.balance / Math.pow(10, 8)).toFixed(4) +' '+ 'sBTC')} > */}
-                  <Expander summary={<FormatBalance withCurrency={false} value={(Number(item.balance) + Number(fee))} />}>
+                  {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
+                  <Expander summary={<FormatBalance withCurrency={false} label={(Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
                     <AddressMini
                       children={
                         <div style={{ textAlign: 'left' }}>
@@ -172,13 +172,14 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                             fee  &nbsp;
                             {fee && <span className='content'>
                               {/* {String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
-                              <FormatBalance withCurrency={false} value={fee} />
+                              <FormatBalance withCurrency={false} label={Number(Number(fee)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                             </span>}
                           </div>
                           <div style={{ marginLeft: '-25px' }}>
                             withdrawal &nbsp;
                             <span className='content'>
-                              <FormatBalance withCurrency={false} value={item.balance} />
+                              <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
+                              {/* {String(Number(Number(item.balance ) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
                             </span>
                           </div>
                         </div>}
