@@ -162,7 +162,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                 </td>
                 <td className='textCenter' style={{paddingLeft:'10px'}}>
                   {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
-                  <Expander summary={<FormatBalance withCurrency={false} label={(Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
+                  <Expander summary={<FormatBalance withCurrency={false} label={(Number(Number(item.balance) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
                     <AddressMini
                       children={
                         <div style={{ textAlign: 'left' }}>
@@ -176,7 +176,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                           <div style={{ marginLeft: '-13px' }}>
                           <span className='same'>withdrawal</span>&nbsp;
                             <span className='content'>
-                              <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
+                              <FormatBalance withCurrency={false} label={Number(Number((item.balance)-Number(fee))/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                               {/* {String(Number(Number(item.balance ) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
                             </span>
                           </div>
@@ -206,12 +206,10 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
               <tr className={className} key={item.id}>
               <td className='address'>
                 <AddressSmall value={item.applicant} />
-                {/* <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
-                <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span> */}   
               </td>
               <td className='textCenter' style={{paddingLeft:'10px'}}>
                 {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
-                <Expander summary={<FormatBalance withCurrency={false} label={(Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
+                <Expander summary={<FormatBalance withCurrency={false} label={(Number(Number(item.balance) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
                   <AddressMini
                     children={
                       <div style={{ textAlign: 'left' }}>
@@ -225,7 +223,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                         <div style={{ marginLeft: '-13px' }}>
                         <span className='same'>withdrawal</span>&nbsp;
                           <span className='content'>
-                            <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
+                            <FormatBalance withCurrency={false} label={Number(Number((item.balance)-Number(fee))/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                             {/* {String(Number(Number(item.balance ) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
                           </span>
                         </div>
