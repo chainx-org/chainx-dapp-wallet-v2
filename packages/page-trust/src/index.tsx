@@ -71,7 +71,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
           for (let i = 0; i < arrayApply.length; i++) {
             if (value[index] === arrayApply[i].applicant) {
               // let feeAmount: number = Number((refee[0].fee / Math.pow(10, 8)).toFixed(3))
-              let total = Number(Number((Number(arrayApply[i].balance))/ Math.pow(10, 8)).toFixed(4))
+              let total = Number(Number((Number(arrayApply[i].balance)-Number(fee))/ Math.pow(10, 8)).toFixed(4))
               standardData.push({ address: arrayApply[i].addr, amount: String(total) })
             }
           }
