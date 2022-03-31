@@ -161,20 +161,20 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                   {/* <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
                   <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span> */}   
                 </td>
-                <td className='textCenter'>
+                <td className='textCenter' style={{paddingLeft:'10px'}}>
                   {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
                   <Expander summary={<FormatBalance withCurrency={false} label={(Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
                     <AddressMini
                       children={
                         <div style={{ textAlign: 'left' }}>
-                          <div style={{ paddingLeft: '24px' }}>
+                          <div style={{ paddingLeft: '35px' }}>
                            <span className='same'>fee</span>&nbsp;
                             {fee && <span className='content'>
                               {/* {String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
                               <FormatBalance withCurrency={false} label={Number(Number(fee)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                             </span>}
                           </div>
-                          <div style={{ marginLeft: '-24px' }}>
+                          <div style={{ marginLeft: '-13px' }}>
                           <span className='same'>withdrawal</span>&nbsp;
                             <span className='content'>
                               <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
@@ -208,21 +208,21 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                 {/* <Identicon className="imgIcon" value={item.applicant} size={28} theme="polkadot" style={{ margin: '0 10px', verticalAlign: 'middle' }} />
                 <span style={{ letterSpacing: '0.13em' }}>{item.applicant}</span> */}   
               </td>
-              <td className='textCenter'>
+              <td className='textCenter' style={{paddingLeft:'10px'}}>
                 {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
                 <Expander summary={<FormatBalance withCurrency={false} label={(Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
                   <AddressMini
                     children={
                       <div style={{ textAlign: 'left' }}>
-                        <div style={{ paddingLeft: '24px' }}>
-                        <span className='same'>fee</span>&nbsp;
+                        <div style={{ paddingLeft: '35px' }}>
+                         <span className='same'>fee</span>&nbsp;
                           {fee && <span className='content'>
                             {/* {String(Number(Number(fee) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
                             <FormatBalance withCurrency={false} label={Number(Number(fee)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                           </span>}
                         </div>
-                        <div style={{ marginLeft: '-24px' }}>
-                          <span className='same'> withdrawal</span>&nbsp;
+                        <div style={{ marginLeft: '-13px' }}>
+                        <span className='same'>withdrawal</span>&nbsp;
                           <span className='content'>
                             <FormatBalance withCurrency={false} label={Number(Number(item.balance)/Math.pow(10, 8)).toFixed(3)} value={'sBTC'} />
                             {/* {String(Number(Number(item.balance ) / Math.pow(10, 8)).toFixed(3) + ' '+'sBTC')} */}
