@@ -52,8 +52,8 @@ export const typeFile =  {
     ]
   },
   "Handicap": {
-    "highest_bid": "Price",
-    "lowest_ask": "Price"
+    "highestBid": "Price",
+    "lowestAsk": "Price"
   },
   "NetworkType": {
     "_enum": [
@@ -65,35 +65,35 @@ export const typeFile =  {
     "props": "OrderProperty",
     "status": "OrderStatus",
     "remaining": "Balance",
-    "executed_indices": "Vec<TradingHistoryIndex>",
-    "already_filled": "Balance",
-    "last_update_at": "BlockNumber"
+    "executedIndices": "Vec<TradingHistoryIndex>",
+    "alreadyFilled": "Balance",
+    "lastUpdateAt": "BlockNumber"
   },
   "OrderProperty": {
     "id": "OrderId",
     "side": "Side",
     "price": "Price",
     "amount": "Amount",
-    "pair_id": "TradingPairId",
+    "pairId": "TradingPairId",
     "submitter": "AccountId",
-    "order_type": "OrderType",
-    "created_at": "BlockNumber"
+    "orderType": "OrderType",
+    "createdAt": "BlockNumber"
   },
   "TotalAssetInfo": {
     "info": "AssetInfo",
     "balance": "BTreeMap<AssetType, Balance>",
-    "is_online": "bool",
+    "isOnline": "bool",
     "restrictions": "AssetRestrictions"
   },
   "NominatorLedger": {
     "nomination": "Balance",
-    "last_vote_weight": "VoteWeight",
-    "last_vote_weight_update": "BlockNumber",
-    "unbonded_chunks": "Vec<Unbonded>"
+    "lastVoteWeight": "VoteWeight",
+    "lastVoteWeightUpdate": "BlockNumber",
+    "unbondedChunks": "Vec<Unbonded>"
   },
   "Unbonded": {
     "value": "Balance",
-    "locked_until": "BlockNumber"
+    "lockedUntil": "BlockNumber"
   },
   "WithdrawalRecordId": "u32",
   "WithdrawalState": {
@@ -107,7 +107,7 @@ export const typeFile =  {
     ]
   },
   "WithdrawalRecord": {
-    "asset_id": "AssetId",
+    "assetId": "AssetId",
     "applicant": "AccountId",
     "balance": "Balance",
     "addr": "AddrStr",
@@ -115,23 +115,23 @@ export const typeFile =  {
     "height": "BlockNumber"
   },
   "WithdrawalLimit": {
-    "minimal_withdrawal": "Balance",
+    "minimalWithdrawal": "Balance",
     "fee": "Balance"
   },
   "TrusteeInfoConfig": {
-    "min_trustee_count": "u32",
-    "max_trustee_count": "u32"
+    "minTrusteeCount": "u32",
+    "maxTrusteeCount": "u32"
   },
   "GenericTrusteeIntentionProps": {
     "about": "Text",
-    "hot_entity": "Vec<u8>",
-    "cold_entity": "Vec<u8>"
+    "hotEntity": "Vec<u8>",
+    "coldEntity": "Vec<u8>"
   },
   "GenericTrusteeSessionInfo": {
-    "trustee_list": "Vec<AccountId>",
+    "trusteeList": "Vec<AccountId>",
     "threshold": "u16",
-    "hot_address": "Vec<u8>",
-    "cold_address": "Vec<u8>"
+    "hotAddress": "Vec<u8>",
+    "coldAddress": "Vec<u8>"
   },
   "ChainAddress": "Vec<u8>",
   "BtcTrusteeType": "Vec<u8>",
@@ -141,8 +141,8 @@ export const typeFile =  {
   },
   "BtcTrusteeIntentionProps": {
     "about": "Text",
-    "hot_entity": "BtcTrusteeType",
-    "cold_entity": "BtcTrusteeType"
+    "hotEntity": "BtcTrusteeType",
+    "coldEntity": "BtcTrusteeType"
   },
   "BtcTrusteeSessionInfo": {
     "trusteeList": "Vec<(AccountId, u64)>",
@@ -164,8 +164,8 @@ export const typeFile =  {
   "BtcTransaction": "Vec<u8>",
   "BtcPartialMerkleTree": "Vec<u8>",
   "BtcRelayedTxInfo": {
-    "block_hash": "H256",
-    "merkle_proof": "BtcPartialMerkleTree"
+    "blockHash": "H256",
+    "merkleProof": "BtcPartialMerkleTree"
   },
   "BtcHeaderIndex": {
     "hash": "H256",
@@ -178,7 +178,7 @@ export const typeFile =  {
     ]
   },
   "BtcTxState": {
-    "tx_type": "BtcTxType",
+    "txType": "BtcTxType",
     "result": "BtcTxResult"
   },
   "BtcTxType": {
@@ -201,10 +201,10 @@ export const typeFile =  {
     ]
   },
   "BtcWithdrawalProposal": {
-    "sig_state": "BtcVoteResult",
-    "withdrawal_id_list": "Vec<u32>",
+    "sigState": "BtcVoteResult",
+    "withdrawalIdList": "Vec<u32>",
     "tx": "BtcTransaction",
-    "trustee_list": "Vec<(AccountId, bool)>"
+    "trusteeList": "Vec<(AccountId, bool)>"
   },
   "BtcTxVerifier": {
     "_enum": [
@@ -215,7 +215,7 @@ export const typeFile =  {
   "RpcTotalAssetInfo": {
     "info": "AssetInfo",
     "balance": "BTreeMap<AssetType, RpcBalance>",
-    "is_online": "bool",
+    "isOnline": "bool",
     "restrictions": "AssetRestrictions"
   },
   "RpcOrder": {
@@ -223,19 +223,19 @@ export const typeFile =  {
     "side": "Side",
     "price": "RpcPrice",
     "amount": "RpcBalance",
-    "pair_id": "TradingPairId",
+    "pairId": "TradingPairId",
     "submitter": "AccountId",
-    "order_type": "OrderType",
-    "created_at": "BlockNumber",
+    "orderType": "OrderType",
+    "createdAt": "BlockNumber",
     "status": "OrderStatus",
     "remaining": "RpcBalance",
-    "executed_indices": "Vec<TradingHistoryIndex>",
-    "already_filled": "RpcBalance",
-    "reserved_balance": "RpcBalance",
-    "last_update_at": "BlockNumber"
+    "executedIndices": "Vec<TradingHistoryIndex>",
+    "alreadyFilled": "RpcBalance",
+    "reservedBalance": "RpcBalance",
+    "lastUpdateAt": "BlockNumber"
   },
   "RpcWithdrawalRecord": {
-    "asset_id": "AssetId",
+    "assetId": "AssetId",
     "applicant": "AccountId",
     "balance": "RpcBalance",
     "addr": "String",
@@ -246,62 +246,62 @@ export const typeFile =  {
   "RpcMiningDividendInfo": {
     "own": "RpcBalance",
     "other": "RpcBalance",
-    "insufficient_stake": "RpcBalance"
+    "insufficientStake": "RpcBalance"
   },
   "RpcInclusionFee": {
-    "base_fee": "RpcBalance",
-    "len_fee": "RpcBalance",
-    "adjusted_weight_fee": "RpcBalance"
+    "baseFee": "RpcBalance",
+    "lenFee": "RpcBalance",
+    "adjustedWeightFee": "RpcBalance"
   },
   "RpcFeeDetails": {
-    "inclusion_fee": "Option<RpcInclusionFee>",
+    "inclusionFee": "Option<RpcInclusionFee>",
     "tip": "RpcBalance",
-    "extra_fee": "RpcBalance",
-    "final_fee": "RpcBalance"
+    "extraFee": "RpcBalance",
+    "finalFee": "RpcBalance"
   },
   "ValidatorInfo": {
     "account": "AccountId",
-    "registered_at": "BlockNumber",
-    "is_chilled": "bool",
-    "last_chilled": "Option<BlockNumber>",
-    "total_nomination": "RpcBalance",
-    "last_total_vote_weight": "RpcVoteWeight",
-    "last_total_vote_weight_update": "BlockNumber",
-    "is_validating": "bool",
-    "self_bonded": "RpcBalance",
-    "referral_id": "String",
-    "reward_pot_account": "AccountId",
-    "reward_pot_balance": "RpcBalance"
+    "registeredAt": "BlockNumber",
+    "isChilled": "bool",
+    "lastChilled": "Option<BlockNumber>",
+    "totalNomination": "RpcBalance",
+    "lastTotalVoteWeight": "RpcVoteWeight",
+    "lastTotalVoteWeightUpdate": "BlockNumber",
+    "isValidating": "bool",
+    "selfBonded": "RpcBalance",
+    "referralId": "String",
+    "rewardPotAccount": "AccountId",
+    "rewardPotBalance": "RpcBalance"
   },
   "FullPairInfo": {
-    "base_currency": "AssetId",
-    "highest_bid": "RpcPrice",
+    "baseCurrency": "AssetId",
+    "highestBid": "RpcPrice",
     "id": "TradingPairId",
-    "latest_price": "RpcPrice",
-    "latest_price_updated_at": "BlockNumber",
-    "lowest_ask": "RpcPrice",
-    "max_valid_bid": "RpcPrice",
-    "min_valid_ask": "RpcPrice",
-    "pip_decimals": "u32",
-    "quote_currency": "AssetId",
-    "tick_decimals": "u32",
+    "latestPrice": "RpcPrice",
+    "latestPriceUpdatedAt": "BlockNumber",
+    "lowestAsk": "RpcPrice",
+    "maxValidBid": "RpcPrice",
+    "minValidAsk": "RpcPrice",
+    "pipDecimals": "u32",
+    "quoteCurrency": "AssetId",
+    "tickDecimals": "u32",
     "tradable": "bool"
   },
   "MiningAssetInfo": {
-    "asset_id": "AssetId",
-    "mining_power": "FixedAssetPower",
-    "reward_pot": "AccountId",
-    "reward_pot_balance": "RpcBalance",
-    "last_total_mining_weight": "RpcMiningWeight",
-    "last_total_mining_weight_update": "BlockNumber"
+    "assetId": "AssetId",
+    "miningPower": "FixedAssetPower",
+    "rewardPot": "AccountId",
+    "rewardPotBalance": "RpcBalance",
+    "lastTotalMiningWeight": "RpcMiningWeight",
+    "lastTotalMiningWeightUpdate": "BlockNumber"
   },
   "Depth": {
     "asks": "Vec<(RpcPrice, RpcBalance)>",
     "bids": "Vec<(RpcPrice, RpcBalance)>"
   },
   "Page": {
-    "page_index": "u32",
-    "page_size": "u32",
+    "pageIndex": "u32",
+    "pageSize": "u32",
     "data": "Vec<RpcOrder>"
   },
   "Price": "u128",
@@ -397,8 +397,8 @@ export const typeFile =  {
   "ResourceId": "[u8; 32]",
   "DepositNonce": "u64",
   "ProposalVotes": {
-    "votes_for": "Vec<AccountId>",
-    "votes_against": "Vec<AccountId>",
+    "votesFor": "Vec<AccountId>",
+    "votesAgainst": "Vec<AccountId>",
     "status": "enum"
   },
   "Erc721Token": {
