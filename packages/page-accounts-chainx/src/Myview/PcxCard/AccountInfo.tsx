@@ -47,7 +47,7 @@ export default function (): React.ReactElement {
 
   async function getIdentity(account: string): Promise<any> {
     const getStakingNode = await api.rpc.xstaking.getValidators();
-    const getTrustNode = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo()
+    const getTrustNode = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1)
     const stakingNodeList = JSON.parse(getStakingNode);
     const trusteeList = JSON.parse(getTrustNode)
     const trustNodeList = trusteeList.trusteeList

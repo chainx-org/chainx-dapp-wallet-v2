@@ -58,19 +58,16 @@ export default function (): React.ReactElement {
       <Button
         className="btnLists primaryBtn"
         onClick={toggleDeposite}
-        // isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
-        isDisabled
+        isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
       >
-        {/*{t('Top Up')}*/}
-        {t('Top Up(updating)')}
+        {t('Top Up')}
       </Button>
       <Button
         className="btnLists defaultBtn"
         onClick={toggleWithdraw}
-        // isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
-        isDisabled
+        isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
       >
-        {t('Withdrawals(updating)')}
+        {t('Withdrawals')}
       </Button>
       <Button
         className="btnLists defaultBtn"

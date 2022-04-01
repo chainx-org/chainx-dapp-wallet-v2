@@ -26,6 +26,8 @@ import { decodeUrlTypes } from './urlTypes';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import {rpcFile} from './chainxRpc'
+import {typeFile} from './chainxTypes'
 
 interface Props {
   children: React.ReactNode;
@@ -198,8 +200,7 @@ function Api({ children, store, url }: Props): React.ReactElement<Props> | null 
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise(options({ provider, registry, signer, types, typesBundle, typesChain }));
-
+    api = new ApiPromise({rpc: rpcFile, types: typeFile, provider: provider});
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('error', (error: Error) => setApiError(error.message));
