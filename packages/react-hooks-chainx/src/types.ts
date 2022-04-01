@@ -148,7 +148,7 @@ export interface Nomination {
   nomination: string;
   lastVoteWeight: string;
   lastVoteWeightUpdate: string;
-  unbondedChunks: boundedChunks[];
+  unbonded_chunks: boundedChunks[];
 }
 
 export interface Dividended {
