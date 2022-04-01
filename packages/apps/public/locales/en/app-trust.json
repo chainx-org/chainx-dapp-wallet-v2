@@ -1,13 +1,17 @@
 {
   "Account Address": "Account Address",
+  "Applying list": "Applying list",
   "Asset": "Asset",
   "BlockHeight": "BlockHeight",
   "Identifier": "Identifier",
   "Memo": "Memo",
   "Money": "Money",
   "No matches found": "No matches found",
+  "Please select the withdrawal request": "Please select the withdrawal request",
+  "Ready to send a withdrawal request": "Ready to send a withdrawal request",
   "State": "State",
   "The time of application": "The time of application",
+  "Total": "Total",
   "Withdrawal Address": "Withdrawal Address",
   "Withdrawal List": "Withdrawal List",
   "Withdrawals": "Withdrawals"
