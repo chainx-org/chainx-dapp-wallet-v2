@@ -28,7 +28,6 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
   const {allAccounts} = useAccounts()
   const [hasCurrentName, setHasCurrentName] = useState<boolean>(false)
   const {currentAccount} = useContext(AccountContext)
-<<<<<<< HEAD
   const context = useWeb3React<Web3Provider>()
   const {connector, activate} = context
   const [activatingConnector, setActivatingConnector] = useState<any>()
@@ -37,12 +36,9 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
       setActivatingConnector(undefined)
     }
   }, [activatingConnector, connector])
-
-=======
   const {pathname} = useLocation()
   const hiddenHeaderList = ['']
   const [showHeader, setShowHeader] = useState(true)
->>>>>>> sherpax-pre
   const uiHighlight = useMemo(
     () => getSystemChainColor(systemChain, systemName),
     [systemChain, systemName]
@@ -52,7 +48,6 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
     setHasCurrentName(!!allAccounts.find(account => account === currentAccount))
   }, [allAccounts, isApiReady, currentAccount])
 
-<<<<<<< HEAD
   useEffect(() => {
     if (
       (window as any).web3 &&
@@ -63,12 +58,10 @@ function Apps({className = ''}: Props): React.ReactElement<Props> {
       activate(injected)
     }
   }, [(window as any).web3])
-=======
   useEffect(()=>{
     hiddenHeaderList.includes(window.location.hash)?setShowHeader(false) : setShowHeader(true)
   },[pathname])
 
->>>>>>> sherpax-pre
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight}/>
