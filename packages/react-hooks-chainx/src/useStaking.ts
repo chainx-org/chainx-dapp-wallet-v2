@@ -37,7 +37,7 @@ export default function useStaking(address = '',n = 0) {
         allNominations.push(currentNomination as Nomination);
       });
       const validNominations = allNominations.map((nmn, index) => {
-        return  nmn?.unbondedChunks
+        return  nmn?.unbonded_chunks
       });
       const allRedreem = validNominations.map((item, index) => {
         const chunkes: number = item.reduce((total, record) => {
