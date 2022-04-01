@@ -55,10 +55,14 @@
   "dependencies": {
     "@ethersproject/providers": "^5.5.1",
     "@polkadot/app-transactionList": "workspace:packages/page-transactionList",
+<<<<<<< HEAD
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/walletconnect-connector": "^6.2.8",
     "antd-mobile": "next",
+=======
+    "@polkadot/react-hooks": "workspace:packages/react-hooks",
+>>>>>>> sherpax-pre
     "bignumber.js": "^9.0.1",
     "ethers": "^5.5.2",
     "klinecharts": "^5.7.0",

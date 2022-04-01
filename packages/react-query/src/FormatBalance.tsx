@@ -26,7 +26,7 @@ interface Props {
 const M_LENGTH = 6 + 1;
 const K_LENGTH = 3 + 1;
 
-function format (value: Compact<any> | BN | string, withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
+function format(value: Compact<any> | BN | string, withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
   const unitPost = withCurrency ? formatBalance.getDefaults().unit : '';
@@ -39,22 +39,28 @@ function format (value: Compact<any> | BN | string, withCurrency = true, withSi?
     return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span><span className='ui--FormatBalance-unit'>{unit}{unit ? unitPost : ` ${unitPost}`}</span>{labelPost || ''}</>;
   }
 
+  if(value=== 'sBTC'){
+    return <span>{value}</span>
+  }
+
   return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && <span className='ui--FormatBalance-postfix'>{`0000${postfix || ''}`.slice(-4)}</span>}<span className='ui--FormatBalance-unit'> {unitPost}</span>{labelPost || ''}</>;
 }
 
-function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance({ children, className = '', isShort, label, labelPost, value, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
     <div className={`ui--FormatBalance ${className}`}>
-      {label ? <>{label}&nbsp;</> : ''}<span className='ui--FormatBalance-value'>{
+      {label ? <>{label}&nbsp;</> : ''}
+      <span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
             ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
             : format(value, withCurrency, withSi, isShort, labelPost)
           : `0.0000${labelPost || ''}`
-      }</span>{children}
+      }</span>
+      {children}
     </div>
   );
 }

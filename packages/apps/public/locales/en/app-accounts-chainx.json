@@ -389,11 +389,15 @@
   "riot": "riot",
   "riot name": "riot name",
   "sBTC Transfer": "sBTC Transfer",
+<<<<<<< HEAD
   "sBTC Withdrawals": "X-sBTC Withdrawals",
   "PCX Withdrawals": "PCX Withdrawals",
   "Minimum withdrawal amount is": "Minimum withdrawal amount is",
   "Service Fee": "Service Fee",
   "You will received": "You will received",
+=======
+  "sBTC Withdrawals": "sBTC Withdrawals",
+>>>>>>> sherpax-pre
   "sBTC recharge": "sBTC recharge",
   "secret": "secret",
   "secret derivation path": "secret derivation path",

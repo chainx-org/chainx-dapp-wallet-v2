@@ -21,6 +21,7 @@ import { AccountContext } from '../../react-components-chainx/src/AccountProvide
 export const ETH_DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
+  console.log('isDisabled' , isDisabled )
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();

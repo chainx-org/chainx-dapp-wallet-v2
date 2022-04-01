@@ -1508,6 +1508,7 @@
   "role": "角色",
   "rotation": "旋转",
   "sBTC Transfer": "sBTC 转账",
+<<<<<<< HEAD
   "sBTC Withdrawals": "X-sBTC提现",
   "PCX Withdrawals": "PCX提现",
   "sBTC balances": "sBTC 余额",
@@ -1515,6 +1516,11 @@
   "Minimum withdrawal amount is": "最小提现数量",
   "Service Fee": "服务费",
   "You will received": "你将收到",
+=======
+  "sBTC Withdrawals": "X-BTC提现",
+  "sBTC balances": "sBTC 余额",
+  "sBTC recharge": "sBTC 充值",
+>>>>>>> sherpax-pre
   "scheduling": "安排",
   "second with account": "用账户附议",
   "secret": "秘密",

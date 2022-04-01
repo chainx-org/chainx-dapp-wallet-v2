@@ -19842,6 +19842,7 @@ fsevents@^1.2.7:
     "@pinata/sdk": ^1.1.23
     "@polkadot/app-transactionList": "workspace:packages/page-transactionList"
     "@polkadot/dev": 0.64.19
+    "@polkadot/react-hooks": "workspace:packages/react-hooks"
     "@polkadot/ts": ^0.4.21
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.34
