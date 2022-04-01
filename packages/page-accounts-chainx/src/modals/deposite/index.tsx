@@ -127,13 +127,13 @@ export default function ({address, onClose}: Props) {
     const addressHex = u8aToHex(
       new TextEncoder('utf-8').encode(`${address}${channel ? '@' + channel : ''}`)
     ).replace(/^0x/, '');
-  
+
     useEffect((): void => {
       async function getHotAddress() {
-        const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo();
+        const dividendRes = await api.rpc.xgatewaycommon.bitcoinTrusteeSessionInfo(-1);
         setHotAddress(dividendRes.hotAddress.addr);
       }
-  
+
       getHotAddress();
     }, []);
 
