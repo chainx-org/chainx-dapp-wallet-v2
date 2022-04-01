@@ -200,7 +200,7 @@ function Api({ children, store, url }: Props): React.ReactElement<Props> | null 
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({rpc: rpcFile, types: typeFile, provider: provider});
+    api = new ApiPromise({rpc: rpcFile, types: typeFile, provider: provider, signer, registry, typesBundle, typesChain});
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('error', (error: Error) => setApiError(error.message));
