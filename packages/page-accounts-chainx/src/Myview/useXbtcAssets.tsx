@@ -30,17 +30,13 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
 
   useEffect((): void => {
     async function getAssets(account: string): Promise<any> {
-      const res = await api.rpc.xassets.getAssetsByAccount(account);
+      const res = await api.query.xAssets.assetBalance(account, 1)
       let current = {
-        Locked: '0',
-        Reserved: '0',
-        ReservedDexSpot: '0',
-        ReservedWithdrawal: '0',
         Usable: '0'
       } as AssetsInfo;
       const userAssets = JSON.parse(res);
       Object.keys(userAssets).forEach((key: string) => {
-        current = userAssets[key] as AssetsInfo;
+        current = userAssets as AssetsInfo;
       });
 
       const dividendRes = await api.rpc.xminingasset.getDividendByAccount(
@@ -55,10 +51,6 @@ function useXbtcAssets(account: string, n = 0): XbtcAssetInfo {
 
       if (JSON.stringify(current) === '{}') {
         current = {
-          Locked: '0',
-          Reserved: '0',
-          ReservedDexSpot: '0',
-          ReservedWithdrawal: '0',
           Usable: '0'
         } as AssetsInfo;
       }

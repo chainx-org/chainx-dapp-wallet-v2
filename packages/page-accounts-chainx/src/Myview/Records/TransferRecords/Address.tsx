@@ -25,7 +25,7 @@ export default function ({ address = '', length = 5, mainnet = null }) {
       if (testOrMainNum.ss58Format === 42) {
         setUrl(`https://scan-pre.chainx.org/account/${address}`)
       } else {
-        setUrl(`https://scan-pre.chainx.org/account/${address}`)
+        setUrl(`https://scan.chainx.org/account/${address}`)
       }
     }
 
