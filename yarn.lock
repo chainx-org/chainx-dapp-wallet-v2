@@ -19840,7 +19840,6 @@ fsevents@^1.2.7:
     "@babel/runtime": ^7.16.3
     "@ethersproject/providers": ^5.5.1
     "@pinata/sdk": ^1.1.23
-    "@polkadot/app-transactionList": "workspace:packages/page-transactionList"
     "@polkadot/dev": 0.64.19
     "@polkadot/react-hooks": "workspace:packages/react-hooks"
     "@polkadot/ts": ^0.4.21
