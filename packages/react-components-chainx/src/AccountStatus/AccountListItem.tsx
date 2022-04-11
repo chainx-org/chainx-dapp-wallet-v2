@@ -14,7 +14,6 @@ import {ProxyDefinition} from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import {useApi, useCall} from '@polkadot/react-hooks';
 import {DeriveBalancesAll} from '@polkadot/api-derive/types';
-import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
 
 function noop () { }
 
