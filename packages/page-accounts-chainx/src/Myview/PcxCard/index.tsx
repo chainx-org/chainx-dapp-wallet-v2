@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 
 import Card from './Card';
 import styled from 'styled-components';
@@ -8,14 +8,11 @@ import AccountInfo from './AccountInfo';
 import backgroundImg from './background.svg';
 import {useAccounts, useApi, useToggle} from '@polkadot/react-hooks';
 import Transfer from '@polkadot/app-accounts-chainx/modals/Transfer';
-import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
 import {useTranslation} from '@polkadot/app-accounts-chainx/translate';
 import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
-import BN from 'bn.js';
-import BigNumber from 'bignumber.js'
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import Button from '@polkadot/react-components-chainx/Button';
-import useStaking from '@polkadot/react-hooks-chainx/useStaking';
+import {usePcxBalance} from '../usePcxBalance'
 
 const InnerWrapper = styled.div`
   position: relative;
@@ -122,74 +119,8 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [n, setN] = useState(0);
   const {currentAccount} = useContext(AccountContext);
-  const pcxFree: PcxFreeInfo = usePcxFree(currentAccount, n);
-  const redeemV = useStaking(currentAccount, n);
-  const [allBalance, setAllBalance] = useState<number>(0)
-  const [usableBalance, setUsableBalance] = useState<number>(0)
-  const [feeFrozen, setFeeFrozen] = useState<number>(0)
-  const [miscFrozen, setMiscFrozen] = useState<number>(0)
-  const [reserved, setReserved] = useState<number>(0)
-  // console.log('pcxFree',pcxFree)
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
-
-  // const allBalance = freeBalance.add(new BN(pcxFree.reserved)).toNumber();
-  // const bgUsableBalance = new BN(Number(pcxFree.free) - Number(pcxFree.feeFrozen));
-  // const bgFreeFrozen = new BN(pcxFree.feeFrozen);
-  const [defaultValue, setDefaultValue] = useState<PcxFreeInfo>({
-    free: 0,
-    reserved: 0,
-    miscFrozen: 0,
-    feeFrozen: 0
-  })
-  const [defaultredeemV, setDefaultredeemV] = useState(0)
-
-  useEffect(() => {
-    if(!window.localStorage.getItem('pcxFreeInfo')){
-      window.localStorage.setItem('pcxFreeInfo',JSON.stringify(defaultValue))
-      window.localStorage.setItem('redeemV',JSON.stringify(defaultredeemV))
-      const bgFree = new BigNumber(defaultValue.free )
-      setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber() )
-      setUsableBalance(bgFree.minus(new BigNumber(defaultValue.miscFrozen)).toNumber())
-      setFeeFrozen((new BigNumber(defaultValue.feeFrozen)).toNumber())
-      const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
-      setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
-      setReserved((new BigNumber(defaultValue.reserved)).toNumber())
-    }else{
-      setDefaultValue(JSON.parse(window.localStorage.getItem('pcxFreeInfo')))
-      setDefaultredeemV(JSON.parse(window.localStorage.getItem('redeemV')))
-      if(pcxFree){
-        window.localStorage.setItem('pcxFreeInfo', JSON.stringify({
-          free: pcxFree.free,
-          reserved: pcxFree.reserved,
-          miscFrozen: pcxFree.miscFrozen,
-          feeFrozen: pcxFree.feeFrozen
-        }))
-        window.localStorage.setItem('redeemV', JSON.stringify(redeemV))
-      }
-    }
-
-  },[currentAccount, pcxFree, isApiReady])
-
-  useEffect(() => {
-    if(isApiReady && pcxFree){
-      const bgFree = new BigNumber(pcxFree.free)
-      setAllBalance(bgFree.plus(new BigNumber(pcxFree.reserved)).toNumber())
-      setUsableBalance(bgFree.minus(new BigNumber(pcxFree.miscFrozen)).toNumber())
-      setFeeFrozen((new BigNumber(pcxFree.feeFrozen)).toNumber())
-      const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
-      setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
-      setReserved((new BigNumber(defaultValue.reserved)).toNumber())
-    }else{
-      const bgFree = new BigNumber(defaultValue.free )
-      setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber() )
-      setUsableBalance(bgFree.minus(new BigNumber(defaultValue.miscFrozen)).toNumber())
-      setFeeFrozen(new BigNumber(defaultValue.feeFrozen).toNumber())
-      const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
-      setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
-      setReserved((new BigNumber(defaultValue.reserved)).toNumber())
-    }
-
-  }, [defaultValue, isApiReady, pcxFree])
+  const {usableBalanceNum, totalBalanceNum, unBoundFrozenNum, votingFrozenNum} = usePcxBalance(currentAccount, n)
 
   return (
     <Card>
@@ -203,7 +134,7 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
           <AssetView
             bold
             title={t('Free Balance')}
-            value={usableBalance}
+            value={usableBalanceNum}
           />
           {isApiReady && api.tx.balances?.transfer && currentAccount && (
             <Button
@@ -220,27 +151,27 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
           {(
             <>
               <AssetView
-                key={Math.random()}
+                key={'Total Balance'}
                 title={t('Total Balance')}
-                value={allBalance}
+                value={totalBalanceNum}
               />
               <AssetView
-                key={Math.random()}
+                key={'Voting Frozen'}
                 title={t('Voting Frozen')}
-                value={miscFrozen}
+                value={votingFrozenNum}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
               />
               <AssetView
-                key={Math.random()}
+                key={'UnBound Frozen'}
                 title={t('UnBound Frozen')}
-                value={redeemV}
+                value={unBoundFrozenNum}
               />
-              <AssetView
-                key={Math.random()}
-                title={t('Other Frozen')}
-                value={reserved}
-                help={t('The Other Frozen mainly include pledge freeze, DEX freeze, council election freeze, submit proposal freeze, seconding freeze and so on')}
-              />
+              {/*<AssetView*/}
+              {/*  key={Math.random()}*/}
+              {/*  title={t('Other Frozen')}*/}
+              {/*  value={reserved}*/}
+              {/*  help={t('The Other Frozen mainly include pledge freeze, DEX freeze, council election freeze, submit proposal freeze, seconding freeze and so on')}*/}
+              {/*/>*/}
             </>
           )}
         </section>
