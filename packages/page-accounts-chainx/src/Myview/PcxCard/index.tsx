@@ -14,7 +14,7 @@ import { useTranslation } from '@polkadot/app-accounts-chainx/translate';
 import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import BigNumber from 'bignumber.js';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import Button from '@polkadot/react-components-chainx/Button';
+import { Button, TxButton } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import { BlockToTime } from '@polkadot/react-query';
 
@@ -109,6 +109,17 @@ const CornerBackground = styled.div`
   @media screen and (max-width:767px) {
     display: none;
   }
+  .ClaimBtn{
+    margin-top:112px;
+    margin-left:37px;
+    border-radius:14px;
+    width:70px;
+    height:26px;
+    line-height:3px;
+    border:1px solid #9FAAFF;
+    color:#9FAAFF;
+    background:#fff;
+  }
 `;
 
 function lookupLock(lookup: Record<string, string>, lockId: Raw): string {
@@ -139,6 +150,8 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
   const vestClaim: VestedInfo = useVestClaim(currentAccount, n);
   const vestLocked: VestedLocked = useVestedLocked(currentAccount, n);
   const bestNumber: any = useBestNumber(currentAccount, n);
+  
+  const [isWithDrawButton, toggleWithDrawButton] = useToggle();
   // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
   const [usableBalance, setUsableBalance] = useState<number>(0)
@@ -304,7 +317,23 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
             </>
           )}
         </section>
-        <CornerBackground />
+        
+        <CornerBackground >
+          {isApiReady && <TxButton
+            accountId={currentAccount}
+            className="ClaimBtn"
+            icon=' '
+            label={t('Claim')}
+            // params={[1]}
+            isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
+            tx='vesting.vest'
+            onSuccess={() => {
+              setN(Math.random());
+              toggleWithDrawButton()
+            }}
+          />}
+        </CornerBackground>
+
         {isTransferOpen && (
           <Transfer
             key='modal-transfer'
