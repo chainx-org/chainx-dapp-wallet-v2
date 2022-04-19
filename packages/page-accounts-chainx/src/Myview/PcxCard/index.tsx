@@ -288,7 +288,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 key={Math.random()}
                 title={t('Locked')}
                 value={Math.max(feeFrozen, miscFrozen)}
-                help={<>
+                help={Math.max(feeFrozen, miscFrozen)?<p>
                   {lockedBreakdown.map(({ amount, id, reasons }, index) => {
                     return (
                       <div key={index}>
@@ -299,7 +299,8 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                       </div>
                     )
                   })}
-                </>}
+                </p>:''}
+                // help={}
               />}
 
               <AssetView
