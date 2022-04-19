@@ -7,7 +7,7 @@ import Logo from './Logo';
 import AccountInfo from './AccountInfo';
 import backgroundImg from './background.svg';
 import triangle from './triangle.svg'
-import { useAccounts, useApi, useToggle, useLockedBreakdown } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle, useLockedBreakdown,useBestNumber, useBalancesAll, useVestClaim, useVestedLocked} from '@polkadot/react-hooks';
 import Transfer from '@polkadot/app-accounts-chainx/modals/Transfer';
 import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
 import { useTranslation } from '@polkadot/app-accounts-chainx/translate';
@@ -15,7 +15,8 @@ import { AccountContext } from '@polkadot/react-components-chainx/AccountProvide
 import BigNumber from 'bignumber.js';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import Button from '@polkadot/react-components-chainx/Button';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
+import { BlockToTime } from '@polkadot/react-query';
 
 const InnerWrapper = styled.div`
   position: relative;
@@ -134,6 +135,10 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
   const { currentAccount } = useContext(AccountContext);
   const pcxFree: PcxFreeInfo = usePcxFree(currentAccount, n);
   const lockedBreakdown: any = useLockedBreakdown(currentAccount, n);
+  const balancesAll: BalanceFreeInfo = useBalancesAll(currentAccount, n);
+  const vestClaim: VestedInfo = useVestClaim(currentAccount, n);
+  const vestLocked: VestedLocked = useVestedLocked(currentAccount, n);
+  const bestNumber: any = useBestNumber(currentAccount, n);
   // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
   const [usableBalance, setUsableBalance] = useState<number>(0)
@@ -245,7 +250,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 value={miscFrozen}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
               /> */}
-              {lockedBreakdown && isApiReady &&<AssetView
+              {lockedBreakdown && isApiReady && <AssetView
                 key={Math.random()}
                 title={t('Locked')}
                 value={Math.max(feeFrozen, miscFrozen)}
@@ -281,11 +286,33 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 help={t('The Other Frozen mainly include pledge freeze, DEX freeze, council election freeze, submit proposal freeze, seconding freeze and so on')}
               />
 
-               <AssetView
+              <AssetView
                 key={Math.random()}
                 title={t('vested')}
                 value={allBalance}
               />
+
+              {balancesAll && isApiReady && <AssetView
+                key={Math.random()}
+                title={t('Vested')}
+                value={vestLocked}
+                help={<>
+                  <p> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
+                  {balancesAll.map(({ endBlock, locked, perBlock, vested }, index) => {
+                    return (
+                      <div
+                        className='inner'
+                        key={`item:${index}`}
+                      >
+                        <p style={{ lineHeight: '12px' }}>&nbsp;</p>
+                        <p>{formatBalance(vested, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> {t(' of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</span></p>
+                        <span><span style={{ color: '#000' }}>{bestNumber && balancesAll && <BlockToTime blocks={endBlock.sub(bestNumber)} ><span style={{ color: 'rgba(0,0,0,0.56)' }}> until block {formatNumber(endBlock)}</span></BlockToTime>}</span></span>
+                        <p><span style={{ marginBottom: '5px' }}>{formatBalance(perBlock)}</span><span style={{ color: 'rgba(0,0,0,0.56)' }}> per block</span> </p>
+                      </div>
+                    )
+                  })}
+                </>}
+              />}
             </>
           )}
         </section>
