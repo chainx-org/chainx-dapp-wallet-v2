@@ -9,6 +9,7 @@ export { useAddresses } from './useAddresses';
 export { useApi } from './useApi';
 export { useAvailableSlashes } from './useAvailableSlashes';
 export { useBlockTime } from './useBlockTime';
+export { useBestNumber } from './useBestNumber';
 export { useCacheKey } from './useCacheKey';
 export { useCall } from './useCall';
 export { useContracts } from './useContracts';
