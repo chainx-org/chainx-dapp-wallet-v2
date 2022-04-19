@@ -222,6 +222,8 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
     }
 
   }, [defaultValue, isApiReady, pcxFree])
+  // console.log(currentAccount,'currentAccount');
+  
 
   return (
     <Card>
@@ -320,16 +322,16 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
         
         <CornerBackground >
           {isApiReady && (<TxButton
-            // accountId={currentAccount}
+            accountId={currentAccount}
             className="ClaimBtn"
             icon=' '
             label={t('Claim')}
-            // params={[1]}
-            // isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
-            // tx='vesting.vest'
-            // onSuccess={() => {
-            //   setN(Math.random());
-            // }}
+            params={[ ]}
+            isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
+            tx='vesting.vest'
+            onSuccess={() => {
+              setN(Math.random());
+            }}
           />
           )}
         </CornerBackground>
