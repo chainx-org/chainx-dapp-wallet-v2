@@ -78,7 +78,7 @@ const Value = styled.div`
 type Props = {
   title: string,
   bold?: any,
-  help?: string,
+  help?: React.ReactNode,
   value: number
 }
 

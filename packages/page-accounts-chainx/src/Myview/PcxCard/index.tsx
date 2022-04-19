@@ -7,7 +7,7 @@ import Logo from './Logo';
 import AccountInfo from './AccountInfo';
 import backgroundImg from './background.svg';
 import triangle from './triangle.svg'
-import {useAccounts, useApi, useToggle} from '@polkadot/react-hooks';
+import {useAccounts, useApi, useToggle, useLockedBreakdown} from '@polkadot/react-hooks';
 import Transfer from '@polkadot/app-accounts-chainx/modals/Transfer';
 import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
 import {useTranslation} from '@polkadot/app-accounts-chainx/translate';
@@ -15,6 +15,7 @@ import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider'
 import BigNumber from 'bignumber.js';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import Button from '@polkadot/react-components-chainx/Button';
+import { formatBalance} from '@polkadot/util';
 
 const InnerWrapper = styled.div`
   position: relative;
@@ -109,11 +110,22 @@ const CornerBackground = styled.div`
   }
 `;
 
-interface PcxCardProps {
-  onStatusChange: (status: ActionStatus) => void;
+function lookupLock (lookup: Record<string, string>, lockId: Raw): string {
+  const lockHex = lockId.toHuman() as string;
+
+  try {
+    return lookup[lockHex] || lockHex;
+  } catch (error) {
+    return lockHex;
+  }
 }
 
-export default function ({onStatusChange}: PcxCardProps): React.ReactElement<PcxCardProps> {
+interface PcxCardProps {
+  onStatusChange: (status: ActionStatus) => void;
+  lookup: Record<string, string>
+}
+
+export default function ({onStatusChange,lookup}: PcxCardProps): React.ReactElement<PcxCardProps> {
   const {isApiReady} = useApi();
   const {t} = useTranslation();
   const {hasAccounts, allAccounts} = useAccounts()
@@ -121,13 +133,14 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
   const [n, setN] = useState(0);
   const {currentAccount} = useContext(AccountContext);
   const pcxFree: PcxFreeInfo = usePcxFree(currentAccount, n);
+  const lockedBreakdown: any = useLockedBreakdown(currentAccount, n);
   // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
   const [usableBalance, setUsableBalance] = useState<number>(0)
   const [feeFrozen, setFeeFrozen] = useState<number>(0)
   const [miscFrozen, setMiscFrozen] = useState<number>(0)
   const [reserved, setReserved] = useState<number>(0)
-  // console.log('pcxFree',pcxFree)
+
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
 
   // const allBalance = freeBalance.add(new BigNumber(pcxFree.reserved)).toNumber();
@@ -232,11 +245,23 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
                 value={miscFrozen}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
               /> */}
-              <AssetView
+               {lockedBreakdown && isApiReady &&<AssetView
                 key={Math.random()}
-                title={t('Locked Frozen')}
-                value={miscFrozen}
-              />
+                title={t('Locked')}
+                value={Math.max(feeFrozen, miscFrozen)}
+                help={<>
+                  {lockedBreakdown.map(({ amount, id, reasons }, index) => {
+                    return (
+                      <div key={index}>
+                        {amount?.isMax()
+                          ? t<string>('everything')
+                          : formatBalance(amount, { forceUnit: '-' })
+                        }{id && <span style={{ color: 'rgba(0,0,0,0.56)' }}> {lookupLock(lookup, id)}</span>}<span style={{ color: 'rgba(0,0,0,0.56)' }}>{reasons.toString()}</span>
+                      </div>
+                    )
+                  })}
+                </>}
+              />}
               {/* <AssetView
                 key={Math.random()}
                 title={t('UnBound Frozen')}
