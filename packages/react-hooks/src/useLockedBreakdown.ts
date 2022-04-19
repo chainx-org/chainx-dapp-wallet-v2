@@ -24,9 +24,7 @@ export function useLockedBreakdown(address = '', n = 0) {
     }, [currentAccount, n, isApiReady]);
 
     async function fetchDownFree() {
-        if (address === '') {
-            return;
-        } else
+        
             if (isApiReady) {
                 const res = await api.derive.balances?.all(address);
                 const lockedBreakdown = res.lockedBreakdown
