@@ -97,6 +97,24 @@ const InnerWrapper = styled.div`
       }
     }
   }
+  .ClaimBtn{
+    position:absolute;
+    right:39px;
+    bottom:18px;
+    z-index:99;
+    border-radius:14px;
+    width:70px;
+    height:26px;
+    line-height:3px;
+    border:1px solid #9FAAFF;
+    color:#9FAAFF;
+    background:#fff;
+    @media screen and (min-width:375px) and (max-width:540px){
+      position: absolute;
+      bottom:-107px;
+      right: -6px;
+    }
+  }
 `;
 
 const CornerBackground = styled.div`
@@ -108,17 +126,6 @@ const CornerBackground = styled.div`
   height: 160px;
   @media screen and (max-width:767px) {
     display: none;
-  }
-  .ClaimBtn{
-    margin-top:112px;
-    margin-left:37px;
-    border-radius:14px;
-    width:70px;
-    height:26px;
-    line-height:3px;
-    border:1px solid #9FAAFF;
-    color:#9FAAFF;
-    background:#fff;
   }
 `;
 
@@ -222,7 +229,6 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
     }
 
   }, [defaultValue, isApiReady, pcxFree])
-  // console.log(currentAccount,'currentAccount');
   
 
   return (
@@ -237,7 +243,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
           <AssetView
             key={Math.random()}
             bold
-            title={t('Free Balance')}
+            title={t('Transferrable')}
             value={usableBalance > 0 ? usableBalance : 0}
           />
           {/*{api.api.tx.balances?.transfer && currentAccount && (*/}
@@ -249,7 +255,20 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
           >
             {t('Transfer')}
           </Button>
-          {/*)}*/}
+
+          {isApiReady && (<TxButton
+            accountId={currentAccount}
+            className="ClaimBtn"
+            icon=' '
+            label={t('Claim')}
+            params={[ ]}
+            isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
+            tx='vesting.vest'
+            onSuccess={() => {
+              setN(Math.random());
+            }}
+          />
+          )}
         </section>
         <section className='details' key="details">
           {(
@@ -300,7 +319,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 title={t('Vested')}
                 value={vestLocked}
                 help={<>
-                  <p> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
+                  <p style={{fontSize:'15px'}}> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
                   {balancesAll.map(({ endBlock, locked, perBlock, vested }, index) => {
                     return (
                       <div
@@ -320,21 +339,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
           )}
         </section>
         
-        <CornerBackground >
-          {isApiReady && (<TxButton
-            accountId={currentAccount}
-            className="ClaimBtn"
-            icon=' '
-            label={t('Claim')}
-            params={[ ]}
-            isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
-            tx='vesting.vest'
-            onSuccess={() => {
-              setN(Math.random());
-            }}
-          />
-          )}
-        </CornerBackground>
+        <CornerBackground />
 
         {isTransferOpen && (
           <Transfer

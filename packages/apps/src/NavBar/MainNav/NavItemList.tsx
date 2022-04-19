@@ -10,7 +10,7 @@ import {useApi, useToggle} from '@polkadot/react-hooks';
 
 function NavItemList(): React.ReactElement {
   const {t} = useTranslation();
-  const {api} = useApi()
+  const { api,isApiReady } = useApi()
   const [isStakingOpen, , setToggleStaking] = useToggle();
   const [isGovernanceOpen, , setToggleGovernance] = useToggle();
   const [isDeveloperOpen, , setToggleDeveloper] = useToggle();
@@ -51,19 +51,34 @@ function NavItemList(): React.ReactElement {
     }
   };
 
+  // useEffect(() => {
+  //   async function judgeNetwork() {
+  //     const testOrMain = await api.rpc.system.properties();
+  //     const testOrMainNum = JSON.parse(testOrMain);
+  //     if (testOrMainNum.ss58Format === 42) {
+  //       setUrl('https://testnet-scan.chainx.org/')
+  //     } else {
+  //       setUrl('https://scan.chainx.org/')
+  //     }
+  //   }
+
+  //   judgeNetwork();
+  // }, []);
+  
   useEffect(() => {
     async function judgeNetwork() {
-      const testOrMain = await api.rpc.system.properties();
-      const testOrMainNum = JSON.parse(testOrMain);
-      if (testOrMainNum.ss58Format === 42) {
-        setUrl('https://testnet-scan.chainx.org/')
-      } else {
-        setUrl('https://scan.chainx.org/')
+      if (api && isApiReady) {
+        const testOrMain = await api.rpc.system.chain();       
+        const testOrMainNum = JSON.stringify(testOrMain);    
+        if (testOrMainNum.length > 10) {
+          setUrl('https://testnet-scan.chainx.org/')
+        } else {
+          setUrl('https://scan.chainx.org/')
+        }
       }
     }
-
     judgeNetwork();
-  }, []);
+  }, [isApiReady,api]);
 
   return (
     <div className="left">

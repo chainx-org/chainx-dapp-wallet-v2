@@ -19,17 +19,28 @@ const HelpValue = styled.span`
   cursor: pointer;
   position: relative;
   z-index: 99;
+  .helpCon::-webkit-scrollbar {
+    // display: none;
+  }
+  .helpCon::-webkit-scrollbar-track{
+    border-radius: 40px;
+  }
   .helpCon {
+    max-height:174px;
+    overflow-y:auto;
+    overflow-x:hidden;
     display: none;
-    width: 312px;
+    width: 247px;
     font-size: 12px;
-    color: #282828;
-    padding: 16px 20px;
+    color: #000000;
+    padding: 11px 12px;
     position: absolute;
-    bottom: 26px;
-    right: -144px;
+    bottom: 21px;
+    line-height:18px;
+    right: -113px;
     background: rgba(255,255,255,1);
     border: 1px solid #EFEFEF;
+    color: rgba(0,0,0);
     box-shadow: 0 4px 12px 0 rgba(0,0,0,0.12);
     border-radius: 10px;
     @media screen and (min-width:376px) and (max-width: 414px){
@@ -46,16 +57,16 @@ const HelpValue = styled.span`
         left: 39% !important;
       }
     }
-    &:after {
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid #fff;
-      content: "";
-      position: absolute;
-      width: 0;
-      left: 50%;
-      bottom: -5px
-    }
+    // &:after {
+    //   border-left: 5px solid transparent;
+    //   border-right: 5px solid transparent;
+    //   border-top: 5px solid #fff;
+    //   content: "";
+    //   position: absolute;
+    //   width: 0;
+    //   left: 50%;
+    //   bottom: -5px
+    // }
   }
   &:hover .helpCon {
     display: block;
