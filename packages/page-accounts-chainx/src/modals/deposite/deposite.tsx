@@ -3,7 +3,7 @@
 
 
 
-import React, {Dispatch, useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Modal, StatusContext } from '@polkadot/react-components';
 import {useTranslation} from '../../translate';
 import styled from 'styled-components';
@@ -153,12 +153,12 @@ export default function ({address, onClose}: Props) {
           <span className='step'>{t('The First Step')}</span>
           <span className='text'>{t('get OP_RETURN')}</span>
         </h2>
-        <p className={'op-return'}>{t('Get the information for the 16-OP_RETURN address')}</p>
+        <p className={'op-return'}>{t('Get the information for the OP_RETURN address')}</p>
         <section className='show-code'>
           <h3>
             <span className="title">OP_RETURN</span>
           </h3>
-          <ClipBoard className='hex' id='' onClick={_onCopy}>{addressHex}</ClipBoard>
+          <ClipBoard className='hex' id='' onClick={_onCopy}>{address}</ClipBoard>
         </section>
         <h2 className='step-2'>
           <span className='step'>{t('The Second Step')}</span>
@@ -170,10 +170,6 @@ export default function ({address, onClose}: Props) {
             <img alt='info' src={infoIcon}/>
             <span>{t('The top-up amount must be greater than 0.001 BTC')}</span>
           </li>
-          <li>
-            <img alt='info' src={infoIcon}/>
-            <span>{t('Currently, only cross-chain top-up initiated by BTC addresses starting with 1 and 3 is supported')}</span>
-          </li>
         </ul>
         <section className='show-code'>
           <h3 style={{marginBottom: 0}}>
@@ -183,7 +179,7 @@ export default function ({address, onClose}: Props) {
         </section>
       </main>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}></Modal.Actions>
+      <Modal.Actions onCancel={onClose}/>
     </Wrapper>
   );
 }
