@@ -326,7 +326,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
             label={t('Claim')}
             // params={[1]}
             // isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
-            tx='vesting.vest'
+            // tx='vesting.vest'
             // onSuccess={() => {
             //   setN(Math.random());
             // }}
