@@ -1,16 +1,44 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
-// SPDX-License-Identifier: Apache-2.0
-
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
-import { createNamedHook } from './createNamedHook';
+import { useContext, useEffect, useState } from 'react';
 import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 
-function useBestNumberImpl (): BlockNumber | undefined {
-  const { api } = useApi();
 
-  return useCall<BlockNumber>(api.derive.chain.bestNumber);
+interface NumberInfo {
+  bestNumber: number,
 }
 
-export const useBestNumber = createNamedHook('useBestNumber', useBestNumberImpl);
+export function useBestNumber(address = '', n = 0) {
+  const { api, isApiReady } = useApi();
+  // console.log(address, 'address')
+  const defaultNumberValue = JSON.parse(JSON.stringify(window.localStorage.getItem('balanceFreeInfo'))) || {
+    bestNumber: 0
+  }
+  const [state, setState] = useState<NumberInfo>({
+    bestNumber: defaultNumberValue.endBlock,
+  });
+  const [stateNumber, setStateNumber] = useState(null)
+  const { currentAccount } = useContext(AccountContext);
+
+  useEffect((): void => {
+    fetchNumber()
+
+  }, [currentAccount, n, isApiReady]);
+
+  async function fetchNumber() {
+    if (address === '') {
+      return;
+    } else
+    if (isApiReady) {
+      try {
+        const res = await api.derive.chain.bestNumber(address);
+        setStateNumber(res)
+      } catch (error) {
+        alert(error);
+      }
+
+    }
+  }
+  return stateNumber
+}

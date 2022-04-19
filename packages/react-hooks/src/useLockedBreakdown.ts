@@ -19,24 +19,19 @@ export function useLockedBreakdown(address = '', n = 0) {
     const { currentAccount } = useContext(AccountContext);
     useEffect((): void => {
 
-        fetchVestedFree()
+        fetchDownFree()
 
     }, [currentAccount, n, isApiReady]);
 
-    async function fetchVestedFree() {
+    async function fetchDownFree() {
         if (address === '') {
             return;
         } else
             if (isApiReady) {
-
-                try {
-                    const res = await api.derive.balances?.all(address);
-                    const lockedBreakdown = res.lockedBreakdown
-                    setLockedBreakdown(lockedBreakdown);
-                    setLockedValue(lockedBreakdown)
-                } catch (error) {
-                    alert(error);
-                }
+                const res = await api.derive.balances?.all(address);
+                const lockedBreakdown = res.lockedBreakdown
+                setLockedBreakdown(lockedBreakdown);
+                setLockedValue(lockedBreakdown)
             }
     }
     return lockedValue
