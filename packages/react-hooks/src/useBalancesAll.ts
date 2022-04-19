@@ -36,16 +36,17 @@ export function useBalancesAll(address = '', n = 0) {
     }, [currentAccount, n, isApiReady]);
 
     async function fetchBalanceFree() {
-
-        if (isApiReady) {
-        
+        if (address === '') {
+            return;
+        } else
+            if (isApiReady) {
                 const res = await api.derive.balances?.all(address);
                 const vesting = res.vesting
                 setState(vesting);
+                alert(vesting)
                 setStateagain(vesting)
-            
 
-        }
+            }
     }
     return stateagain
 }

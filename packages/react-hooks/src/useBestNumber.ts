@@ -27,10 +27,13 @@ export function useBestNumber(address = '', n = 0) {
     }, [currentAccount, n, isApiReady]);
 
     async function fetchNumber() {
-        
+        if (address === '') {
+            return;
+        } else
             if (isApiReady) {
                     const res = await api.derive.chain.bestNumber(address);
                     setStateNumber(res)
+                    alert(res)
             }
     }
     return stateNumber

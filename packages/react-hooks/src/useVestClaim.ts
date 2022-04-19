@@ -26,12 +26,15 @@ export function useVestClaim(address = '', n = 0) {
     }, [currentAccount, n, isApiReady]);
 
     async function fetchClaimFree() {
-       
+        if (address === '') {
+            return;
+        } else
             if (isApiReady) {
               
                     const res = await api.derive.balances?.all(address);
                     const vested = res.vestedClaimable
                     setVestState(vested);
+                    alert(vested)
                     setVestedValue(vested)
               
             }

@@ -24,11 +24,14 @@ export function useVestedLocked(address = '', n = 0) {
     }, [currentAccount, n, isApiReady]);
 
     async function fetchVestedFree() {
-        
+        if (address === '') {
+            return;
+        } else
             if (isApiReady) {
                     const res = await api.derive.balances?.all(address);
                     const vestedBalance = res.vestedBalance
                     setVested(vestedBalance);
+                    alert(vestedBalance)
                     setVestedValue(vestedBalance)
             }
     }
