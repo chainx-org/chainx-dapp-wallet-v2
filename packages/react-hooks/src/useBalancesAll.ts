@@ -43,9 +43,7 @@ export function useBalancesAll(address = '', n = 0) {
                 const res = await api.derive.balances?.all(address);
                 const vesting = res.vesting
                 setState(vesting);
-                alert(vesting)
                 setStateagain(vesting)
-
             }
     }
     return stateagain

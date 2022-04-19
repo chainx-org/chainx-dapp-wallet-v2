@@ -31,7 +31,6 @@ export function useVestedLocked(address = '', n = 0) {
                     const res = await api.derive.balances?.all(address);
                     const vestedBalance = res.vestedBalance
                     setVested(vestedBalance);
-                    alert(vestedBalance)
                     setVestedValue(vestedBalance)
             }
     }

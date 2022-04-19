@@ -34,7 +34,6 @@ export function useVestClaim(address = '', n = 0) {
                     const res = await api.derive.balances?.all(address);
                     const vested = res.vestedClaimable
                     setVestState(vested);
-                    alert(vested)
                     setVestedValue(vested)
               
             }

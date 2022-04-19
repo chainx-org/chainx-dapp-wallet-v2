@@ -7,7 +7,7 @@ import Logo from './Logo';
 import AccountInfo from './AccountInfo';
 import backgroundImg from './background.svg';
 import triangle from './triangle.svg'
-import { useAccounts, useApi, useToggle, useLockedBreakdown,useBestNumber, useBalancesAll, useVestClaim, useVestedLocked} from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle, useLockedBreakdown, useBestNumber, useBalancesAll, useVestClaim, useVestedLocked } from '@polkadot/react-hooks';
 import Transfer from '@polkadot/app-accounts-chainx/modals/Transfer';
 import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
 import { useTranslation } from '@polkadot/app-accounts-chainx/translate';
@@ -250,7 +250,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 value={miscFrozen}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
               /> */}
-              {lockedBreakdown && isApiReady && <AssetView
+              {lockedBreakdown && <AssetView
                 key={Math.random()}
                 title={t('Locked')}
                 value={Math.max(feeFrozen, miscFrozen)}
@@ -270,8 +270,8 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
 
               <AssetView
                 key={Math.random()}
-                title={t('Locked test')}
-                value={allBalance}
+                title={t('Reserved')}
+                value={reserved}
               />
 
               {/* <AssetView
@@ -279,18 +279,6 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 title={t('UnBound Frozen')}
                 value={redeemV}
               /> */}
-              <AssetView
-                key={Math.random()}
-                title={t('Other Frozen')}
-                value={reserved}
-                help={t('The Other Frozen mainly include pledge freeze, DEX freeze, council election freeze, submit proposal freeze, seconding freeze and so on')}
-              />
-
-              <AssetView
-                key={Math.random()}
-                title={t('vested')}
-                value={allBalance}
-              />
 
               {balancesAll && isApiReady && <AssetView
                 key={Math.random()}
