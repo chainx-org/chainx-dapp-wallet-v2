@@ -319,18 +319,19 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
         </section>
         
         <CornerBackground >
-          {isApiReady && <TxButton
+          {isApiReady && (<TxButton
             // accountId={currentAccount}
             className="ClaimBtn"
             icon=' '
             label={t('Claim')}
             // params={[1]}
-            isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
+            // isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
             tx='vesting.vest'
-            onSuccess={() => {
-              setN(Math.random());
-            }}
-          />}
+            // onSuccess={() => {
+            //   setN(Math.random());
+            // }}
+          />
+          )}
         </CornerBackground>
 
         {isTransferOpen && (
