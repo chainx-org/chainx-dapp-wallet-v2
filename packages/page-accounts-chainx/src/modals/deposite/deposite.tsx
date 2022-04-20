@@ -153,6 +153,7 @@ export default function ({address, onClose}: Props) {
     function TopUpLink() {
       location.href = `https://www.coming.chat/transfer?cointype=sBTC&address=${hotAddress}&opreturn=${addressHex}`
     }
+    
   return (
     <Wrapper
         header={t('Top Up')}
@@ -168,7 +169,7 @@ export default function ({address, onClose}: Props) {
           <h3>
             <span className="title">OP_RETURN</span>
           </h3>
-          <ClipBoard className='hex' id='' onClick={_onCopy}>{addressHex}</ClipBoard>
+          <ClipBoard className='hex' id='' onClick={_onCopy}>{address}</ClipBoard>
         </section>
         <h2 className='step-2'>
           <span className='step'>{t('The Second Step')}</span>

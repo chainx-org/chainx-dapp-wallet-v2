@@ -99,7 +99,7 @@ const InnerWrapper = styled.div`
   }
   .ClaimBtn{
     position:absolute;
-    right:39px;
+    right:14px;
     bottom:18px;
     z-index:99;
     border-radius:14px;
@@ -111,8 +111,9 @@ const InnerWrapper = styled.div`
     background:#fff;
     @media screen and (min-width:375px) and (max-width:540px){
       position: absolute;
-      bottom:-107px;
-      right: -6px;
+      bottom:-130px;
+      right: -14px;
+      width: 55px;
     }
   }
 `;
@@ -157,7 +158,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
   const vestClaim: VestedInfo = useVestClaim(currentAccount, n);
   const vestLocked: VestedLocked = useVestedLocked(currentAccount, n);
   const bestNumber: any = useBestNumber(currentAccount, n);
-  
+
   const [isWithDrawButton, toggleWithDrawButton] = useToggle();
   // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
@@ -229,7 +230,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
     }
 
   }, [defaultValue, isApiReady, pcxFree])
-  
+
 
   return (
     <Card>
@@ -261,7 +262,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
             className="ClaimBtn"
             icon=' '
             label={t('Claim')}
-            params={[ ]}
+            params={[]}
             isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
             tx='vesting.vest'
             onSuccess={() => {
@@ -288,7 +289,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 key={Math.random()}
                 title={t('Locked')}
                 value={Math.max(feeFrozen, miscFrozen)}
-                help={Math.max(feeFrozen, miscFrozen)?<p>
+                help={Math.max(feeFrozen, miscFrozen) ? <div>
                   {lockedBreakdown.map(({ amount, id, reasons }, index) => {
                     return (
                       <div key={index}>
@@ -299,8 +300,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                       </div>
                     )
                   })}
-                </p>:''}
-                // help={}
+                </div> : ''}
               />}
 
               <AssetView
@@ -319,8 +319,8 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 key={Math.random()}
                 title={t('Vested')}
                 value={vestLocked}
-                help={<>
-                  <p style={{fontSize:'15px'}}> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
+                help={Math.max(feeFrozen, miscFrozen) ? <div>
+                  <p style={{ fontSize: '15px' }}> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
                   {balancesAll.map(({ endBlock, locked, perBlock, vested }, index) => {
                     return (
                       <div
@@ -334,12 +334,13 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                       </div>
                     )
                   })}
-                </>}
+                </div> : ''}
               />}
+
             </>
           )}
         </section>
-        
+
         <CornerBackground />
 
         {isTransferOpen && (
