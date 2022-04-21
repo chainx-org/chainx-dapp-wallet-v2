@@ -157,15 +157,15 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
   const balancesAll: BalanceFreeInfo = useBalancesAll(currentAccount, n);
   const vestClaim: VestedInfo = useVestClaim(currentAccount, n);
   const vestLocked: VestedLocked = useVestedLocked(currentAccount, n);
+  
   const bestNumber: any = useBestNumber(currentAccount, n);
-
-  const [isWithDrawButton, toggleWithDrawButton] = useToggle();
   // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
   const [usableBalance, setUsableBalance] = useState<number>(0)
   const [feeFrozen, setFeeFrozen] = useState<number>(0)
   const [miscFrozen, setMiscFrozen] = useState<number>(0)
   const [reserved, setReserved] = useState<number>(0)
+  const [vest,setVest]=useState<number>(0)
 
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
 
@@ -231,6 +231,12 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
 
   }, [defaultValue, isApiReady, pcxFree])
 
+  useEffect(()=>{
+    if(isApiReady && vestLocked){
+      setVest(vestLocked)
+    }
+  },[isApiReady,vestLocked])
+
 
   return (
     <Card>
@@ -285,23 +291,23 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 value={miscFrozen}
                 help={t('The number of Voting Frozen is the largest number of votes which are locked in Staking、Referendum or Voting for Council')}
               /> */}
-              {lockedBreakdown && <AssetView
+              <AssetView
                 key={Math.random()}
                 title={t('Locked')}
                 value={Math.max(feeFrozen, miscFrozen)}
                 help={Math.max(feeFrozen, miscFrozen) ? <div>
-                  {lockedBreakdown.map(({ amount, id, reasons }, index) => {
+                  {lockedBreakdown &&lockedBreakdown.map(({ amount, id, reasons }, index) => {
                     return (
                       <div key={index}>
                         {amount?.isMax()
                           ? t<string>('everything')
                           : formatBalance(amount, { forceUnit: '-' })
-                        }{id && <span style={{ color: 'rgba(0,0,0,0.56)' }}> {lookupLock(lookup, id)}</span>}<span style={{ color: 'rgba(0,0,0,0.56)' }}>{reasons.toString()}</span>
+                        }{id && <span style={{ color: 'rgba(0,0,0,0.56)' }}>{lookupLock(lookup, id)}</span>}<span style={{ color: 'rgba(0,0,0,0.56)' }}>{reasons.toString()}</span>
                       </div>
                     )
                   })}
                 </div> : ''}
-              />}
+              />
 
               <AssetView
                 key={Math.random()}
@@ -315,13 +321,13 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                 value={redeemV}
               /> */}
 
-              {balancesAll && isApiReady && <AssetView
+              <AssetView
                 key={Math.random()}
                 title={t('Vested')}
-                value={vestLocked}
+                value={vest}
                 help={Math.max(feeFrozen, miscFrozen) ? <div>
                   <p style={{ fontSize: '15px' }}> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
-                  {balancesAll.map(({ endBlock, locked, perBlock, vested }, index) => {
+                  {balancesAll && balancesAll.map(({ endBlock, locked, perBlock, vested }, index) => {
                     return (
                       <div
                         className='inner'
@@ -335,7 +341,7 @@ export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactE
                     )
                   })}
                 </div> : ''}
-              />}
+              />
 
             </>
           )}

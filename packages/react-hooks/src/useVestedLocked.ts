@@ -28,11 +28,13 @@ export function useVestedLocked(address = '', n = 0) {
             return;
         } else
             if (isApiReady) {
-                    const res = await api.derive.balances?.all(address);
-                    const vestedBalance = res.vestedBalance
-                    setVested(vestedBalance);
-                    setVestedValue(vestedBalance)
+                const res = await api.derive.balances?.all(address);
+                const vestedBalance = res.vestedBalance
+                setVested(vestedBalance);
+                setVestedValue(vestedBalance)
             }
     }
-    return vestedValue
+    if (vestedValue !== null) {
+        return vestedValue
+    }
 }
