@@ -9,6 +9,7 @@ import {useTranslation} from '../../translate';
 import styled from 'styled-components';
 import {useApi, useCall} from '../../../../react-hooks/src'
 import {toPrecision} from '../../Myview/toPrecision'
+import BigNumber from 'bignumber.js'
 
 interface Props {
   onClose: () => void;
@@ -70,10 +71,6 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
       setAddressErrMsg('必填');
       setDisabled(true);
     }
-      // else if (!['1', '3'].includes(withdrawAddress[0])) {
-      //   setAddressErrMsg('提现的BTC地址必须以1或3开头');
-      //   setDisabled(true);
-    // }
     else {
       setAddressErrMsg('');
       setDisabled(false);
@@ -159,7 +156,7 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           onStart={onClose}
           params={['1', amount, withdrawAddress, memo ? memo.trim() : '']}
           tx='xGatewayCommon.withdraw'
-          isDisabled={disabled}
+          isDisabled={disabled || !amount || toPrecision(amount.toNumber(), 8, false) < withdrawInfo.minimalWithdrawal}
           onSuccess={() => {
             setN(Math.random());
           }}
