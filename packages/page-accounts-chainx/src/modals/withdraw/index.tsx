@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, {Dispatch, useEffect, useState} from 'react';
+import React, {Dispatch, useEffect, useMemo, useState} from 'react';
 import {Input, InputAddress, Modal, TxButton} from '@polkadot/react-components';
 import {InputXBTCBalance} from '@polkadot/react-components-chainx';
 import {useTranslation} from '../../translate';
@@ -27,6 +27,17 @@ const Wrapper = styled(Modal)`
         color: red;
         width: 30px;
       }
+    }
+  }
+  .finalWithdrawAmount {
+    position: relative;
+    .final {
+      position: absolute;
+      left: 40px;
+      z-index: 99;
+      bottom: 6px;
+      background: #fff;
+      padding: 4px 10px;
     }
   }
   @media screen and (max-width:480px){
@@ -55,6 +66,10 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
   })
   const withdrawLimitResult = useCall(api.rpc.xgatewaycommon.withdrawalLimit, [1])
 
+  const receivedNum = useMemo(() => {
+    const amountMinusFee = new BigNumber(Number(amount)).dividedBy(1e8).minus(withdrawInfo.serviceFee).toNumber()
+    return amountMinusFee > 0 ? amountMinusFee : 0
+  }, [amount, withdrawInfo.serviceFee])
 
   useEffect(() => {
     const minimalWithdrawal = (withdrawLimitResult as any)?.toJSON()?.minimalWithdrawal
@@ -99,9 +114,6 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               type='account'
             />
           </Modal.Column>
-          <Modal.Column>
-            <p>{t('Minimum withdrawal amount is')} {withdrawInfo.minimalWithdrawal} XBTC</p>
-          </Modal.Column>
           {/* <Modal.Column>
             <p>{t('Withdrawal Account')}</p>
           </Modal.Column> */}
@@ -127,6 +139,24 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               label={t('The number of withdrawals')}
               onChange={setAmount}
             />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Minimum withdrawal amount is')} {withdrawInfo.minimalWithdrawal} XBTC</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns className='mob'>
+          <Modal.Column>
+            <div className='finalWithdrawAmount'>
+              <div className='final'>{receivedNum}</div>
+              <InputXBTCBalance
+                CrossToken={'XBTC'}
+                defaultValue={0}
+                value={amount && Number(amount.div(new BN(1e8)).toString()) > withdrawInfo.serviceFee ? amount?.sub(new BN(withdrawInfo.serviceFee * 1e8)).toString() : 0}
+                help={<p>{t<string>('Service Fee')} {withdrawInfo.serviceFee} XBTC</p>}
+                isDisabled
+                label={t<string>('You will received')}
+              />
+            </div>
           </Modal.Column>
           <Modal.Column className='mobs'>
             <p>{t('Service Fee')} {withdrawInfo.serviceFee} XBTC</p>
