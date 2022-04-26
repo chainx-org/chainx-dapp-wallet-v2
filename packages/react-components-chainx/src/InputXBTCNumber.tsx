@@ -71,7 +71,7 @@ function getRegex(isDecimal: boolean): RegExp {
 function getSiOptions(): { text: string; value: string }[] {
   return [{
     text: 'X-BTC',
-    value: '8'
+    value: '-'
   }];
 }
 
