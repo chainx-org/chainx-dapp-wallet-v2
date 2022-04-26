@@ -58,7 +58,7 @@ interface withdraw {
 export default function (): React.ReactElement {
   const isLoading = useLoadingDelay();
   const {t} = useTranslation();
-  const api = useApi();
+  const {api} = useApi();
   const headerRef = useRef([
     [t('BlockHeight'), 'start', 1],
     [t('Identifier'), 'start', 1],
@@ -69,15 +69,18 @@ export default function (): React.ReactElement {
     [t('Memo'), 'start'],
     [t('State'), 'status']
   ]);
-  const withdrawObject: string | undefined = useCall<string>(api.api.rpc.xgatewayrecords.withdrawalListByChain, ['Bitcoin']);
+  const withdrawResult = useCall<string>(api.rpc.xgatewaycommon.withdrawalListWithFeeInfo, [1]);
+  const withdrawObject = (withdrawResult as any)?.toJSON() || {}
   const withdrawList: withdraw[] = [];
 
-  Object.entries(withdrawObject ? JSON.parse(withdrawObject) : []).forEach(([key, value]) => {
+  Object.keys(withdrawObject).map(i => {
+    const [withdrawInfo, withdrawFee] = withdrawObject[i]
     withdrawList.push({
-      id: key,
-      ...value
-    });
-  });
+      ...withdrawInfo,
+      balance: Number(withdrawInfo.balance) - withdrawFee.fee,
+      id: i
+    })
+  })
 
   return (
     <Wrapper>
