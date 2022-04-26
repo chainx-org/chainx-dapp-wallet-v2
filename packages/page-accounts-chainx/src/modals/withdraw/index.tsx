@@ -7,6 +7,8 @@ import {Input, InputAddress, Modal, TxButton} from '@polkadot/react-components';
 import {InputXBTCBalance} from '@polkadot/react-components-chainx';
 import {useTranslation} from '../../translate';
 import styled from 'styled-components';
+import {useApi, useCall} from '../../../../react-hooks/src'
+import {toPrecision} from '../../Myview/toPrecision'
 
 interface Props {
   onClose: () => void;
@@ -39,13 +41,30 @@ const Wrapper = styled(Modal)`
 
 function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Props> {
   const {t} = useTranslation();
-
+  const {api} = useApi()
   const [amount, setAmount] = useState<BN | undefined>();
   const [memo, setMemo] = useState<string | null | undefined>();
   const [accountId, setAccount] = useState<string | null | undefined>();
   const [withdrawAddress, setWithdrawAddress] = useState<string | null | undefined>();
   const [disabled, setDisabled] = useState(false);
   const [addressErrMsg, setAddressErrMsg] = useState('');
+  const [withdrawInfo, setWithdrawInfo] = useState({
+    minimalWithdrawal: 0,
+    serviceFee: 0
+  })
+  const withdrawLimitResult = useCall(api.rpc.xgatewaycommon.withdrawalLimit, [1])
+
+
+  useEffect(() => {
+    const minimalWithdrawal = (withdrawLimitResult as any)?.toJSON()?.minimalWithdrawal
+    const serviceFee = (withdrawLimitResult as any)?.toJSON()?.fee
+
+    serviceFee && minimalWithdrawal && setWithdrawInfo(withdrawInfo => ({
+      serviceFee: toPrecision(serviceFee, 8, false) as number,
+      minimalWithdrawal: toPrecision(minimalWithdrawal, 8, false) as number
+    }))
+  }, [withdrawLimitResult])
+
   useEffect(() => {
     if (!withdrawAddress) {
       setAddressErrMsg('必填');
@@ -83,6 +102,9 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
               type='account'
             />
           </Modal.Column>
+          <Modal.Column>
+            <p>{t('Minimum withdrawal amount is')} {withdrawInfo.minimalWithdrawal} XBTC</p>
+          </Modal.Column>
           {/* <Modal.Column>
             <p>{t('Withdrawal Account')}</p>
           </Modal.Column> */}
@@ -105,16 +127,14 @@ function Withdraw({account, btc, onClose, setN}: Props): React.ReactElement<Prop
           <Modal.Column>
             <InputXBTCBalance
               autoFocus
-              help={t('The number of withdrawals')}
               label={t('The number of withdrawals')}
               onChange={setAmount}
             />
           </Modal.Column>
-          {/* <Modal.Column>
-            <p>{t('The number of withdrawals')}</p>
-          </Modal.Column> */}
+          <Modal.Column className='mobs'>
+            <p>{t('Service Fee')} {withdrawInfo.serviceFee} XBTC</p>
+          </Modal.Column>
         </Modal.Columns>
-
         <Modal.Columns>
           <Modal.Column>
             <Input
