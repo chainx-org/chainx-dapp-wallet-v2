@@ -30,7 +30,7 @@ spec:
             - name: http-main
               containerPort: 80
               protocol: TCP
-          
+
           resources: {}
           livenessProbe:
             httpGet:
@@ -116,3 +116,33 @@ spec:
                 name: chainx-wallet
                 port:
                   number: 80
+    - host: dapps-v2.chainx.org
+      http:
+        paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: chainx-wallet
+                  port:
+                    number: 80
+    - host: dapp.chainx.org
+      http:
+        paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: chainx-wallet
+                  port:
+                    number: 80
+    - host: dapp-v2.chainx.org
+      http:
+        paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: chainx-wallet
+                  port:
+                    number: 80
