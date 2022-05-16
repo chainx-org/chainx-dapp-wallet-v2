@@ -117,12 +117,12 @@ spec:
                 port:
                   number: 80
     - host: dapp-test.chainx.org
-        http:
-          paths:
-              - path: /
-                pathType: ImplementationSpecific
-                backend:
-                  service:
-                    name: chainx-wallet
-                    port:
-                      number: 80
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: chainx-wallet
+                port:
+                  number: 80
