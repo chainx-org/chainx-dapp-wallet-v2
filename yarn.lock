@@ -8552,7 +8552,7 @@ __metadata:
     electron-builder-notarize: ^1.2.0
     ethers: ^5.5.2
     i18next-scanner: ^3.1.0
-    k8s-deploy-cli: ^0.1.5
+    k8s-deploy-cli: ^0.2.10
     klinecharts: ^5.7.0
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -16576,16 +16576,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"k8s-deploy-cli@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "k8s-deploy-cli@npm:0.1.5"
+"k8s-deploy-cli@npm:^0.2.10":
+  version: 0.2.10
+  resolution: "k8s-deploy-cli@npm:0.2.10"
   dependencies:
     colors: ^1.4.0
     commander: ^8.1.0
     inquirer: ^8.1.2
+    rimraf: ^3.0.2
   bin:
     kdc: dist/cli.js
-  checksum: 9787b972479f9699a72d5ea4161b4378c9f9f63523138d5455637e219d5301e5dac9a4bfe6f23a17253896a63907c4f35900047312c10c2f481cb9ba38c82472
+  checksum: b0d744823223024026fb15f933074b04b15a215e15003cd708ef78c223a38eef879715d3bfe5e2dbc47813339dddd7bc53fe94e6d847c9b0e87bc7cf2409faac
   languageName: node
   linkType: hard
 

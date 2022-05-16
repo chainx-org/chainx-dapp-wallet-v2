@@ -87,7 +87,7 @@
     "electron-builder": "^22.14.5",
     "electron-builder-notarize": "^1.2.0",
     "i18next-scanner": "^3.1.0",
-    "k8s-deploy-cli": "^0.1.5",
+    "k8s-deploy-cli": "^0.2.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",

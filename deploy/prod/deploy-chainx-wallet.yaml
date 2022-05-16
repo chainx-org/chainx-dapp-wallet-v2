@@ -1,0 +1,148 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: chainx-wallet
+  namespace: front-prod
+  labels:
+    app: chainx-wallet
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: chainx-wallet
+  template:
+    metadata:
+      labels:
+        app: chainx-wallet
+    spec:
+      imagePullSecrets:
+        - name: comingweb3-registry-secret
+      containers:
+        - name: container-api-prod
+          image: $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BUILD_NUMBER
+          command:
+            - /bin/sh
+            - '-c'
+            - >-
+              cd /usr/share/nginx/html && envsubst < /etc/nginx/nginx.template >
+              /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+          ports:
+            - name: http-main
+              containerPort: 80
+              protocol: TCP
+
+          resources: {}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 2
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: default
+      serviceAccount: default
+      securityContext: {}
+      affinity: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: chainx-wallet
+  namespace: front-prod
+spec:
+  ports:
+    - port: 80
+      name: http-main
+  selector:
+    app: chainx-wallet
+
+
+---
+
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: dapps-chainx-org
+  namespace: front-prod
+  annotations:
+    external-dns.alpha.kubernetes.io/target: a5d156c18cea5820c.awsglobalaccelerator.com
+
+spec:
+  rules:
+    - host: dapps.chainx.org
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: chainx-wallet
+                port:
+                  number: 80
+    - host: dapps-v2.chainx.org
+      http:
+        paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: chainx-wallet
+                  port:
+                    number: 80
+    - host: dapp.chainx.org
+      http:
+        paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: chainx-wallet
+                  port:
+                    number: 80
+    - host: dapp-v2.chainx.org
+      http:
+        paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: chainx-wallet
+                  port:
+                    number: 80
