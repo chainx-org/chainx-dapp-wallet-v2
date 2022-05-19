@@ -28,6 +28,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
     amount: '',
   }];
 
+
   const [qrData, setQrData] = useState<TransactionData>(initialState);
 
   async function getData(): Promise<any> {
@@ -63,7 +64,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
   const getAccount = useCallback(
     (value: string) => {
       if (value == '') {
-        setTotalAmount(Number(value))
+        setTotalAmount(Number(value).toFixed(8))
         setQrData(initialState)
       } else {
         let standardData = []
@@ -71,7 +72,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
           for (let i = 0; i < arrayApply.length; i++) {
             if (value[index] === arrayApply[i].applicant) {
               // let feeAmount: number = Number((refee[0].fee / Math.pow(10, 8)).toFixed(3))
-              let total = Number(Number((Number(arrayApply[i].balance)-Number(fee))/ Math.pow(10, 8)).toFixed(4))
+              let total = Number(Number((Number(arrayApply[i].balance)-Number(fee))/ Math.pow(10, 8)).toFixed(8))
               standardData.push({ address: arrayApply[i].addr, amount: String(total) })
             }
           }
@@ -79,8 +80,8 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
         let totalLarge = 0;
         for (let i = 0; i < standardData.length; i++) {
           totalLarge += Number(standardData[i].amount)
-          let totall = Number(totalLarge).toFixed(4)
-          setTotalAmount(Number(totall))
+          let totall = Number(totalLarge)
+          setTotalAmount(Number(totall).toFixed(8))
         }
         setQrData(standardData)
       }
@@ -120,6 +121,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                     valueLabel={t<string>('Ready to send a withdrawal request')}
                   />
                   <Modal.Column>
+                    {console.log(totalAmount,`-------------------`)}
                     <Input label={t('Total')} value={totalAmount} />
 
                   </Modal.Column>
@@ -162,7 +164,7 @@ function transactionList({ basePath, className = '' }: Props): React.ReactElemen
                 </td>
                 <td className='textCenter' style={{paddingLeft:'10px'}}>
                   {/* <Expander summary={String((Number((Number(item.balance)+Number(fee)) / Math.pow(10, 8)).toFixed(4)) +' '+ 'sBTC')} > */}
-                  <Expander summary={<FormatBalance withCurrency={false} label={(Number(Number(item.balance) / Math.pow(10, 8)).toFixed(4))} value={'sBTC'} /> }>
+                  <Expander summary={<FormatBalance withCurrency={false} label={(Number(Number(item.balance) / Math.pow(10, 8)).toFixed(8))} value={'sBTC'} /> }>
                     <AddressMini
                       children={
                         <div style={{ textAlign: 'left' }}>
