@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Card from './Card';
 import styled from 'styled-components';
@@ -7,14 +7,16 @@ import Logo from './Logo';
 import AccountInfo from './AccountInfo';
 import backgroundImg from './background.svg';
 import triangle from './triangle.svg'
-import {useAccounts, useApi, useToggle} from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle, useLockedBreakdown, useBestNumber, useBalancesAll, useVestClaim, useVestedLocked } from '@polkadot/react-hooks';
 import Transfer from '@polkadot/app-accounts-chainx/modals/Transfer';
 import usePcxFree from '@polkadot/react-hooks-chainx/usePcxFree';
-import {useTranslation} from '@polkadot/app-accounts-chainx/translate';
-import {AccountContext} from '@polkadot/react-components-chainx/AccountProvider';
+import { useTranslation } from '@polkadot/app-accounts-chainx/translate';
+import { AccountContext } from '@polkadot/react-components-chainx/AccountProvider';
 import BigNumber from 'bignumber.js';
-import {ActionStatus} from '@polkadot/react-components/Status/types';
-import Button from '@polkadot/react-components-chainx/Button';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { Button, TxButton } from '@polkadot/react-components';
+import { formatBalance, formatNumber } from '@polkadot/util';
+import { BlockToTime } from '@polkadot/react-query';
 
 const InnerWrapper = styled.div`
   position: relative;
@@ -95,6 +97,25 @@ const InnerWrapper = styled.div`
       }
     }
   }
+  .ClaimBtn{
+    position:absolute;
+    right:14px;
+    bottom:18px;
+    z-index:99;
+    border-radius:14px;
+    width:70px;
+    height:26px;
+    line-height:3px;
+    border:1px solid #9FAAFF;
+    color:#9FAAFF;
+    background:#fff;
+    @media screen and (min-width:375px) and (max-width:540px){
+      position: absolute;
+      bottom:-130px;
+      right: -14px;
+      width: 55px;
+    }
+  }
 `;
 
 const CornerBackground = styled.div`
@@ -109,25 +130,43 @@ const CornerBackground = styled.div`
   }
 `;
 
-interface PcxCardProps {
-  onStatusChange: (status: ActionStatus) => void;
+function lookupLock(lookup: Record<string, string>, lockId: Raw): string {
+  const lockHex = lockId.toHuman() as string;
+
+  try {
+    return lookup[lockHex] || lockHex;
+  } catch (error) {
+    return lockHex;
+  }
 }
 
-export default function ({onStatusChange}: PcxCardProps): React.ReactElement<PcxCardProps> {
-  const {isApiReady} = useApi();
-  const {t} = useTranslation();
-  const {hasAccounts, allAccounts} = useAccounts()
+interface PcxCardProps {
+  onStatusChange: (status: ActionStatus) => void;
+  lookup: Record<string, string>
+}
+
+export default function ({ onStatusChange, lookup }: PcxCardProps): React.ReactElement<PcxCardProps> {
+  const { isApiReady } = useApi();
+  const { t } = useTranslation();
+  const { hasAccounts, allAccounts } = useAccounts()
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [n, setN] = useState(0);
-  const {currentAccount} = useContext(AccountContext);
+  const { currentAccount } = useContext(AccountContext);
   const pcxFree: PcxFreeInfo = usePcxFree(currentAccount, n);
+  const lockedBreakdown: any = useLockedBreakdown(currentAccount, n);
+  const balancesAll: BalanceFreeInfo = useBalancesAll(currentAccount, n);
+  const vestClaim: VestedInfo = useVestClaim(currentAccount, n);
+  const vestLocked: VestedLocked = useVestedLocked(currentAccount, n);
+  
+  const bestNumber: any = useBestNumber(currentAccount, n);
   // const redeemV = useStaking(currentAccount, n);
   const [allBalance, setAllBalance] = useState<number>(0)
   const [usableBalance, setUsableBalance] = useState<number>(0)
   const [feeFrozen, setFeeFrozen] = useState<number>(0)
   const [miscFrozen, setMiscFrozen] = useState<number>(0)
   const [reserved, setReserved] = useState<number>(0)
-  // console.log('pcxFree',pcxFree)
+  const [vest,setVest]=useState<number>(0)
+
   const hasCurrentName = allAccounts.find(account => account === currentAccount)
 
   // const allBalance = freeBalance.add(new BigNumber(pcxFree.reserved)).toNumber();
@@ -142,21 +181,21 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
   // const [defaultredeemV, setDefaultredeemV] = useState(0)
 
   useEffect(() => {
-    if(!window.localStorage.getItem('pcxFreeInfo')){
-      window.localStorage.setItem('pcxFreeInfo',JSON.stringify(defaultValue))
+    if (!window.localStorage.getItem('pcxFreeInfo')) {
+      window.localStorage.setItem('pcxFreeInfo', JSON.stringify(defaultValue))
       // window.localStorage.setItem('redeemV',JSON.stringify(defaultredeemV))
-      const bgFree = new BigNumber(defaultValue.free )
-      setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber() )
+      const bgFree = new BigNumber(defaultValue.free)
+      setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber())
       setUsableBalance(bgFree.minus(new BigNumber(defaultValue.miscFrozen)).toNumber())
       setFeeFrozen((new BigNumber(defaultValue.feeFrozen)).toNumber())
       // const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
       const miscFrozened = defaultValue.miscFrozen
       setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
       setReserved((new BigNumber(defaultValue.reserved)).toNumber())
-    }else{
+    } else {
       setDefaultValue(JSON.parse(window.localStorage.getItem('pcxFreeInfo')))
       // setDefaultredeemV(JSON.parse(window.localStorage.getItem('redeemV')))
-      if(pcxFree){
+      if (pcxFree) {
         window.localStorage.setItem('pcxFreeInfo', JSON.stringify({
           free: pcxFree.free,
           reserved: pcxFree.reserved,
@@ -167,10 +206,10 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
       }
     }
 
-  },[currentAccount, pcxFree, isApiReady])
+  }, [currentAccount, pcxFree, isApiReady])
 
   useEffect(() => {
-    if(isApiReady && pcxFree){
+    if (isApiReady && pcxFree) {
       const bgFree = new BigNumber(pcxFree.free)
       setAllBalance(bgFree.plus(new BigNumber(pcxFree.reserved)).toNumber())
       setUsableBalance(bgFree.minus(new BigNumber(pcxFree.miscFrozen)).toNumber())
@@ -179,9 +218,9 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
       const miscFrozened = defaultValue.miscFrozen
       setMiscFrozen((new BigNumber(miscFrozened)).toNumber())
       setReserved((new BigNumber(defaultValue.reserved)).toNumber())
-    }else{
-      const bgFree = new BigNumber(defaultValue.free )
-      setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber() )
+    } else {
+      const bgFree = new BigNumber(defaultValue.free)
+      setAllBalance(bgFree.plus(new BigNumber(defaultValue.reserved)).toNumber())
       setUsableBalance(bgFree.minus(new BigNumber(defaultValue.miscFrozen)).toNumber())
       setFeeFrozen(new BigNumber(defaultValue.feeFrozen).toNumber())
       // const miscFrozened = defaultValue.miscFrozen - window.localStorage.getItem('redeemV')
@@ -192,31 +231,51 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
 
   }, [defaultValue, isApiReady, pcxFree])
 
+  useEffect(()=>{
+    if(isApiReady && vestLocked){
+      setVest(vestLocked)
+    }
+  },[isApiReady,vestLocked])
+
+
   return (
     <Card>
       <InnerWrapper>
         <header>
-          <Logo/>
+          <Logo />
           {/* {isApiReady? <AccountInfo/>: <div>{currentAccount}</div>} */}
-          {isApiReady? <AccountInfo/>: <div></div>}
+          {isApiReady ? <AccountInfo /> : <div></div>}
         </header>
         <section className='free' key='free'>
           <AssetView
             key={Math.random()}
             bold
-            title={t('Free Balance')}
+            title={t('Transferrable')}
             value={usableBalance > 0 ? usableBalance : 0}
           />
           {/*{api.api.tx.balances?.transfer && currentAccount && (*/}
-            <Button
-              className="whiteBtn"
-              onClick={toggleTransfer}
-              isBasic={true}
-              isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
-            >
-              {t('Transfer')}
-            </Button>
-          {/*)}*/}
+          <Button
+            className="whiteBtn"
+            onClick={toggleTransfer}
+            isBasic={true}
+            isDisabled={!isApiReady || !currentAccount || !hasAccounts || !hasCurrentName}
+          >
+            {t('Transfer')}
+          </Button>
+
+          {isApiReady && (<TxButton
+            accountId={currentAccount}
+            className="ClaimBtn"
+            icon=' '
+            label={t('Claim')}
+            params={[]}
+            isDisabled={Math.max(feeFrozen, miscFrozen) > 0 ? false : true}
+            tx='vesting.vest'
+            onSuccess={() => {
+              setN(Math.random());
+            }}
+          />
+          )}
         </section>
         <section className='details' key="details">
           {(
@@ -234,24 +293,62 @@ export default function ({onStatusChange}: PcxCardProps): React.ReactElement<Pcx
               /> */}
               <AssetView
                 key={Math.random()}
-                title={t('Locked Frozen')}
-                value={miscFrozen}
+                title={t('Locked')}
+                value={Math.max(feeFrozen, miscFrozen)}
+                help={Math.max(feeFrozen, miscFrozen) ? <div>
+                  {lockedBreakdown &&lockedBreakdown.map(({ amount, id, reasons }, index) => {
+                    return (
+                      <div key={index}>
+                        {amount?.isMax()
+                          ? t<string>('everything')
+                          : formatBalance(amount, { forceUnit: '-' })
+                        }{id && <span style={{ color: 'rgba(0,0,0,0.56)' }}>{lookupLock(lookup, id)}</span>}<span style={{ color: 'rgba(0,0,0,0.56)' }}>{reasons.toString()}</span>
+                      </div>
+                    )
+                  })}
+                </div> : ''}
               />
+
+              <AssetView
+                key={Math.random()}
+                title={t('Reserved')}
+                value={reserved}
+              />
+
               {/* <AssetView
                 key={Math.random()}
                 title={t('UnBound Frozen')}
                 value={redeemV}
               /> */}
+
               <AssetView
                 key={Math.random()}
-                title={t('Other Frozen')}
-                value={reserved}
-                help={t('The Other Frozen mainly include pledge freeze, DEX freeze, council election freeze, submit proposal freeze, seconding freeze and so on')}
+                title={t('Vested')}
+                value={vest}
+                help={Math.max(feeFrozen, miscFrozen) ? <div>
+                  <p style={{ fontSize: '15px' }}> {formatBalance(vestClaim, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> available to be unlocked</span></p>
+                  {balancesAll && balancesAll.map(({ endBlock, locked, perBlock, vested }, index) => {
+                    return (
+                      <div
+                        className='inner'
+                        key={`item:${index}`}
+                      >
+                        <p style={{ lineHeight: '12px' }}>&nbsp;</p>
+                        <p>{formatBalance(vested, { forceUnit: '-' })}<span style={{ color: 'rgba(0,0,0,0.56)' }}> {t(' of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</span></p>
+                        <span><span style={{ color: '#000' }}>{bestNumber && balancesAll && <BlockToTime blocks={endBlock.sub(bestNumber)} ><span style={{ color: 'rgba(0,0,0,0.56)' }}> until block {formatNumber(endBlock)}</span></BlockToTime>}</span></span>
+                        <p><span style={{ marginBottom: '5px' }}>{formatBalance(perBlock)}</span><span style={{ color: 'rgba(0,0,0,0.56)' }}> per block</span> </p>
+                      </div>
+                    )
+                  })}
+                </div> : ''}
               />
+
             </>
           )}
         </section>
-        <CornerBackground/>
+
+        <CornerBackground />
+
         {isTransferOpen && (
           <Transfer
             key='modal-transfer'

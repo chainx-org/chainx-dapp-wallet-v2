@@ -56,7 +56,7 @@ const Wrappers = styled.div`
     flex: 1;
     margin: 0 -16px;
     border-top: 1px solid #eee;
-    height: 600px;
+    height: 520px;
     overflow-y: auto;
   }
 `;

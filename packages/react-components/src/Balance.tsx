@@ -61,15 +61,15 @@ function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  return balance
-    ? <>{renderProvided({ className, label, value: balance })}</>
-    : (
+   return balance
+    ? (
       <Balance
         className={classes('ui--Balance', className)}
         label={label}
         params={params}
       />
-    );
+    )
+    : <>{renderProvided({ className, label, value: balance })}</>
 }
 
 export default React.memo(BalanceDisplay);

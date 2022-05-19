@@ -32,9 +32,11 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height:580px;
   }
 
   div.right {
+    height:580px;
     width: 300px;
     margin: 0 0 0 16px;
     display: flex;

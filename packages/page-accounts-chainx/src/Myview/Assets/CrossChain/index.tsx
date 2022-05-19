@@ -11,7 +11,7 @@ export default function (): React.ReactElement {
     <Card className='details'>
         <div className='header'>{t('Cross-chain assets')}</div>
         <XsBTCCard />
-        <XpcxCard />
-    </Card>
+        {/* <XpcxCard /> */}
+    </Card> 
   );
 }
