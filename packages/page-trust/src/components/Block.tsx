@@ -100,13 +100,17 @@ export default function (): React.ReactElement {
   })
 
   const qrData: TransactionData = useMemo(() => {
-    return withdrawList
+    let resultList: { address: string; amount: string }[] = []
+    withdrawList
       .filter(i => i.state === "Applying")
-      .map(i => {
-        const balance = new BigNumber(i.balance).dividedBy(Math.pow(10, 8)).toString()
-        return { address: i.addr, amount: balance }
+      .forEach(i => {
+        const index = resultList.findIndex(j => j.address === i.addr)
+        if (index === -1) {
+          const balance = new BigNumber(i.balance).dividedBy(Math.pow(10, 8)).toString()
+          resultList.push({ address: i.addr, amount: balance })
+        }
       })
-      .slice(0, 25)
+    return resultList.slice(0, 25)
   }, [JSON.stringify(withdrawList)])
 
   return (
