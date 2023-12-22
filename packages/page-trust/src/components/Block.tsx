@@ -1,9 +1,11 @@
-import {Table} from '@polkadot/react-components';
-import React, {useRef} from 'react';
+import { Table, Modal, QrNetworkSpecs } from '@polkadot/react-components';
+import React, {useMemo, useRef, useState} from 'react';
 import WithdrawList from './WithdrawList';
 import styled from 'styled-components';
 import {useApi, useCall, useLoadingDelay} from '@polkadot/react-hooks';
 import {useTranslation} from '@polkadot/app-accounts/translate';
+import { TransactionData } from '@polkadot/ui-settings';
+import { BigNumber } from 'bignumber.js';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -27,6 +29,20 @@ const Block = styled.div`
     font-size: 16px;
   }
 
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .send-button {
+      padding: 12px 24px;
+      background: #efcb61;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -72,6 +88,7 @@ export default function (): React.ReactElement {
   const withdrawResult = useCall<string>(api.rpc.xgatewaycommon.withdrawalListWithFeeInfo, [1]);
   const withdrawObject = (withdrawResult as any)?.toJSON() || {}
   const withdrawList: withdraw[] = [];
+  const [visible, setVisible] = useState(false)
 
   Object.keys(withdrawObject).map(i => {
     const [withdrawInfo, withdrawFee] = withdrawObject[i]
@@ -82,10 +99,46 @@ export default function (): React.ReactElement {
     })
   })
 
+  const qrData: TransactionData = useMemo(() => {
+    return withdrawList
+      .filter(i => i.state === "Applying")
+      .map(i => {
+        const balance = new BigNumber(i.balance).dividedBy(Math.pow(10, 8)).toString()
+        return { address: i.addr, amount: balance }
+      })
+      .slice(0, 25)
+  }, [JSON.stringify(withdrawList)])
+
   return (
     <Wrapper>
+
+      {visible &&
+      (<Modal
+          style={{ background: '#f5f3f1' }}
+          className='app--accounts-Modal'
+          header={t<string>('Please select the withdrawal request')}
+          size='large'
+        >
+          <Modal.Content>
+            <Modal.Columns>
+              <Modal.Column>
+                <QrNetworkSpecs style={{ width: '400px', padding: '10px' }}
+                                className='settings--networkSpecs-qr'
+                                networkSpecs={qrData}
+                />
+                <p>Please scan this QR code using the Coming app</p>
+              </Modal.Column>
+            </Modal.Columns>
+          </Modal.Content>
+          <Modal.Actions onCancel={() => setVisible(false)} style={{ background: '#f5f3f1' }}>
+          </Modal.Actions>
+        </Modal>
+      )}
       <Block>
-        <p>{t('Withdrawal List')}</p>
+        <div className={'top'}>
+          <p>{t('Withdrawal List')}</p>
+          <button className='send-button' onClick={() => setVisible(true)}>Send</button>
+        </div>
         <Content>
           <Table
             empty={t<string>('No matches found')}
