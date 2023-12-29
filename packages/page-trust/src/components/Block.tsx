@@ -1,4 +1,4 @@
-import { Table, Modal, QrNetworkSpecs } from '@polkadot/react-components';
+import {Table, Modal, QrNetworkSpecs, InputNumber, Button} from '@polkadot/react-components';
 import React, {useMemo, useRef, useState} from 'react';
 import WithdrawList from './WithdrawList';
 import styled from 'styled-components';
@@ -89,6 +89,8 @@ export default function (): React.ReactElement {
   const withdrawObject = (withdrawResult as any)?.toJSON() || {}
   const withdrawList: withdraw[] = [];
   const [visible, setVisible] = useState(false)
+  const [addressNum, setAddressNum] = useState(0)
+  const [qrcodeData, setQrcodeData] = useState(null)
 
   Object.keys(withdrawObject).map(i => {
     const [withdrawInfo, withdrawFee] = withdrawObject[i]
@@ -113,6 +115,22 @@ export default function (): React.ReactElement {
     return resultList.slice(0, 25)
   }, [JSON.stringify(withdrawList)])
 
+  const generateQrcodeData = (addressNum: any) => {
+    let resultList: { address: string; amount: string }[] = []
+    withdrawList
+      .filter(i => i.state === "Applying")
+      .forEach(i => {
+        const index = resultList.findIndex(j => j.address === i.addr)
+        if (index === -1) {
+          const balance = new BigNumber(i.balance).dividedBy(Math.pow(10, 8)).toString()
+          resultList.push({ address: i.addr, amount: balance })
+        }
+      })
+
+    // @ts-ignore
+    setQrcodeData(resultList.slice(0, Number(addressNum.toString())))
+  }
+
   return (
     <Wrapper>
 
@@ -126,11 +144,20 @@ export default function (): React.ReactElement {
           <Modal.Content>
             <Modal.Columns>
               <Modal.Column>
-                <QrNetworkSpecs style={{ width: '400px', padding: '10px' }}
-                                className='settings--networkSpecs-qr'
-                                networkSpecs={qrData}
+                <InputNumber
+                  autoFocus
+
+                  label={('You can enter as many addresses as you want')}
+                  onChange={setAddressNum}
+                  value={addressNum}
                 />
-                <p>Please scan this QR code using the Coming app</p>
+                {qrcodeData && (
+                  <QrNetworkSpecs style={{ width: '400px', padding: '10px' }}
+                                  className='settings--networkSpecs-qr'
+                                  networkSpecs={qrcodeData as any}
+                  />
+                )}
+                <Button icon={'edit'} onClick={() => generateQrcodeData(addressNum)} label={'Generate QRCode'} />
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
